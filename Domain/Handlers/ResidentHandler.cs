@@ -43,31 +43,79 @@ public class ResidentHandler :Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(true, command.Notifications);
 
-        //query
+        //rehydration
+        var resident = repos.GetById(command.Id);
+
+        resident.ChangeName(new Name(command.FirstName, command.LastName));
 
         try
         {
-            repos.Create(newResident);
+            repos.Update(resident);
         }
         catch
         {
             return new HandlerResult(false, "Internal Error");
         }
-        return new HandlerResult(true, newResident);
+        return new HandlerResult(true, resident);
     }
 
     public IHandlerResult Handle(ChangeEmailResidentCommand command)
     {
-        throw new NotImplementedException();
+        if (!command.IsValid)
+            return new HandlerResult(true, command.Notifications);
+
+        var resident = repos.GetById(command.Id);
+
+        resident.ChangeEmail(command.Email);
+
+        try
+        {
+            repos.Update(resident);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Internal Error");
+        }
+        return new HandlerResult(true, resident);
     }
 
     public IHandlerResult Handle(ChangePhoneNumberResidentCommand command)
     {
-        throw new NotImplementedException();
+        if (!command.IsValid)
+            return new HandlerResult(true, command.Notifications);
+
+        var resident = repos.GetById(command.Id);
+
+        resident.ChangePhoneNumber(command.PhoneNumber);
+
+        try
+        {
+            repos.Update(resident);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Internal Error");
+        }
+        return new HandlerResult(true, resident);
     }
 
     public IHandlerResult Handle(ChangeDocumentResidentCommand command)
     {
-        throw new NotImplementedException();
+        if (!command.IsValid)
+            return new HandlerResult(true, command.Notifications);
+
+        var resident = repos.GetById(command.Id);
+
+        resident.ChangeDocument(new Document(command.Type, command.DocumentNumber));
+
+        try
+        {
+            repos.Update(resident);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Internal Error");
+        }
+        return new HandlerResult(true, resident);
     }
 }
