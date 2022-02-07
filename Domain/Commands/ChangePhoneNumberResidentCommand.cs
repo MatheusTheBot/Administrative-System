@@ -3,9 +3,9 @@ using Flunt.Notifications;
 using Flunt.Validations;
 
 namespace Domain.Commands;
-public class ChangePhoneNumberCommand : Notifiable<Notification>, ICommand
+public class ChangePhoneNumberResidentCommand : Notifiable<Notification>, ICommand
 {
-    public ChangePhoneNumberCommand(string phoneNumber, Guid id)
+    public ChangePhoneNumberResidentCommand(string phoneNumber, Guid id)
     {
         PhoneNumber = phoneNumber;
         Id = id;

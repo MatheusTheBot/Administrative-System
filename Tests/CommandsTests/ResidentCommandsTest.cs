@@ -121,4 +121,10 @@ public class ResidentCommandsTest
         var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCNPJ);
         Assert.AreEqual(false, command.IsValid);
     }
+    [TestMethod]
+    public void DadoUmCommandVálidoCommandDeveRetornarTrue()
+    {
+        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        Assert.AreEqual(true, command.IsValid);
+    }
 }

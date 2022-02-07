@@ -3,5 +3,5 @@
 namespace Domain.Handlers.Contracts;
 public interface IHandler<T> where T : ICommand
 {
-
+    IHandlerResult Handle(T command);
 }

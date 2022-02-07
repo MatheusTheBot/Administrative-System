@@ -18,13 +18,12 @@ public class CreateResidentCommand : Notifiable<Notification>, ICommand
         Validate();
     }
 
-    //name
-    public string FirstName { get; private set; }
-    public string LastName { get; private set; }
-    public string Email { get; private set; }
-    public string PhoneNumber { get; private set; }
-    public EDocumentType Type { get; private set; } = EDocumentType.CPF;
-    public string DocumentNumber { get; private set; }
+    public string FirstName { get;  set; }
+    public string LastName { get;  set; }
+    public string Email { get;  set; }
+    public string PhoneNumber { get;  set; }
+    public EDocumentType Type { get;  set; } = EDocumentType.CPF;
+    public string DocumentNumber { get;  set; }
 
     public void Validate()
     {
