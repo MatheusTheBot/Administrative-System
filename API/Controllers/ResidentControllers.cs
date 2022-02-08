@@ -51,8 +51,8 @@ public class ResidentControllers : ControllerBase
         return StatusCode(201, new ControllerResult(true, $"Object updated successfuly; ID:{resident.Id}"));
     }
 
-    [HttpDelete("delete")]
-    public IActionResult DeleteResident([FromServices] ResidentRepository repo, [FromBody] Guid Id)
+    [HttpDelete("delete/{Id}")]
+    public IActionResult DeleteResident([FromServices] ResidentRepository repo, [FromRoute] Guid Id)
     {
         if (Id.ToString() == string.Empty)
             return NotFound(new ControllerResult(false, "Invalid Id"));
