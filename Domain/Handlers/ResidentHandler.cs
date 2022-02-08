@@ -19,6 +19,10 @@ public class ResidentHandler :Notifiable<Notification>,
         this.repos = repos;
     }
 
+    //
+    //question/todo: How to see errors in Handlers and alert the user?
+    //
+
     public IHandlerResult Handle(CreateResidentCommand command)
     {
         //fail fast validation
@@ -45,6 +49,8 @@ public class ResidentHandler :Notifiable<Notification>,
 
         //rehydration
         var resident = repos.GetById(command.Id);
+        if (resident == null)
+            return new HandlerResult(false, "Resident not found");
 
         resident.ChangeName(new Name(command.FirstName, command.LastName));
 
@@ -65,6 +71,8 @@ public class ResidentHandler :Notifiable<Notification>,
             return new HandlerResult(true, command.Notifications);
 
         var resident = repos.GetById(command.Id);
+        if (resident == null)
+            return new HandlerResult(false, "Resident not found");
 
         resident.ChangeEmail(command.Email);
 
@@ -85,6 +93,8 @@ public class ResidentHandler :Notifiable<Notification>,
             return new HandlerResult(true, command.Notifications);
 
         var resident = repos.GetById(command.Id);
+        if (resident == null)
+            return new HandlerResult(false, "Resident not found");
 
         resident.ChangePhoneNumber(command.PhoneNumber);
 
@@ -105,6 +115,8 @@ public class ResidentHandler :Notifiable<Notification>,
             return new HandlerResult(true, command.Notifications);
 
         var resident = repos.GetById(command.Id);
+        if (resident == null)
+            return new HandlerResult(false, "Resident not found");
 
         resident.ChangeDocument(new Document(command.Type, command.DocumentNumber));
 
