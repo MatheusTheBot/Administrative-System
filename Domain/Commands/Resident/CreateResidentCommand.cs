@@ -3,7 +3,7 @@ using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
 
-namespace Domain.Commands;
+namespace Domain.Commands.Resident;
 public class CreateResidentCommand : Notifiable<Notification>, ICommand
 {
     public CreateResidentCommand(string firstName, string lastName, string email, string phoneNumber, EDocumentType type, string documentNumber)

@@ -2,7 +2,7 @@
 using Flunt.Notifications;
 using Flunt.Validations;
 
-namespace Domain.Commands;
+namespace Domain.Commands.Resident;
 public class ChangeNameResidentCommand : Notifiable<Notification>, ICommand
 {
     public ChangeNameResidentCommand(string firstName, string lastName, Guid id)

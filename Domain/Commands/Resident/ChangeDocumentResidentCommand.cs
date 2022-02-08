@@ -3,7 +3,7 @@ using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
 
-namespace Domain.Commands;
+namespace Domain.Commands.Resident;
 public class ChangeDocumentResidentCommand : Notifiable<Notification>, ICommand
 {
     public ChangeDocumentResidentCommand(EDocumentType type, string documentNumber, Guid id)
