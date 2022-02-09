@@ -3,9 +3,9 @@ using Flunt.Notifications;
 
 namespace Domain.Commands.Apart
 {
-    public class DeleteResidentFromApartcCommand : Notifiable<Notification>, ICommand
+    public class DeleteResidentFromApartCommand : Notifiable<Notification>, ICommand
     {
-        public DeleteResidentFromApartcCommand(Guid id)
+        public DeleteResidentFromApartCommand(Guid id)
         {
             Id = id;
         }
