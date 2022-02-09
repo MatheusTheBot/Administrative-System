@@ -3,36 +3,22 @@ using Domain.Commands.Resident;
 using Flunt.Notifications;
 
 namespace Domain.Commands.Apart;
-public class AddResidentsToApartCommand : Notifiable<Notification>, ICommand
+public class AddResidentToApartCommand : Notifiable<Notification>, ICommand
 {
-    public AddResidentsToApartCommand(CreateResidentCommand residentCommand)
+    public AddResidentToApartCommand(Guid id, CreateResidentCommand resident)
     {
-        ResidentList.Add(residentCommand);
+        Id = id;
+        Resident = resident;
 
         Validate();
     }
 
-    public List<CreateResidentCommand> ResidentList { get; set; } = new();
+    public Guid Id { get; set; }
+    public CreateResidentCommand Resident { get; set; }
 
-    public void AddCommand(CreateResidentCommand command)
-    {
-        ResidentList.Add(command);
-
-        Validate();
-    }
-    public void AddCommand(List<CreateResidentCommand> command)
-    {
-        foreach(var item in command)
-        {
-            ResidentList.Add(item);
-        }
-
-        Validate();
-    }
     public void Validate()
     {
-        foreach(var res in ResidentList)
-            if (!res.IsValid)
-                AddNotification(new Notification("ResidentCommand", "Inválid resident"));
+        if (!Resident.IsValid)
+            AddNotification(new Notification("ResidentCommand", "Inválid resident"));
     }
 }

@@ -22,24 +22,30 @@ public class Apart
     {
         _Residents.Add(newResident);
     }
-    public void RemoveResident(Resident resident) 
+    public void RemoveResident(Guid Id) 
     {
-        _Residents.Remove(resident);
+        var res = _Residents.Find(x => x.Id == Id);
+        if (res != null)
+            _Residents.Remove(res);
     }
     public void AddPackage(Packages newPackage) 
     {
         _Packages.Add(newPackage);
     }
-    public void RemovePackage(Packages package) 
+    public void RemovePackage(Guid Id) 
     {
-        _Packages.Remove(package);
+        var pack = _Packages.Find(x => x.Id == Id);
+        if (pack != null)
+            _Packages.Remove(pack);
     }
     public void AddVisitant(Visitant newVisitant) 
     {
         _Visitants.Add(newVisitant);
     }
-    public void RemoveVisitant(Visitant visitant) 
+    public void RemoveVisitant(Guid Id) 
     {
-        _Visitants.Remove(visitant);
+        var vis = _Visitants.Find(x => x.Id == Id);
+        if (vis != null)
+            _Visitants.Remove(vis);
     }
 }

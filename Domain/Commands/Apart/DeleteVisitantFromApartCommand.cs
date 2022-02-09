@@ -4,16 +4,21 @@ using Flunt.Notifications;
 namespace Domain.Commands.Apart;
 public class DeleteVisitantFromApartCommand : Notifiable<Notification>, ICommand
 {
-    public DeleteVisitantFromApartCommand(Guid id)
+    public DeleteVisitantFromApartCommand(Guid entityId, Guid itemId)
     {
-        Id = id;
+        EntityId = entityId;
+        ItemId = itemId;
+
         Validate();
     }
-    public Guid Id { get; set; }
+    public Guid EntityId { get; set; }
+    public Guid ItemId { get; set; }
 
     public void Validate()
     {
-        if (Id.ToString() == null)
+        if (EntityId.ToString() == null)
+            AddNotification(new Notification("Id", "Id can't be null"));
+        if (ItemId.ToString() == null)
             AddNotification(new Notification("Id", "Id can't be null"));
     }
 }
