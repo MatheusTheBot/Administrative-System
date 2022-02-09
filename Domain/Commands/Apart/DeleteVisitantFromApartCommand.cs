@@ -7,6 +7,7 @@ public class DeleteVisitantFromApartCommand : Notifiable<Notification>, ICommand
     public DeleteVisitantFromApartCommand(Guid id)
     {
         Id = id;
+        Validate();
     }
     public Guid Id { get; set; }
 

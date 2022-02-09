@@ -7,6 +7,8 @@ public class DeletePackageFromApartCommand : Notifiable<Notification>, ICommand
     public DeletePackageFromApartCommand(Guid id)
     {
         Id = id;
+
+        Validate();
     }
     public Guid Id { get; set; }
 

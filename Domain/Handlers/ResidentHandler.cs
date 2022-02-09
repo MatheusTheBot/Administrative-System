@@ -1,4 +1,4 @@
-﻿using Domain.Commands;
+﻿using Domain.Commands.Resident;
 using Domain.Entities;
 using Domain.Handlers.Contracts;
 using Domain.Repository;

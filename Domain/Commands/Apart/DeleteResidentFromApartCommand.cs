@@ -8,6 +8,8 @@ namespace Domain.Commands.Apart
         public DeleteResidentFromApartCommand(Guid id)
         {
             Id = id;
+
+            Validate();
         }
         public Guid Id { get; set; }
 

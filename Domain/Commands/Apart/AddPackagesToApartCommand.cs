@@ -8,6 +8,8 @@ public class AddPackagesToApartCommand : Notifiable<Notification>, ICommand
     public AddPackagesToApartCommand(List<CreatePackageCommand> packageCommands)
     {
         PackageCommands = packageCommands;
+
+        Validate();
     }
 
     public List<CreatePackageCommand> PackageCommands { get; set; }
