@@ -57,7 +57,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         search.AddPackage(pack);
 
-        Repos.Add<Apart>(pack);
+        Repos.Update(search);
 
         return new HandlerResult(true, pack);
     }
@@ -75,7 +75,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         search.AddResident(resident);
 
-        Repos.Add<Apart>(resident);
+        Repos.Update(search);
 
         return new HandlerResult(true, resident);
     }
@@ -93,8 +93,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         search.AddVisitant(resident);
 
-        Repos.Add<Apart>(resident);
-        //maybe just use update here can help
+        Repos.Update(search);
 
         return new HandlerResult(true, resident);
     }
@@ -111,6 +110,7 @@ public class ApartHandler : Notifiable<Notification>,
         search.RemovePackage(command.ItemId);
 
         Repos.Update(search);
+
         return new HandlerResult(true, search);
     }
 
@@ -126,6 +126,7 @@ public class ApartHandler : Notifiable<Notification>,
         search.RemoveResident(command.ItemId);
 
         Repos.Update(search);
+
         return new HandlerResult(true, search);
     }
 
@@ -141,6 +142,7 @@ public class ApartHandler : Notifiable<Notification>,
         search.RemoveVisitant(command.ItemId);
 
         Repos.Update(search);
+
         return new HandlerResult(true, search);
     }
 }

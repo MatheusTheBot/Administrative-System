@@ -1,5 +1,4 @@
 ﻿using Domain.Entities;
-using Domain.Entities.Contracts;
 using Domain.Queries;
 using Domain.Repository;
 using Infra.Contexts;
@@ -14,11 +13,6 @@ public class ResidentRepository : IRepository<Resident>
     }
 
     public DataContext Context { get; set; }
-
-    public void Add<U>(Entity entity) where U : Apart
-    {
-        // I'm not going to use this here, just in ApartRepos
-    }
 
     public void Create(Resident entity)
     {
@@ -46,5 +40,6 @@ public class ResidentRepository : IRepository<Resident>
     {
         Context.Entry(entity).State = EntityState.Modified;
         Context.Residents.Update(entity);
+        Context.SaveChanges();
     }
 }

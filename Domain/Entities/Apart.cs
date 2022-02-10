@@ -1,3 +1,5 @@
+using Domain.Entities.Contracts;
+
 namespace Domain.Entities;
 
 public class Apart
