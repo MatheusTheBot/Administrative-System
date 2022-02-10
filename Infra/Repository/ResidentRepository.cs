@@ -34,7 +34,7 @@ public class ResidentRepository : IRepository<Resident>
 
     public Resident GetById(Guid id)
     {
-        return Context.Residents.FirstOrDefault(ResidentQueries.GetById(id));
+        return Context.Residents.FirstOrDefault(Queries<Resident>.GetById(id));
     }
 
     public Resident GetById(int id, int id2)
