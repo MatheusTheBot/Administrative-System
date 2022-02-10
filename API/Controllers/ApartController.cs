@@ -33,9 +33,10 @@ public class ApartController : ControllerBase
         
         var result = handler.Handle(comm);
         
+        if(result.IsSuccess == false)
+            return BadRequest(new ControllerResult(false, result.Data));
 
-        repo.Create(apart);
-        return StatusCode(201, new ControllerResult(true, $"Object created successfuly; ID:{apart.Id}"));
+        return StatusCode(201, new ControllerResult(true, $"Apart created successfuly; Apart: {comm.Number}, Block: {comm.Block}"));
     }
 
     [HttpPut("update")]

@@ -27,8 +27,6 @@ public class PackagesHandler : Notifiable<Notification>,
 
         Repos.Create(pack);
 
-        GetEntity(pack);
-
         return new HandlerResult(true, pack);
     }
 
@@ -56,11 +54,5 @@ public class PackagesHandler : Notifiable<Notification>,
 
         Repos.Update(pack);
         return new HandlerResult(true, pack);
-    }
-
-    //just to Controllers can receive the object
-    public Packages GetEntity(Packages pack)
-    {
-        return Packages = pack;
     }
 }
