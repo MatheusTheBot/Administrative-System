@@ -2,11 +2,12 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
+using Domain.Entities;
 
 namespace Domain.Commands.Packages;
 public class CreatePackageCommand : Notifiable<Notification>, ICommand
 {
-    public CreatePackageCommand(string barCode, string itemName, EPackageType type, string addressee, string sender, string senderAddress)
+    public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, string itemName = "")
     {
         BarCode = barCode;
         ItemName = itemName;
@@ -25,13 +26,18 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
     public string Sender { get;  set; }
     public string SenderAddress { get;  set; }
 
+    public Entities.Packages GetPackages()
+    {
+        return new Entities.Packages(BarCode, Type, Addressee, Sender, SenderAddress, ItemName);
+    }
+
     public void Validate()
     {
         AddNotifications(new Contract<Notification>()
             .Requires()
             .IsNotNullOrWhiteSpace(BarCode, BarCode)
             .AreEquals(BarCode.Length, 30, BarCode)
-            .IsNotNullOrWhiteSpace(ItemName, ItemName)
+            .IsNotNull(ItemName, ItemName)
             .IsLowerOrEqualsThan(ItemName.Length, 150, ItemName)
             .IsNotNullOrWhiteSpace(Addressee, Addressee)
             .IsLowerOrEqualsThan(Addressee.Length, 250, Addressee) 

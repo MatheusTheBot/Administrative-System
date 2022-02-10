@@ -1,5 +1,4 @@
-﻿using API.ValidateModels;
-using Infra.Repository;
+﻿using Infra.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,6 +8,7 @@ namespace API.Controllers;
 
 public class VisitantController : ControllerBase
 {
+    //Queries
     [HttpGet("get/{Id}")]
     public IActionResult GetById([FromServices] VisitantRepository repo, [FromRoute] Guid Id)
     {
@@ -22,6 +22,8 @@ public class VisitantController : ControllerBase
         return Ok(new ControllerResult(true, result));
     }
 
+
+    //Commands
     [HttpPost("add")]
     public IActionResult AddVisitant([FromServices] VisitantRepository repo, [FromBody] VisitantModel model)
     {

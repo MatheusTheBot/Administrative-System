@@ -2,5 +2,5 @@
 public interface IHandlerResult
 {
     bool IsSuccess { get; set; }
-    object Data { get; set; }
+    dynamic Data { get; set; }
 }

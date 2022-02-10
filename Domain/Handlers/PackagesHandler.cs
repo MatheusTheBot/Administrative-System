@@ -11,6 +11,8 @@ public class PackagesHandler : Notifiable<Notification>,
         IHandler<ChangePackageTypeCommand>
 {
     private readonly IRepository<Packages> Repos;
+    public Packages Packages { get; set; }
+
     public PackagesHandler(IRepository<Packages> repos)
     {
         Repos = repos;
@@ -51,5 +53,10 @@ public class PackagesHandler : Notifiable<Notification>,
 
         Repos.Update(pack);
         return new HandlerResult(true, pack);
+    }
+
+    public Packages GetEntity()
+    {
+
     }
 }

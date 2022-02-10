@@ -42,4 +42,8 @@ void SetServices()
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
     builder.Services.AddTransient<ResidentRepository, ResidentRepository>();
     builder.Services.AddTransient<ResidentHandler, ResidentHandler>();
+    builder.Services.AddTransient<VisitantRepository, VisitantRepository>();
+    builder.Services.AddTransient<VisitantHandler, VisitantHandler>();
+    builder.Services.AddTransient<PackageRepository, PackageRepository>();
+    builder.Services.AddTransient<PackagesHandler, PackagesHandler>();
 }
