@@ -26,6 +26,9 @@ public class PackagesHandler : Notifiable<Notification>,
         var pack = new Packages(command.BarCode, command.Type, command.Addressee, command.Sender, command.SenderAddress, command.ItemName);
 
         Repos.Create(pack);
+
+        GetEntity(pack);
+
         return new HandlerResult(true, pack);
     }
 
@@ -55,8 +58,9 @@ public class PackagesHandler : Notifiable<Notification>,
         return new HandlerResult(true, pack);
     }
 
-    public Packages GetEntity()
+    //just to Controllers can receive the object
+    public Packages GetEntity(Packages pack)
     {
-
+        return Packages = pack;
     }
 }
