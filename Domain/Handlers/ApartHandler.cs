@@ -4,6 +4,7 @@ using Domain.Handlers.Contracts;
 using Domain.Repository;
 using Domain.ValueObjects;
 using Flunt.Notifications;
+using System.Data.Common;
 
 namespace Domain.Handlers;
 public class ApartHandler : Notifiable<Notification>,
@@ -27,7 +28,16 @@ public class ApartHandler : Notifiable<Notification>,
             return new HandlerResult(false, command.Notifications);
 
         //verify if already exists
-        var search = Repos.GetById(command.Number, command.Block);
+        Apart? search;
+
+        try
+        {
+            search = Repos.GetById(command.Number, command.Block);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         if (search != null)
             return new HandlerResult(false, "Already have a Apart with that number and block");
 
@@ -37,7 +47,7 @@ public class ApartHandler : Notifiable<Notification>,
         {
             Repos.Create(apart);
         }
-        catch
+        catch (DbException)
         {
             return new HandlerResult(false, "Internal Error, unable to add a new apartment");
         }
@@ -49,7 +59,17 @@ public class ApartHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var search = Repos.GetById(command.Apart, command.Block);
+        Apart? search;
+
+        try
+        {
+             search = Repos.GetById(command.Apart, command.Block);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+
         if (search == null)
             return new HandlerResult(false, "Apart not found");
 
@@ -57,9 +77,16 @@ public class ApartHandler : Notifiable<Notification>,
 
         search.AddPackage(pack);
 
-        Repos.Update(search);
+        try
+        {
+            Repos.Update(search);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
-        return new HandlerResult(true, pack);
+        return new HandlerResult(true, search);
     }
 
     public IHandlerResult Handle(AddResidentToApartCommand command)
@@ -67,7 +94,16 @@ public class ApartHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var search = Repos.GetById(command.Id);
+        Apart? search;
+
+        try
+        {
+            search = Repos.GetById(command.Apart, command.Block);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         if (search == null)
             return new HandlerResult(false, "Apart not found");
 
@@ -75,9 +111,16 @@ public class ApartHandler : Notifiable<Notification>,
 
         search.AddResident(resident);
 
-        Repos.Update(search);
+        try
+        {
+            Repos.Update(search);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
-        return new HandlerResult(true, resident);
+        return new HandlerResult(true, search);
     }
 
     public IHandlerResult Handle(AddVisitantToApartCommand command)
@@ -85,17 +128,33 @@ public class ApartHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var search = Repos.GetById(command.Id);
+        Apart? search;
+
+        try
+        {
+            search = Repos.GetById(command.Apart, command.Block);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         if (search == null)
             return new HandlerResult(false, "Apart not found");
 
-        var resident = new Visitant(new Name(command.Visitant.FirstName, command.Visitant.LastName), command.Visitant.Email, command.Visitant.PhoneNumber, new Document(command.Visitant.Type, command.Visitant.DocumentNumber), command.Visitant.Active);
+        var visitant = new Visitant(new Name(command.Visitant.FirstName, command.Visitant.LastName), command.Visitant.Email, command.Visitant.PhoneNumber, new Document(command.Visitant.Type, command.Visitant.DocumentNumber), command.Visitant.Active);
 
-        search.AddVisitant(resident);
+        search.AddVisitant(visitant);
 
-        Repos.Update(search);
+        try
+        {
+            Repos.Update(search);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
-        return new HandlerResult(true, resident);
+        return new HandlerResult(true, search);
     }
 
     public IHandlerResult Handle(DeletePackageFromApartCommand command)
@@ -103,13 +162,29 @@ public class ApartHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var search = Repos.GetById(command.EntityId);
+        Apart? search;
+
+        try
+        {
+            search = Repos.GetById(command.Apart, command.Block);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         if (search == null)
-            return new HandlerResult(false, "Package not found");
+            return new HandlerResult(false, "Apart not found");
 
         search.RemovePackage(command.ItemId);
 
-        Repos.Update(search);
+        try
+        {
+            Repos.Update(search);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
         return new HandlerResult(true, search);
     }
@@ -119,13 +194,29 @@ public class ApartHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var search = Repos.GetById(command.EntityId);
+        Apart? search;
+
+        try
+        {
+            search = Repos.GetById(command.Apart, command.Block);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         if (search == null)
-            return new HandlerResult(false, "Resident not found");
+            return new HandlerResult(false, "Apart not found");
 
         search.RemoveResident(command.ItemId);
 
-        Repos.Update(search);
+        try
+        {
+            Repos.Update(search);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
         return new HandlerResult(true, search);
     }
@@ -135,13 +226,30 @@ public class ApartHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var search = Repos.GetById(command.EntityId);
+
+        Apart? search;
+
+        try
+        {
+            search = Repos.GetById(command.Apart, command.Block);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         if (search == null)
-            return new HandlerResult(false, "Vistant not found");
+            return new HandlerResult(false, "Apart not found");
 
         search.RemoveVisitant(command.ItemId);
 
-        Repos.Update(search);
+        try
+        {
+            Repos.Update(search);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
         return new HandlerResult(true, search);
     }
