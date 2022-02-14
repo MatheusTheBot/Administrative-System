@@ -3,6 +3,7 @@ using Domain.Entities;
 using Domain.Handlers.Contracts;
 using Domain.Repository;
 using Flunt.Notifications;
+using System.Data.Common;
 
 namespace Domain.Handlers;
 public class PackagesHandler : Notifiable<Notification>, 
@@ -11,8 +12,6 @@ public class PackagesHandler : Notifiable<Notification>,
         IHandler<ChangePackageTypeCommand>
 {
     private readonly IRepository<Packages> Repos;
-    public Packages Packages { get; set; }
-
     public PackagesHandler(IRepository<Packages> repos)
     {
         Repos = repos;
@@ -25,8 +24,14 @@ public class PackagesHandler : Notifiable<Notification>,
 
         var pack = new Packages(command.BarCode, command.Type, command.Addressee, command.Sender, command.SenderAddress, command.ItemName);
 
-        Repos.Create(pack);
-
+        try
+        {
+            Repos.Create(pack);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         return new HandlerResult(true, pack);
     }
 
@@ -35,11 +40,27 @@ public class PackagesHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var pack = Repos.GetById(command.PackageId);
+        Packages? pack;
+
+        try
+        {
+            pack = Repos.GetById(command.PackageId);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
         pack.UpdatePackage(command.PackageId, command.BarCode, command.ItemName, command.Type, command.Addressee, command.Sender, command.SenderAddress);
 
-        Repos.Update(pack);
+        try
+        {
+            Repos.Update(pack);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         return new HandlerResult(true, pack);
     }
 
@@ -48,11 +69,27 @@ public class PackagesHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var pack = Repos.GetById(command.Guid);
+        Packages? pack;
+
+        try
+        {
+            pack = Repos.GetById(command.Guid);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
 
         pack.ChangePackageType(command.Guid, command.Type);
 
-        Repos.Update(pack);
+        try
+        {
+            Repos.Update(pack);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
         return new HandlerResult(true, pack);
     }
 }
