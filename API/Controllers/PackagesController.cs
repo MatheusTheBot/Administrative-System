@@ -13,10 +13,8 @@ public class PackagesController : ControllerBase
     [HttpGet("get/{Id}")]
     public IActionResult GetById([FromServices] PackageRepository repo, [FromRoute] Guid Id)
     {
-        if (Id.ToString() == string.Empty)
-            return NotFound(new ControllerResult(false, "Invalid Id"));
-
         var result = repo.GetById(Id);
+
         if (result == null)
             return NotFound(new ControllerResult(false, "object not found"));
 
@@ -24,37 +22,43 @@ public class PackagesController : ControllerBase
     }
 
     //Commands
-    [HttpPost("add/{Apart},{Block}")]
-    public IActionResult AddPackages([FromServices] ApartRepository repos, [FromBody] CreatePackageCommand comm, [FromServices] PackagesHandler handler, [FromRoute] int Apart, int Block)
+    [HttpPost("add")]
+    public IActionResult AddPackages([FromServices] PackagesHandler handler, [FromBody] CreatePackageCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid Packages"));
+            return BadRequest(new ControllerResult(false, "Invalid command"));
 
         var result = handler.Handle(comm);
 
-        if(result.IsSuccess != true)
-            return BadRequest(new ControllerResult(false, result.Data));
+        if (result.IsSuccess == false)
+            return BadRequest(new ControllerResult(true, result.Data));
 
-        var apart = repos.GetById(Apart, Block);
-        if (apart == null)
-            return BadRequest(new ControllerResult(false, "Apart not found"))
+        return Ok(new ControllerResult(true, $"Object created successfuly; ID:{result.Data.Id}"));
     }
 
     [HttpPut("update")]
-    public IActionResult UpdatePackages([FromServices] PackageRepository repo, [FromBody] UpdatePackageCommand comm, [FromServices] PackagesHandler handler)
+    public IActionResult UpdatePackages([FromServices] PackagesHandler handler, [FromBody] UpdatePackageCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid Packages"));
-
-        var package = repo.GetById(comm.PackageId);
-
-        if (package == null)
-            return BadRequest(new ControllerResult(false, "object not found"));
+            return BadRequest(new ControllerResult(false, "Invalid command"));
 
         var result = handler.Handle(comm);
 
-        if (result.IsSuccess == true)
-            return StatusCode(201, new ControllerResult(true, $"Object updated successfuly;"));
-        return BadRequest(new ControllerResult(false, result));
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
+    }
+
+    [HttpPut("changeType")]
+    public IActionResult ChangeType([FromServices] PackagesHandler handler, [FromBody] ChangePackageTypeCommand comm)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
+
+        var result = handler.Handle(comm);
+
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
     }
 }
