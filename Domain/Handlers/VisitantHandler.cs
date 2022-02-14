@@ -4,6 +4,7 @@ using Domain.Handlers.Contracts;
 using Domain.Repository;
 using Domain.ValueObjects;
 using Flunt.Notifications;
+using System.Data.Common;
 
 namespace Domain.Handlers;
 public class VisitantHandler : Notifiable<Notification>, 
@@ -27,73 +28,172 @@ public class VisitantHandler : Notifiable<Notification>,
         if(!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var vis = new Visitant(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Active);
+        var visitant = new Visitant(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Active);
 
-        Repos.Create(vis);
-        return new HandlerResult(true, vis);
+        try
+        {
+            Repos.Create(visitant);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        return new HandlerResult(true, visitant);
     }
 
     public IHandlerResult Handle(ChangeNameVisitantCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(false, command.Notifications);
+            return new HandlerResult(true, command.Notifications);
 
-        var vis = Repos.GetById(command.Id);
-        vis.ChangeName(new Name(command.FirstName, command.LastName));
+        //rehydration
+        Visitant? visitant;
+        try
+        {
+            visitant = Repos.GetById(command.Id);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (visitant == null)
+            return new HandlerResult(false, "Visitant not found");
 
-        Repos.Update(vis);
-        return new HandlerResult(true, vis);
+        visitant.ChangeName(new Name(command.FirstName, command.LastName));
+
+        try
+        {
+            Repos.Update(visitant);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        return new HandlerResult(true, visitant);
     }
 
     public IHandlerResult Handle(ChangeEmailVisitantCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(false, command.Notifications);
+            return new HandlerResult(true, command.Notifications);
 
-        var vis = Repos.GetById(command.Id);
-        vis.ChangeEmail(command.Email);
+        Visitant? visitant;
+        try
+        {
+            visitant = Repos.GetById(command.Id);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (visitant == null)
+            return new HandlerResult(false, "Visitant not found");
 
-        Repos.Update(vis);
-        return new HandlerResult(true, vis);
+        visitant.ChangeEmail(command.Email);
+
+        try
+        {
+            Repos.Update(visitant);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        return new HandlerResult(true, visitant);
     }
 
     public IHandlerResult Handle(ChangePhoneNumberVisitantCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(false, command.Notifications);
+            return new HandlerResult(true, command.Notifications);
 
-        var vis = Repos.GetById(command.Id);
-        vis.ChangePhoneNumber(command.PhoneNumber);
+        Visitant? visitant;
+        try
+        {
+            visitant = Repos.GetById(command.Id);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (visitant == null)
+            return new HandlerResult(false, "Visitant not found");
 
-        Repos.Update(vis);
-        return new HandlerResult(true, vis);
+        visitant.ChangePhoneNumber(command.PhoneNumber);
+
+        try
+        {
+            Repos.Update(visitant);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        return new HandlerResult(true, visitant);
     }
 
     public IHandlerResult Handle(ChangeDocumentVisitantCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(false, command.Notifications);
+            return new HandlerResult(true, command.Notifications);
 
-        var vis = Repos.GetById(command.Id);
-        vis.ChangeDocument(new Document(command.Type, command.DocumentNumber));
+        //rehydration
+        Visitant? visitant;
+        try
+        {
+            visitant = Repos.GetById(command.Id);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (visitant == null)
+            return new HandlerResult(false, "Visitant not found");
 
-        Repos.Update(vis);
-        return new HandlerResult(true, vis);
+        visitant.ChangeDocument(new Document(command.Type, command.DocumentNumber));
+
+        try
+        {
+            Repos.Update(visitant);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        return new HandlerResult(true, visitant);
     }
 
     public IHandlerResult Handle(ChangeActiveVisitantCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(false, command.Notifications);
+            return new HandlerResult(true, command.Notifications);
 
-        var vis = Repos.GetById(command.Id);
+        //rehydration
+        Visitant? visitant;
+        try
+        {
+            visitant = Repos.GetById(command.Id);
+        }
+        catch (DbException)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (visitant == null)
+            return new HandlerResult(false, "Visitant not found");
 
         if (command.Active == true)
-            vis.IsActive();
-        if(command.Active == false)
-            vis.IsInactive();
+            visitant.IsActive();
+        if (command.Active == false)
+            visitant.IsInactive();
 
-        Repos.Update(vis);
-        return new HandlerResult(true, vis);
+        try
+        {
+            Repos.Update(visitant);
+        }
+        catch
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        return new HandlerResult(true, visitant);
     }
 }
