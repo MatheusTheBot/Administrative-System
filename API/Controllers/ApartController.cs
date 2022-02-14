@@ -40,7 +40,7 @@ public class ApartController : ControllerBase
     }
 
     [HttpPut("add/package")]
-    public IActionResult AddPackage([FromServices] ApartHandler handler, [FromBody] AddPackageToApartCommand comm)
+    public IActionResult AddPackage([FromServices] PackagesHandler packagesHandler, ApartHandler handler, [FromBody] AddPackageToApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
@@ -49,11 +49,17 @@ public class ApartController : ControllerBase
 
         if(result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+
+        var packResult = packagesHandler.Handle(comm.Package);
+
+        if (packResult.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(packResult.IsSuccess, packResult.Data));
+
         return Ok(new HandlerResult(true, result));
     }
 
     [HttpPut("add/resident")]
-    public IActionResult AddResident([FromServices] ApartHandler handler, [FromBody] AddResidentToApartCommand comm)
+    public IActionResult AddResident([FromServices] ResidentHandler residentHandler , ApartHandler handler, [FromBody] AddResidentToApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
@@ -62,11 +68,17 @@ public class ApartController : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+
+        var residentResult = residentHandler.Handle(comm.Resident);
+
+        if (residentResult.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(residentResult.IsSuccess, residentResult.Data));
+
         return Ok(new HandlerResult(true, result));
     }
 
     [HttpPut("add/visitant")]
-    public IActionResult AddVisitant([FromServices] ApartHandler handler, [FromBody] AddVisitantToApartCommand comm)
+    public IActionResult AddVisitant([FromServices] VisitantHandler visitantHandler, ApartHandler handler, [FromBody] AddVisitantToApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
@@ -75,6 +87,12 @@ public class ApartController : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+
+        var visitantResult = visitantHandler.Handle(comm.Visitant);
+
+        if (visitantResult.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(visitantResult.IsSuccess, visitantResult.Data));
+
         return Ok(new HandlerResult(true, result));
     }
 
