@@ -9,11 +9,6 @@ public class HandlerResult : IHandlerResult
         Data = data;
     }
 
-    public HandlerResult()
-    {
-
-    }
-
     public bool IsSuccess { get; set ; }
     public dynamic Data { get ; set ; }
 }
