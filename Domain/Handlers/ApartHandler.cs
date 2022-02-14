@@ -49,7 +49,7 @@ public class ApartHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var search = Repos.GetById(command.Id);
+        var search = Repos.GetById(command.Apart, command.Block);
         if (search == null)
             return new HandlerResult(false, "Apart not found");
 

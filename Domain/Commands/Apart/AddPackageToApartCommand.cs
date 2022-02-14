@@ -5,15 +5,17 @@ using Flunt.Notifications;
 namespace Domain.Commands.Apart;
 public class AddPackageToApartCommand : Notifiable<Notification>, ICommand
 {
-    public AddPackageToApartCommand(Guid idToAdd, CreatePackageCommand package)
+    public AddPackageToApartCommand(int apart, int block, CreatePackageCommand package)
     {
-        Id = idToAdd;
+        Apart = apart;
+        Block = block;
         Package = package;
 
         Validate();
     }
 
-    public Guid Id { get; set; }
+    public int Apart { get; set; }
+    public int Block { get; set; }
     public CreatePackageCommand Package { get; set; }
 
     public void Validate()

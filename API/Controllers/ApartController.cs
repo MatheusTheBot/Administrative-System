@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 [ApiController]
+[Route("v1/apart")]
 public class ApartController : ControllerBase
 {
 
@@ -23,51 +24,96 @@ public class ApartController : ControllerBase
         return Ok(new ControllerResult(true, result));
     }
 
-
     //Commands
     [HttpPost("add")]
-    public IActionResult AddApart([FromServices] ApartRepository repo, [FromServices] ApartHandler handler, [FromBody] CreateApartCommand comm)
+    public IActionResult AddApart([FromServices] ApartHandler handler, [FromBody] CreateApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid Apart"));
-        
+
         var result = handler.Handle(comm);
-        
-        if(result.IsSuccess == false)
+
+        if (result.IsSuccess == false)
             return BadRequest(new ControllerResult(false, result.Data));
 
         return StatusCode(201, new ControllerResult(true, $"Apart created successfuly; Apart: {comm.Number}, Block: {comm.Block}"));
     }
 
-    [HttpPut("update")]
-    public IActionResult UpdateApart([FromServices] ApartRepository repo, [FromBody] ApartModel model)
+    [HttpPut("add/package")]
+    public IActionResult AddPackage([FromServices] ApartHandler handler, [FromBody] AddPackageToApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid Apart"));
+            return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var apart = model.GetApart();
+        var result = handler.Handle(comm);
 
-        var result = repo.GetById(apart.Id);
-
-        if (result == null)
-            return BadRequest(new ControllerResult(false, "object not found"));
-
-        repo.Update(apart);
-        return StatusCode(201, new ControllerResult(true, $"Object updated successfuly; ID:{apart.Id}"));
+        if(result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
     }
 
-    [HttpDelete("delete/{Id}")]
-    public IActionResult DeleteApart([FromServices] ApartRepository repo, [FromRoute] Guid Id)
+    [HttpPut("add/resident")]
+    public IActionResult AddResident([FromServices] ApartHandler handler, [FromBody] AddResidentToApartCommand comm)
     {
-        if (Id.ToString() == string.Empty)
-            return NotFound(new ControllerResult(false, "Invalid Id"));
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var apart = repo.GetById(Id);
+        var result = handler.Handle(comm);
 
-        if (apart == null)
-            return BadRequest(new ControllerResult(false, "object not found"));
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
+    }
 
-        repo.Delete(apart);
-        return StatusCode(201, new ControllerResult(true, $"Object deleted successfuly; ID:{apart.Id}"));
+    [HttpPut("add/visitant")]
+    public IActionResult AddVisitant([FromServices] ApartHandler handler, [FromBody] AddVisitantToApartCommand comm)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
+
+        var result = handler.Handle(comm);
+
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
+    }
+
+    [HttpDelete("delete/package")]
+    public IActionResult DeleteVisitant([FromServices] ApartHandler handler, [FromBody] DeletePackageFromApartCommand comm)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
+
+        var result = handler.Handle(comm);
+
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
+    }
+
+    [HttpDelete("delete/resident")]
+    public IActionResult DeleteResident([FromServices] ApartHandler handler, [FromBody] DeleteResidentFromApartCommand comm)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
+
+        var result = handler.Handle(comm);
+
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
+    }
+
+    [HttpDelete("delete/visitant")]
+    public IActionResult DeleteVisitant([FromServices] ApartHandler handler, [FromBody] DeleteVisitantFromApartCommand comm)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
+
+        var result = handler.Handle(comm);
+
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
     }
 }

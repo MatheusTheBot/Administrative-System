@@ -25,7 +25,7 @@ public class PackagesController : ControllerBase
 
     //Commands
     [HttpPost("add/{Apart},{Block}")]
-    public IActionResult AddPackages([FromBody] CreatePackageCommand comm, [FromServices] PackagesHandler handler, [FromRoute] int Apart, int Block)
+    public IActionResult AddPackages([FromServices] ApartRepository repos, [FromBody] CreatePackageCommand comm, [FromServices] PackagesHandler handler, [FromRoute] int Apart, int Block)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid Packages"));
@@ -33,9 +33,11 @@ public class PackagesController : ControllerBase
         var result = handler.Handle(comm);
 
         if(result.IsSuccess != true)
-            return BadRequest(new ControllerResult(false, result));
+            return BadRequest(new ControllerResult(false, result.Data));
 
-
+        var apart = repos.GetById(Apart, Block);
+        if (apart == null)
+            return BadRequest(new ControllerResult(false, "Apart not found"))
     }
 
     [HttpPut("update")]
