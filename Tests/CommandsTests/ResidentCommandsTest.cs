@@ -1,24 +1,27 @@
 ﻿using Domain.Commands.Resident;
 using Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Tests.CommandsTests;
 
 [TestClass]
 public class ResidentCommandsTest
 {
-    private string FirstName = "Matheus";
-    private string LastName = "Ferreira";
-    private string Email = "matheus.henrique123@gmail.com";
-    private string PhoneNumber = "+55 (41) 9 1234-1234";
-    private EDocumentType DocumentTypeCPF = EDocumentType.CPF;
-    private EDocumentType DocumentTypeCNPJ = EDocumentType.CNPJ;
-    private string DocumentNumberCPF = "123.456.789-12";
-    private string DocumentNumberCNPJ = "67.573.684/0001-91";
+    private readonly string FirstName = "Matheus";
+    private readonly string LastName = "Ferreira";
+    private readonly string Email = "matheus.henrique123@gmail.com";
+    private readonly string PhoneNumber = "+55 (41) 9 1234-1234";
+    private readonly EDocumentType DocumentTypeCPF = EDocumentType.CPF;
+    private readonly EDocumentType DocumentTypeCNPJ = EDocumentType.CNPJ;
+    private readonly string DocumentNumberCPF = "123.456.789-12";
+    private readonly string DocumentNumberCNPJ = "67.573.684/0001-91";
+
+    private readonly Guid Id = Guid.Parse("0ecdb2d6-0021-4c0f-8e4f-14080940715b");
 
     public ResidentCommandsTest()
     {
-        //correctCommand = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentType, DocumentNumber);
+
     }
 
     //Red, Green, Refactor
@@ -125,6 +128,127 @@ public class ResidentCommandsTest
     public void DadoUmCommandVálidoCommandDeveRetornarTrue()
     {
         var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        Assert.AreEqual(true, command.IsValid);
+    }
+
+
+
+    //Change name
+
+    [TestMethod]
+    public void DadoUmFirstNamePequenoChangeNameCommandDeveRetornarErro()
+    {
+        string _name = "ab";
+        var command = new ChangeNameResidentCommand(_name, LastName, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoUmFirstNameVazioChangeNameCommandDeveRetornarErro()
+    {
+        var command = new ChangeNameResidentCommand("  ", LastName, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoUmLastNamePequenoChangeNameCommandDeveRetornarErro()
+    {
+        string _name = "ab";
+       var command = new ChangeNameResidentCommand(FirstName, _name, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoUmLastNameVazioChangeNameCommandDeveRetornarErro()
+    {
+        var command = new ChangeNameResidentCommand(FirstName, "   ", Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoUmIdInválidoChangeNameCommandDeveRetornarErro()
+    {
+        var command = new ChangeNameResidentCommand(FirstName, LastName, Guid.Empty);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoCommandVálidoChangeNameCommandDeveRetornarTrue()
+    {
+        var command = new ChangeNameResidentCommand(FirstName, LastName, Guid.NewGuid());
+        Assert.AreEqual(true, command.IsValid);
+    }
+
+
+
+    //ChangeDocs
+
+    [TestMethod]
+    public void DadoTypeVálidoEUmDocumentNumberInválidoChangeDocumentCommandDeveRetornarErro()
+    {
+        var command = new ChangeDocumentResidentCommand(DocumentTypeCPF, DocumentNumberCNPJ, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoTypeInválidoEUmDocumentNumberVálidoChangeDocumentCommandDeveRetornarErro2()
+    {
+        var command = new ChangeDocumentResidentCommand(DocumentTypeCNPJ, DocumentNumberCPF, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoUmIdInválidoChangeDocumentCommandDeveRetornarErro()
+    {
+        var command = new ChangeDocumentResidentCommand(DocumentTypeCNPJ, DocumentNumberCPF, Guid.Empty);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoCommandVálidoChangeDocumentCommandDeveRetornarTrue()
+    {
+        var command = new ChangeDocumentResidentCommand(DocumentTypeCPF, DocumentNumberCPF, Id);
+        Assert.AreEqual(true, command.IsValid);
+    }
+
+
+
+    //ChangeEmail
+
+    [TestMethod]
+    public void DadoEmailInválidoChangeEmailCommandDeveRetornarErro()
+    {
+        //https://github.com/andrebaltieri/Flunt/blob/main/Flunt.Tests/EmailValidationTests.cs
+        var _email = "aaaa@aaaaa";
+        var command = new ChangeEmailResidentCommand(_email, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoIdInválidoChangeEmailCommandDeveRetornarErro()
+    {
+        var command = new ChangeEmailResidentCommand(Email, Guid.Empty);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoCommandVálidoChangeEmailCommandDeveRetornarTrue()
+    {
+        var command = new ChangeEmailResidentCommand(Email, Id);
+        Assert.AreEqual(true, command.IsValid);
+    }
+
+
+
+    //ChangePhone
+
+    [TestMethod]
+    public void DadoNumeroInválidoChangePhoneCommandDeveRetornarErro()
+    {
+        var _number = "4568a21347";
+        var command = new ChangePhoneNumberResidentCommand(_number, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoIdInválidoChangePhoneCommandDeveRetornarErro()
+    {
+        var command = new ChangePhoneNumberResidentCommand(PhoneNumber, Guid.Empty);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoCommandVálidoChangePhoneCommandDeveRetornarTrue()
+    {
+        var command = new ChangePhoneNumberResidentCommand(PhoneNumber, Id);
         Assert.AreEqual(true, command.IsValid);
     }
 }
