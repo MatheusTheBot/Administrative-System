@@ -1,4 +1,5 @@
-﻿using API.ValidateModels;
+﻿using Domain.Commands.Resident;
+using Domain.Handlers;
 using Infra.Repository;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,10 +12,8 @@ public class ResidentControllers : ControllerBase
     [HttpGet("get/{Id}")]
     public IActionResult GetById([FromServices] ResidentRepository repo, [FromRoute]Guid Id)
     {
-        if(Id.ToString() == string.Empty)
-            return NotFound(new ControllerResult(false, "Invalid Id"));
-
         var result = repo.GetById(Id);
+
         if (result == null)
             return NotFound(new ControllerResult(false, "object not found"));
 
@@ -22,47 +21,68 @@ public class ResidentControllers : ControllerBase
     }
 
     [HttpPost("add")]
-    public IActionResult AddResident([FromServices] ResidentRepository repo, [FromBody] ResidentModel model)
+    public IActionResult AddResident([FromServices] ResidentHandler handler, [FromBody] CreateResidentCommand comm)
     {
         if(!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid Resident"));
 
-        //create Resident object
-        var resident = model.GetResident();
+        var result = handler.Handle(comm);
 
-        repo.Create(resident);
-        return StatusCode(201, new ControllerResult(true, $"Object created successfuly; ID:{resident.Id}"));
+        if (result.IsSuccess == false)
+            return BadRequest(new ControllerResult(true, result.Data));
+
+        return Ok(new ControllerResult(true, $"Object created successfuly; ID:{result.Data.Id}"));
     }
 
-    [HttpPut("update")]
-    public IActionResult UpdateResident([FromServices] ResidentRepository repo, [FromBody] ResidentModel model)
+    [HttpPut("changeDocs")]
+    public IActionResult ChangeDocument([FromServices] ResidentHandler handler, [FromBody] ChangeDocumentResidentCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid Resident"));
+            return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var resident = model.GetResident();
+        var result = handler.Handle(comm);
 
-        var result = repo.GetById(resident.Id);
-
-        if (result == null)
-            return BadRequest(new ControllerResult(false, "object not found"));
-
-        repo.Update(resident);
-        return StatusCode(201, new ControllerResult(true, $"Object updated successfuly; ID:{resident.Id}"));
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
     }
 
-    [HttpDelete("delete/{Id}")]
-    public IActionResult DeleteResident([FromServices] ResidentRepository repo, [FromRoute] Guid Id)
+    [HttpPut("changeEmail")]
+    public IActionResult ChangeEmail([FromServices] ResidentHandler handler, [FromBody] ChangeEmailResidentCommand comm)
     {
-        if (Id.ToString() == string.Empty)
-            return NotFound(new ControllerResult(false, "Invalid Id"));
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var resident = repo.GetById(Id);
+        var result = handler.Handle(comm);
 
-        if (resident == null)
-            return BadRequest(new ControllerResult(false, "object not found"));
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
+    }
 
-        repo.Delete(resident);
-        return StatusCode(201, new ControllerResult(true, $"Object deleted successfuly; ID:{resident.Id}"));
+    [HttpPut("changeName")]
+    public IActionResult ChangeName([FromServices] ResidentHandler handler, [FromBody] ChangeNameResidentCommand comm)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
+
+        var result = handler.Handle(comm);
+
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
+    }
+
+    [HttpPut("changePhone")]
+    public IActionResult ChangePhone([FromServices] ResidentHandler handler, [FromBody] ChangePhoneNumberResidentCommand comm)
+    {
+        if (!ModelState.IsValid)
+            return BadRequest(new ControllerResult(false, "Invalid command"));
+
+        var result = handler.Handle(comm);
+
+        if (result.IsSuccess == false)
+            return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
+        return Ok(new HandlerResult(true, result));
     }
 }
