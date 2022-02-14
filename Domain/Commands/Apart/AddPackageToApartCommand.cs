@@ -22,5 +22,9 @@ public class AddPackageToApartCommand : Notifiable<Notification>, ICommand
     {
         if (!Package.IsValid)
             AddNotification(new Notification("PackageCommand", "Invalid Package"));
+        if (Apart == 0)
+            AddNotification(new Notification("Apart", "Apart can't be 0"));
+        if (Block == 0)
+            AddNotification(new Notification("Block", "Block can't be 0"));
     }
 }

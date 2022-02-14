@@ -5,20 +5,26 @@ using Flunt.Notifications;
 namespace Domain.Commands.Apart;
 public class AddVisitantToApartCommand : Notifiable<Notification>, ICommand
 {
-    public AddVisitantToApartCommand(Guid id, CreateVisitantCommand visitant)
+    public AddVisitantToApartCommand(int apart, int block, CreateVisitantCommand visitant)
     {
-        Id = id;
+        Apart = apart;
+        Block = block;
         Visitant = visitant;
 
         Validate();
     }
 
-    public Guid Id { get; set; }
+    public int Apart { get; set; }
+    public int Block { get; set; }
     public CreateVisitantCommand Visitant { get; set; }
 
     public void Validate()
     {
         if (!Visitant.IsValid)
             AddNotification(new Notification("VisitantCommand", "Inválid vistant"));
+        if (Apart == 0)
+            AddNotification(new Notification("Apart", "Apart can't be 0"));
+        if (Block == 0)
+            AddNotification(new Notification("Block", "Block can't be 0"));
     }
 }
