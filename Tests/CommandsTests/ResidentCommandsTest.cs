@@ -1,4 +1,4 @@
-﻿using Domain.Commands;
+﻿using Domain.Commands.Resident;
 using Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 
