@@ -4,6 +4,7 @@ using Domain.Commands.Resident;
 using Domain.Commands.Visitant;
 using Domain.Enums;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using System;
 
 namespace Tests.CommandsTests
 {
@@ -23,13 +24,24 @@ namespace Tests.CommandsTests
         //private string DocumentNumberCNPJ = "67.573.684/0001-91";
         private bool Active = true;
 
+        private readonly string BarCode = "9781234567897";
+        private readonly string ItemName = "Battle Rifle";
+        private readonly EPackageType Type = EPackageType.MediumPackage;
+        private readonly string Addressee = "R. MyStreetName, MyCity, Earth";
+        private readonly string Sender = "Noble Six";
+        private readonly string SenderAddress = "Uplift Reserve, New Mombasa, Earth";
+
         private readonly CreateVisitantCommand visitantCommand;
         private readonly CreateResidentCommand residentCommand;
         private readonly CreatePackageCommand packageCommand;
+
+        private readonly Guid Id = Guid.Parse("0ecdb2d6-0021-4c0f-8e4f-14080940715b");
+
         public ApartCommandsTests()
         {
             visitantCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
             residentCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+            packageCommand = new(BarCode, Type, Addressee, Sender, SenderAddress, ItemName);
         }
 
 
@@ -127,6 +139,128 @@ namespace Tests.CommandsTests
 
         //AddPackage
 
+        [TestMethod]
+        public void DadoUmBlockInválidoAddPackageCommandDeveRetornarErro()
+        {
+            int _block = 0;
+            var command = new AddPackageToApartCommand(Number, _block, packageCommand);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmNumberInválidoAddPackageCommandDeveRetornarErro()
+        {
+            int _number = 0;
+            var command = new AddPackageToApartCommand(_number, Block, packageCommand);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmAddpackageCommandInválidoCommandDeveRetornarErro()
+        {
+            CreatePackageCommand _package = new("", Type, Addressee, Sender, SenderAddress, ItemName);
 
+            var command = new AddPackageToApartCommand(Number, Block, _package);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmAddpackageCommandVálidoCommandDeveRetornarTrue()
+        {
+            var command = new AddPackageToApartCommand(Number, Block, packageCommand);
+            Assert.AreEqual(true, command.IsValid);
+        }
+
+
+
+        //DeleteResident
+
+        [TestMethod]
+        public void DadoUmBlockInválidoDeleteResidentCommandDeveRetornarErro()
+        {
+            int _block = 0;
+            var command = new DeleteResidentFromApartCommand(Number, _block, Id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmNumberInválidoDeleteResidentCommandDeveRetornarErro()
+        {
+            int _number = 0;
+            var command = new DeleteResidentFromApartCommand(_number, Block, Id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DaduUmIdInválidoDeleteResidentCommandDeveRetornarErro()
+        {
+            var _id = Guid.Empty;
+            var command = new DeleteResidentFromApartCommand(Number, Block, _id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmDeleteResidentCommandVálidoCommandDeveRetornarTrue()
+        {
+            var command = new DeleteResidentFromApartCommand(Number, Block, Id);
+            Assert.AreEqual(true, command.IsValid);
+        }
+
+
+
+        //DeleteVisitant
+
+        [TestMethod]
+        public void DadoUmBlockInválidoDeleteVisitantCommandDeveRetornarErro()
+        {
+            int _block = 0;
+            var command = new DeleteVisitantFromApartCommand(Number, _block, Id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmNumberInválidoDeleteVisitantCommandDeveRetornarErro()
+        {
+            int _number = 0;
+            var command = new DeleteVisitantFromApartCommand(_number, Block, Id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DaduUmIdInválidoDeleteVisitantCommandDeveRetornarErro()
+        {
+            var _id = Guid.Empty;
+            var command = new DeleteVisitantFromApartCommand(Number, Block, _id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmDeleteVisitantCommandVálidoCommandDeveRetornarTrue()
+        {
+            var command = new DeleteVisitantFromApartCommand(Number, Block, Id);
+            Assert.AreEqual(true, command.IsValid);
+        }
+
+
+        //DeletePackage
+
+        [TestMethod]
+        public void DadoUmBlockInválidoDeletePackageCommandDeveRetornarErro()
+        {
+            int _block = 0;
+            var command = new DeletePackageFromApartCommand(Number, _block, Id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmNumberInválidoDeletePackageCommandDeveRetornarErro()
+        {
+            int _number = 0;
+            var command = new DeletePackageFromApartCommand(_number, Block, Id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DaduUmIdInválidoDeletePackageCommandDeveRetornarErro()
+        {
+            var _id = Guid.Empty;
+            var command = new DeletePackageFromApartCommand(Number, Block, _id);
+            Assert.AreEqual(false, command.IsValid);
+        }
+        [TestMethod]
+        public void DadoUmDeletePackageCommandVálidoCommandDeveRetornarTrue()
+        {
+            var command = new DeletePackageFromApartCommand(Number, Block, Id);
+            Assert.AreEqual(true, command.IsValid);
+        }
     }
 }

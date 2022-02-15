@@ -23,8 +23,8 @@ public class DeleteVisitantFromApartCommand : Notifiable<Notification>, ICommand
             AddNotification(new Notification("Apart", "Apart can't be 0"));
         if (Block == 0)
             AddNotification(new Notification("Block", "Block can't be 0"));
-        if (ItemId.ToString() == null)
-            AddNotification(new Notification("Id", "Id can't be null"));
+        if (ItemId == Guid.Empty)
+            AddNotification(new Notification("Id", "Id can't be empty"));
 
     }
 }
