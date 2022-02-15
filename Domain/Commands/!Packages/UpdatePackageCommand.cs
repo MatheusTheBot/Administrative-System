@@ -6,15 +6,15 @@ using Flunt.Validations;
 namespace Domain.Commands.Packages;
 public class UpdatePackageCommand : Notifiable<Notification>, ICommand
 {
-    public UpdatePackageCommand(Guid packageId, string barCode, string itemName, EPackageType type, string addressee, string sender, string senderAddress)
+    public UpdatePackageCommand(Guid packageId, string barCode, EPackageType type, string addressee, string sender, string senderAddress, string itemName = "Unknown")
     {
         PackageId = packageId;
         BarCode = barCode;
-        ItemName = itemName;
         Type = type;
         Addressee = addressee;
         Sender = sender;
         SenderAddress = senderAddress;
+        ItemName = itemName;
 
         Validate();
     }
@@ -33,7 +33,7 @@ public class UpdatePackageCommand : Notifiable<Notification>, ICommand
         AddNotifications(new Contract<Notification>()
             .Requires()
             .IsNotNullOrWhiteSpace(BarCode, BarCode)
-            .AreEquals(BarCode.Length, 30, BarCode)
+            .AreEquals(BarCode.Length, 13, BarCode)
             .IsNotNullOrWhiteSpace(ItemName, ItemName)
             .IsLowerOrEqualsThan(ItemName.Length, 150, ItemName)
             .IsNotNullOrWhiteSpace(Addressee, Addressee)
@@ -42,6 +42,7 @@ public class UpdatePackageCommand : Notifiable<Notification>, ICommand
             .IsLowerOrEqualsThan(Sender, 150, Sender)
             .IsNotNullOrWhiteSpace(SenderAddress, SenderAddress)
             .IsLowerOrEqualsThan(SenderAddress, 250, SenderAddress)
+            .AreNotEquals(PackageId, Guid.Empty, "Id")
             );
     }
 }

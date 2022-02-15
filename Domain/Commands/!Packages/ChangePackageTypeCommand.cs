@@ -17,6 +17,7 @@ public class ChangePackageTypeCommand : Notifiable<Notification>, ICommand
     public EPackageType Type { get; set; }
     public void Validate()
     {
-        //maybe this don't need to have validations
+        if (Equals(Guid, Guid.Empty))
+            AddNotification("Guid", "Empty Guid");
     }
 }

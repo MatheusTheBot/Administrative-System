@@ -7,7 +7,7 @@ using Domain.Entities;
 namespace Domain.Commands.Packages;
 public class CreatePackageCommand : Notifiable<Notification>, ICommand
 {
-    public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, string itemName = "")
+    public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, string itemName = "Unknown")
     {
         BarCode = barCode;
         ItemName = itemName;
@@ -41,5 +41,10 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
             .IsNotNullOrWhiteSpace(SenderAddress, SenderAddress)
             .IsLowerOrEqualsThan(SenderAddress, 250, SenderAddress)
             );
+        foreach(var item in BarCode)
+        {
+            if (!char.IsDigit(item))
+                AddNotification(BarCode, "Invalid BarCode");
+        }
     }
 }
