@@ -85,12 +85,6 @@ public class PackagesCommandsTests
         var command = new ChangePackageTypeCommand(Guid.Empty, Type);
         Assert.AreEqual(false, command.IsValid);
     }
-    //[TestMethod]
-    //public void DadoUmTypeInválidoChangeTypeCommandDeveRetornarErro()
-    //{
-    //    var command = new ChangePackageTypeCommand(Id, Type);
-    //    Assert.AreEqual(false, command.IsValid);
-    //}
     [TestMethod]
     public void DadoUmChangeTypeCommandVálidoCommandDeveRetornarTrue()
     {
