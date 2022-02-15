@@ -21,10 +21,11 @@ public class ChangeNameVisitantCommand : Notifiable<Notification>, ICommand
     {
         AddNotifications(new Contract<Notification>()
             .Requires()
+            .IsNotNullOrWhiteSpace(FirstName, FirstName)
+            .IsNotNullOrWhiteSpace(LastName, LastName)
             .IsGreaterOrEqualsThan(FirstName.Length, 3, FirstName)
             .IsGreaterOrEqualsThan(LastName.Length, 3, LastName)
-            .IsNullOrWhiteSpace(FirstName, FirstName)
-            .IsNullOrWhiteSpace(LastName, LastName)
+            .IsFalse(Equals(Id, Guid.Empty), "Id")
             );
     }
 }

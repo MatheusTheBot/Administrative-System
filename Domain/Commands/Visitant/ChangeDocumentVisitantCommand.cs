@@ -26,6 +26,7 @@ public class ChangeDocumentVisitantCommand : Notifiable<Notification>, ICommand
         AddNotifications(new Contract<Notification>()
             .Requires()
             .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
+            .AreNotEquals(Id, Guid.Empty, "Document")
             );
 
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)

@@ -24,6 +24,7 @@ public class ChangePhoneNumberVisitantCommand : Notifiable<Notification>, IComma
             .Requires()
             .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
             .IsBetween(PhoneNumber.Length, 10, 13, PhoneNumber)
+            .AreNotEquals(Id, Guid.Empty, "Phone")
             );
         foreach(char c in PhoneNumber)
         {

@@ -22,6 +22,7 @@ public class ChangeEmailVisitantCommand : Notifiable<Notification>, ICommand
         .Requires()
         .IsNotNullOrWhiteSpace(Email, Email)
         .IsEmail(Email, Email)
+        .AreNotEquals(Id, Guid.Empty, Email)
         );
     }
 }
