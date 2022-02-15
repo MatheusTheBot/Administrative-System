@@ -1,4 +1,6 @@
+using Domain.Entities;
 using Domain.Handlers;
+using Domain.Repository;
 using Infra.Contexts;
 using Infra.Repository;
 using Microsoft.EntityFrameworkCore;
@@ -40,10 +42,10 @@ void SetServices()
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
-    builder.Services.AddTransient<ResidentRepository, ResidentRepository>();
+    builder.Services.AddScoped<IRepository<Resident>, ResidentRepository>();
     builder.Services.AddTransient<ResidentHandler, ResidentHandler>();
-    builder.Services.AddTransient<VisitantRepository, VisitantRepository>();
+    builder.Services.AddScoped<IRepository<Visitant>, VisitantRepository>();
     builder.Services.AddTransient<VisitantHandler, VisitantHandler>();
-    builder.Services.AddTransient<PackageRepository, PackageRepository>();
+    builder.Services.AddScoped<IRepository<Packages>, PackageRepository>();
     builder.Services.AddTransient<PackagesHandler, PackagesHandler>();
 }
