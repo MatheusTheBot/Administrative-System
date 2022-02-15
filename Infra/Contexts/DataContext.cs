@@ -39,7 +39,7 @@ public class DataContext : DbContext
         //Packages Mapping
         modelBuilder.Entity<Packages>().Property(x => x.Id).IsRequired();
         modelBuilder.Entity<Packages>().Property(x => x.ItemName).HasColumnType("varchar(150)").HasColumnName("Item name");
-        modelBuilder.Entity<Packages>().Property(x => x.BarCode).HasColumnType("varchar(30)");
+        modelBuilder.Entity<Packages>().Property(x => x.BarCode).HasColumnType("varchar(13)");
         modelBuilder.Entity<Packages>().Property(x => x.Type).HasConversion<int>();
         modelBuilder.Entity<Packages>().Property(x => x.Addressee).HasColumnType("varchar(250)").HasColumnName("Addressed to");
         modelBuilder.Entity<Packages>().Property(x => x.Sender).HasColumnType("varchar(150)");

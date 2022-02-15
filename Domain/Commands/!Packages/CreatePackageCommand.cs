@@ -26,17 +26,12 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
     public string Sender { get;  set; }
     public string SenderAddress { get;  set; }
 
-    public Entities.Packages GetPackages()
-    {
-        return new Entities.Packages(BarCode, Type, Addressee, Sender, SenderAddress, ItemName);
-    }
-
     public void Validate()
     {
         AddNotifications(new Contract<Notification>()
             .Requires()
             .IsNotNullOrWhiteSpace(BarCode, BarCode)
-            .AreEquals(BarCode.Length, 30, BarCode)
+            .AreEquals(BarCode.Length, 13, BarCode)
             .IsNotNull(ItemName, ItemName)
             .IsLowerOrEqualsThan(ItemName.Length, 150, ItemName)
             .IsNotNullOrWhiteSpace(Addressee, Addressee)
