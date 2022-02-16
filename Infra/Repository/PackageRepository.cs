@@ -26,12 +26,12 @@ public class PackageRepository : IRepository<Packages>
         Context.SaveChanges();
     }
 
-    public Packages GetById(Guid id)
+    public Packages? GetById(Guid id)
     {
         return Context.Packages.FirstOrDefault(Queries<Packages>.GetById(id));
     }
 
-    public Packages GetById(int id, int id2)
+    public Packages? GetById(int id, int id2)
     {
         return Context.Packages.Find(id, id2);
     }

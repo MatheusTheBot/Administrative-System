@@ -31,12 +31,12 @@ public class VisitantRepository : IRepository<Visitant>
         Context.SaveChanges();
     }
 
-    public Visitant GetById(Guid id)
+    public Visitant? GetById(Guid id)
     {
         return Context.Visitant.FirstOrDefault(Queries<Visitant>.GetById(id));
     }
 
-    public Visitant GetById(int id, int id2)
+    public Visitant? GetById(int id, int id2)
     {
         return Context.Visitant.Find(id, id2);
     }

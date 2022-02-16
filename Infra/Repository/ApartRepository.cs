@@ -24,12 +24,12 @@ public class ApartRepository : IRepository<Apart>
         Context.SaveChanges();
     }
 
-    public Apart GetById(Guid id)
+    public Apart? GetById(Guid id)
     {
         return null; //
     }
 
-    public Apart GetById(int id, int id2)
+    public Apart? GetById(int id, int id2)
     {
         return Context.Aparts.Find(id, id2);
     }

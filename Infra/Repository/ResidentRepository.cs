@@ -26,12 +26,12 @@ public class ResidentRepository : IRepository<Resident>
         Context.SaveChanges();
     }
 
-    public Resident GetById(Guid id)
+    public Resident? GetById(Guid id)
     {
         return Context.Residents.FirstOrDefault(Queries<Resident>.GetById(id));
     }
 
-    public Resident GetById(int id, int id2)
+    public Resident? GetById(int id, int id2)
     {
         return Context.Residents.Find(id, id2);
     }
