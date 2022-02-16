@@ -13,6 +13,10 @@ public class Packages : Entity
         Sender = sender;
         SenderAddress = senderAddress;
     }
+    public Packages()
+    {
+        
+    }
 
     public string BarCode { get; private set; }
     public string ItemName { get; private set;}
@@ -20,6 +24,10 @@ public class Packages : Entity
     public string Addressee { get; private set; }
     public string Sender { get; private set; }
     public string SenderAddress { get; private set; }
+
+    public Apart Apart { get; set; }
+    public int ApartId { get; set; }
+    public int ApartId2 { get; set; }
 
     public void UpdatePackage(Guid comparerId, string newBarCode, string newItemName, EPackageType newType,  string newAddressee, string newSender, string newSenderAddress)
     {

@@ -16,11 +16,20 @@ public class Visitant : Entity
         Active = active;
     }
 
+    public Visitant()
+    {
+
+    }
+
     public Name Name { get; private set; }
     public string Email { get; private set; }
     public string PhoneNumber { get; private set; }
     public Document Document { get; private set; }
     public bool Active { get; private set; } = false;
+
+    public Apart Apart { get; set; }
+    public int ApartId { get; set; }
+    public int ApartId2 { get; set; }
 
     public void ChangeName(Name newName) 
     {

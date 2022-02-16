@@ -10,6 +10,11 @@ public class Apart
         Block = block;
     }
 
+    public Apart()
+    {
+
+    }
+
     private List<Resident> _Residents = new();
     private List<Packages> _Packages = new();
     private List<Visitant> _Visitants = new();

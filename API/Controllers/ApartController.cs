@@ -40,7 +40,7 @@ public class ApartController : ControllerBase
     }
 
     [HttpPut("add/package")]
-    public IActionResult AddPackage([FromServices] PackagesHandler packagesHandler, ApartHandler handler, [FromBody] AddPackageToApartCommand comm)
+    public IActionResult AddPackage([FromServices] PackagesHandler packagesHandler, [FromServices] ApartHandler handler, [FromBody] AddPackageToApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
@@ -59,7 +59,7 @@ public class ApartController : ControllerBase
     }
 
     [HttpPut("add/resident")]
-    public IActionResult AddResident([FromServices] ResidentHandler residentHandler , ApartHandler handler, [FromBody] AddResidentToApartCommand comm)
+    public IActionResult AddResident([FromServices] ResidentHandler residentHandler , [FromServices] ApartHandler handler, [FromBody] AddResidentToApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
@@ -78,7 +78,7 @@ public class ApartController : ControllerBase
     }
 
     [HttpPut("add/visitant")]
-    public IActionResult AddVisitant([FromServices] VisitantHandler visitantHandler, ApartHandler handler, [FromBody] AddVisitantToApartCommand comm)
+    public IActionResult AddVisitant([FromServices] VisitantHandler visitantHandler, [FromServices] ApartHandler handler, [FromBody] AddVisitantToApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));

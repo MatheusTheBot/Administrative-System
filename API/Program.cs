@@ -48,4 +48,6 @@ void SetServices()
     builder.Services.AddTransient<VisitantHandler, VisitantHandler>();
     builder.Services.AddScoped<IRepository<Packages>, PackageRepository>();
     builder.Services.AddTransient<PackagesHandler, PackagesHandler>();
+    builder.Services.AddScoped<IRepository<Apart>, ApartRepository>();
+    builder.Services.AddTransient<ApartHandler, ApartHandler>();
 }
