@@ -1,5 +1,4 @@
-﻿using Domain.Entities;
-using Domain.Entities.Contracts;
+﻿using Domain.Entities.Contracts;
 using System.Linq.Expressions;
 
 namespace Domain.Queries;

@@ -32,7 +32,7 @@ public class VisitantController : ControllerBase
 
         var result = handler.Handle(comm);
 
-        if(result.IsSuccess == false)
+        if (result.IsSuccess == false)
             return BadRequest(new ControllerResult(true, result.Data));
 
         return Ok(new ControllerResult(true, $"Object created successfuly; ID:{result.Data.Id}"));

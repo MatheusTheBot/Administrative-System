@@ -8,15 +8,15 @@ namespace Tests.CommandsTests;
 [TestClass]
 public class VisitantCommandsTest
 {
-    private string FirstName = "Matheus";
-    private string LastName = "Ferreira";
-    private string Email = "matheus.henrique123@gmail.com";
-    private string PhoneNumber = "+55 (41) 9 1234-1234";
-    private EDocumentType DocumentTypeCPF = EDocumentType.CPF;
-    private EDocumentType DocumentTypeCNPJ = EDocumentType.CNPJ;
-    private string DocumentNumberCPF = "123.456.789-12";
-    private string DocumentNumberCNPJ = "67.573.684/0001-91";
-    private bool Active = true;
+    private readonly string FirstName = "Matheus";
+    private readonly string LastName = "Ferreira";
+    private readonly string Email = "matheus.henrique123@gmail.com";
+    private readonly string PhoneNumber = "+55 (41) 9 1234-1234";
+    private readonly EDocumentType DocumentTypeCPF = EDocumentType.CPF;
+    private readonly EDocumentType DocumentTypeCNPJ = EDocumentType.CNPJ;
+    private readonly string DocumentNumberCPF = "123.456.789-12";
+    private readonly string DocumentNumberCNPJ = "67.573.684/0001-91";
+    private readonly bool Active = true;
 
     private readonly Guid Id = Guid.Parse("0ecdb2d6-0021-4c0f-8e4f-14080940715b");
 

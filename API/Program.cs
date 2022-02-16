@@ -42,12 +42,15 @@ void SetServices()
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
-    builder.Services.AddScoped<IRepository<Resident>, ResidentRepository>();
-    builder.Services.AddTransient<ResidentHandler, ResidentHandler>();
-    builder.Services.AddScoped<IRepository<Visitant>, VisitantRepository>();
-    builder.Services.AddTransient<VisitantHandler, VisitantHandler>();
-    builder.Services.AddScoped<IRepository<Packages>, PackageRepository>();
-    builder.Services.AddTransient<PackagesHandler, PackagesHandler>();
-    builder.Services.AddScoped<IRepository<Apart>, ApartRepository>();
+    builder.Services.AddTransient<IRepository<Apart>, ApartRepository>();
     builder.Services.AddTransient<ApartHandler, ApartHandler>();
+
+    builder.Services.AddTransient<IRepository<Resident>, ResidentRepository>();
+    builder.Services.AddTransient<ResidentHandler, ResidentHandler>();
+
+    builder.Services.AddTransient<IRepository<Visitant>, VisitantRepository>();
+    builder.Services.AddTransient<VisitantHandler, VisitantHandler>();
+    
+    builder.Services.AddTransient<IRepository<Packages>, PackageRepository>();
+    builder.Services.AddTransient<PackagesHandler, PackagesHandler>();
 }

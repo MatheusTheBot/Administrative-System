@@ -2,7 +2,6 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
-using Domain.Entities;
 
 namespace Domain.Commands.Packages;
 public class CreatePackageCommand : Notifiable<Notification>, ICommand
@@ -19,12 +18,12 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
         Validate();
     }
 
-    public string BarCode { get;  set; }
-    public string ItemName { get;  set; }
-    public EPackageType Type { get;  set; } = EPackageType.SmallPackage;
-    public string Addressee { get;  set; }
-    public string Sender { get;  set; }
-    public string SenderAddress { get;  set; }
+    public string BarCode { get; set; }
+    public string ItemName { get; set; }
+    public EPackageType Type { get; set; } = EPackageType.SmallPackage;
+    public string Addressee { get; set; }
+    public string Sender { get; set; }
+    public string SenderAddress { get; set; }
 
     public void Validate()
     {
@@ -35,13 +34,13 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
             .IsNotNull(ItemName, ItemName)
             .IsLowerOrEqualsThan(ItemName.Length, 150, ItemName)
             .IsNotNullOrWhiteSpace(Addressee, Addressee)
-            .IsLowerOrEqualsThan(Addressee.Length, 250, Addressee) 
+            .IsLowerOrEqualsThan(Addressee.Length, 250, Addressee)
             .IsNotNullOrWhiteSpace(Sender, Sender)
             .IsLowerOrEqualsThan(Sender, 150, Sender)
             .IsNotNullOrWhiteSpace(SenderAddress, SenderAddress)
             .IsLowerOrEqualsThan(SenderAddress, 250, SenderAddress)
             );
-        foreach(var item in BarCode)
+        foreach (var item in BarCode)
         {
             if (!char.IsDigit(item))
                 AddNotification(BarCode, "Invalid BarCode");

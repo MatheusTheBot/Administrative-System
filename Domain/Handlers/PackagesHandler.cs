@@ -6,7 +6,7 @@ using Flunt.Notifications;
 using System.Data.Common;
 
 namespace Domain.Handlers;
-public class PackagesHandler : Notifiable<Notification>, 
+public class PackagesHandler : Notifiable<Notification>,
         IHandler<CreatePackageCommand>,
         IHandler<UpdatePackageCommand>,
         IHandler<ChangePackageTypeCommand>

@@ -14,10 +14,6 @@ public class VisitantRepository : IRepository<Visitant>
     }
 
     public DataContext Context { get; set; }
-    public void Add<U>(Entity entity) where U : Apart
-    {
-        // don't use
-    }
 
     public void Create(Visitant entity)
     {

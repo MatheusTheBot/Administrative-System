@@ -14,15 +14,15 @@ namespace Tests.CommandsTests
         private readonly int Number = 241;
         private readonly int Block = 5;
 
-        private string FirstName = "Matheus";
-        private string LastName = "Ferreira";
-        private string Email = "matheus.henrique123@gmail.com";
-        private string PhoneNumber = "+55 (41) 9 1234-1234";
-        private EDocumentType DocumentTypeCPF = EDocumentType.CPF;
+        private readonly string FirstName = "Matheus";
+        private readonly string LastName = "Ferreira";
+        private readonly string Email = "matheus.henrique123@gmail.com";
+        private readonly string PhoneNumber = "+55 (41) 9 1234-1234";
+        private readonly EDocumentType DocumentTypeCPF = EDocumentType.CPF;
         //private EDocumentType DocumentTypeCNPJ = EDocumentType.CNPJ;
-        private string DocumentNumberCPF = "123.456.789-12";
+        private readonly string DocumentNumberCPF = "123.456.789-12";
         //private string DocumentNumberCNPJ = "67.573.684/0001-91";
-        private bool Active = true;
+        private readonly bool Active = true;
 
         private readonly string BarCode = "9781234567897";
         private readonly string ItemName = "Battle Rifle";

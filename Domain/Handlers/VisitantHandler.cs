@@ -7,7 +7,7 @@ using Flunt.Notifications;
 using System.Data.Common;
 
 namespace Domain.Handlers;
-public class VisitantHandler : Notifiable<Notification>, 
+public class VisitantHandler : Notifiable<Notification>,
         IHandler<CreateVisitantCommand>,
         IHandler<ChangeNameVisitantCommand>,
         IHandler<ChangeEmailVisitantCommand>,
@@ -25,7 +25,7 @@ public class VisitantHandler : Notifiable<Notification>,
 
     public IHandlerResult Handle(CreateVisitantCommand command)
     {
-        if(!command.IsValid)
+        if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
         var visitant = new Visitant(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Active);

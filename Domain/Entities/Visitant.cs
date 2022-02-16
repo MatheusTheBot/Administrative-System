@@ -1,8 +1,5 @@
 using Domain.Entities.Contracts;
-using Domain.Enums;
 using Domain.ValueObjects;
-using Flunt.Notifications;
-using Flunt.Validations;
 
 namespace Domain.Entities;
 public class Visitant : Entity
@@ -31,7 +28,7 @@ public class Visitant : Entity
     public int ApartId { get; set; }
     public int ApartId2 { get; set; }
 
-    public void ChangeName(Name newName) 
+    public void ChangeName(Name newName)
     {
         Name = newName;
     }

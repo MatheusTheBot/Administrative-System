@@ -1,7 +1,7 @@
 ﻿namespace Domain.Repository;
 public interface IRepository<T>
 {
-    
+
     void Create(T entity);
     T? GetById(Guid id);
     T? GetById(int id, int id2);

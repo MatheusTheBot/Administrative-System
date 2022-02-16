@@ -13,8 +13,8 @@ public class CreateApartCommand : Notifiable<Notification>, ICommand
         Validate();
     }
 
-    public int Number { get;  set; }
-    public int Block { get;  set; }
+    public int Number { get; set; }
+    public int Block { get; set; }
 
     public void Validate()
     {

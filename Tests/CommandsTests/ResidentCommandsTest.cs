@@ -152,7 +152,7 @@ public class ResidentCommandsTest
     public void DadoUmLastNamePequenoChangeNameCommandDeveRetornarErro()
     {
         string _name = "ab";
-       var command = new ChangeNameResidentCommand(FirstName, _name, Id);
+        var command = new ChangeNameResidentCommand(FirstName, _name, Id);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]

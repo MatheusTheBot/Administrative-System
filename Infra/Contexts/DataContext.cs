@@ -1,6 +1,4 @@
 ﻿using Domain.Entities;
-using Domain.Enums;
-using Domain.ValueObjects;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Contexts;
@@ -21,7 +19,7 @@ public class DataContext : DbContext
         //Resident Mapping
         modelBuilder.Entity<Resident>().ToTable("Residents");
         modelBuilder.Entity<Resident>().Property(x => x.Id).IsRequired();
-        modelBuilder.Entity<Resident>().OwnsOne(x=> x.Name, x=> x.Property(x=> x.FirstName).HasColumnType("varchar(120)").HasColumnName("First name"));
+        modelBuilder.Entity<Resident>().OwnsOne(x => x.Name, x => x.Property(x => x.FirstName).HasColumnType("varchar(120)").HasColumnName("First name"));
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Name, x => x.Property(x => x.LastName).HasColumnType("varchar(120)").HasColumnName("Last name"));
         modelBuilder.Entity<Resident>().Property(x => x.PhoneNumber).HasColumnType("varchar(13)").HasColumnName("Phone number");
         modelBuilder.Entity<Resident>().Property(x => x.Email).HasColumnType("nvarchar(300)");

@@ -10,10 +10,10 @@ namespace Domain.Handlers;
 public class ApartHandler : Notifiable<Notification>,
         IHandler<CreateApartCommand>,
         IHandler<AddPackageToApartCommand>,
-        IHandler<AddResidentToApartCommand>, 
+        IHandler<AddResidentToApartCommand>,
         IHandler<AddVisitantToApartCommand>,
         IHandler<DeletePackageFromApartCommand>,
-        IHandler<DeleteResidentFromApartCommand>, 
+        IHandler<DeleteResidentFromApartCommand>,
         IHandler<DeleteVisitantFromApartCommand>
 {
     private readonly IRepository<Apart> Repos;
@@ -63,7 +63,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         try
         {
-             search = Repos.GetById(command.Apart, command.Block);
+            search = Repos.GetById(command.Apart, command.Block);
         }
         catch (DbException)
         {
@@ -107,7 +107,7 @@ public class ApartHandler : Notifiable<Notification>,
         if (search == null)
             return new HandlerResult(false, "Apart not found");
 
-        var resident = new Resident(new Name(command.Resident.FirstName,command.Resident.LastName), command.Resident.Email, command.Resident.PhoneNumber, new Document(command.Resident.Type, command.Resident.DocumentNumber));
+        var resident = new Resident(new Name(command.Resident.FirstName, command.Resident.LastName), command.Resident.Email, command.Resident.PhoneNumber, new Document(command.Resident.Type, command.Resident.DocumentNumber));
 
         search.AddResident(resident);
 

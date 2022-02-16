@@ -9,6 +9,6 @@ public class ControllerResult : IControllerResult
         Data = data;
     }
 
-    public bool IsSuccess { get ; set ; }
-    public object Data { get ; set ; }
+    public bool IsSuccess { get; set; }
+    public object Data { get; set; }
 }

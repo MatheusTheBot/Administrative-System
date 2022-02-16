@@ -1,6 +1,4 @@
-﻿using Flunt.Notifications;
-
-namespace Domain.Entities.Contracts;
+﻿namespace Domain.Entities.Contracts;
 
 public abstract class Entity
 {

@@ -11,8 +11,8 @@ public class ApartController : ControllerBase
 {
 
     //Queries
-    [HttpGet("get/{Apart},{Block}")]
-    public IActionResult GetById([FromServices] ApartRepository repo, [FromRoute] int Apart, int Block)
+    [HttpGet("get/{int Apart}/{int Block}")]
+    public IActionResult GetById([FromServices] ApartRepository repo, [FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
             return NotFound(new ControllerResult(false, "Invalid Id"));
@@ -47,7 +47,7 @@ public class ApartController : ControllerBase
 
         var result = handler.Handle(comm);
 
-        if(result.IsSuccess == false)
+        if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
 
         var packResult = packagesHandler.Handle(comm.Package);
@@ -59,7 +59,7 @@ public class ApartController : ControllerBase
     }
 
     [HttpPut("add/resident")]
-    public IActionResult AddResident([FromServices] ResidentHandler residentHandler , [FromServices] ApartHandler handler, [FromBody] AddResidentToApartCommand comm)
+    public IActionResult AddResident([FromServices] ResidentHandler residentHandler, [FromServices] ApartHandler handler, [FromBody] AddResidentToApartCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));

@@ -7,7 +7,7 @@ using Flunt.Notifications;
 using System.Data.Common;
 
 namespace Domain.Handlers;
-public class ResidentHandler :Notifiable<Notification>,
+public class ResidentHandler : Notifiable<Notification>,
         IHandler<CreateResidentCommand>,
         IHandler<ChangeNameResidentCommand>,
         IHandler<ChangeEmailResidentCommand>,

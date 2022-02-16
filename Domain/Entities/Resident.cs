@@ -14,7 +14,7 @@ public class Resident : Entity
 
     public Resident()
     {
-       
+
     }
 
     public Name Name { get; private set; }
@@ -42,7 +42,7 @@ public class Resident : Entity
     }
 
     public void ChangeDocument(Document newDocument)
-    { 
+    {
         Document = newDocument;
     }
 }

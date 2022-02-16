@@ -10,7 +10,7 @@ namespace API.Controllers;
 public class ResidentControllers : ControllerBase
 {
     [HttpGet("get/{Id}")]
-    public IActionResult GetById([FromServices] ResidentRepository repo, [FromRoute]Guid Id)
+    public IActionResult GetById([FromServices] ResidentRepository repo, [FromRoute] Guid Id)
     {
         var result = repo.GetById(Id);
 
@@ -23,7 +23,7 @@ public class ResidentControllers : ControllerBase
     [HttpPost("add")]
     public IActionResult AddResident([FromServices] ResidentHandler handler, [FromBody] CreateResidentCommand comm)
     {
-        if(!ModelState.IsValid)
+        if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid Resident"));
 
         var result = handler.Handle(comm);

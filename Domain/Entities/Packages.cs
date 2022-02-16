@@ -15,11 +15,11 @@ public class Packages : Entity
     }
     public Packages()
     {
-        
+
     }
 
     public string BarCode { get; private set; }
-    public string ItemName { get; private set;}
+    public string ItemName { get; private set; }
     public EPackageType Type { get; private set; } = EPackageType.SmallPackage;
     public string Addressee { get; private set; }
     public string Sender { get; private set; }
@@ -29,7 +29,7 @@ public class Packages : Entity
     public int ApartId { get; set; }
     public int ApartId2 { get; set; }
 
-    public void UpdatePackage(Guid comparerId, string newBarCode, string newItemName, EPackageType newType,  string newAddressee, string newSender, string newSenderAddress)
+    public void UpdatePackage(Guid comparerId, string newBarCode, string newItemName, EPackageType newType, string newAddressee, string newSender, string newSenderAddress)
     {
         if (Id != comparerId)
             return;

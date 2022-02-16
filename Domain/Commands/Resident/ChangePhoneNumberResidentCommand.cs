@@ -13,7 +13,7 @@ public class ChangePhoneNumberResidentCommand : Notifiable<Notification>, IComma
         Validate();
     }
 
-    public string PhoneNumber { get;  set; }
+    public string PhoneNumber { get; set; }
     public Guid Id { get; set; }
 
     public void Validate()
@@ -26,7 +26,7 @@ public class ChangePhoneNumberResidentCommand : Notifiable<Notification>, IComma
             .IsBetween(PhoneNumber.Length, 10, 13, PhoneNumber)
             .IsFalse(Equals(Id, Guid.Empty), "Id")
             );
-        foreach(char c in PhoneNumber)
+        foreach (char c in PhoneNumber)
         {
             if (!char.IsDigit(c))
             {
