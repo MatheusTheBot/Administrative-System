@@ -4,6 +4,7 @@ using Domain.Handlers.Contracts;
 using Domain.Repository;
 using Domain.ValueObjects;
 using Flunt.Notifications;
+using System.Data.Common;
 
 namespace Domain.Handlers;
 public class ResidentHandler : Notifiable<Notification>,
@@ -24,13 +25,13 @@ public class ResidentHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(true, command.Notifications);
 
-        Resident newResident = new(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Number, command.Block);
+        Resident newResident = new(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber));
 
         try
         {
             repos.Create(newResident);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -48,7 +49,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             resident = repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         };
@@ -78,7 +79,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             resident = repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -108,7 +109,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             resident = repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -138,7 +139,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             resident = repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }

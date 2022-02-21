@@ -4,6 +4,7 @@ using Domain.Handlers.Contracts;
 using Domain.Repository;
 using Domain.ValueObjects;
 using Flunt.Notifications;
+using System.Data.Common;
 
 namespace Domain.Handlers;
 public class VisitantHandler : Notifiable<Notification>,
@@ -27,13 +28,13 @@ public class VisitantHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(false, command.Notifications);
 
-        var visitant = new Visitant(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Active, command.Number, command.Block);
+        var visitant = new Visitant(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Active);
 
         try
         {
             Repos.Create(visitant);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -51,7 +52,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             visitant = Repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         };
@@ -81,7 +82,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             visitant = Repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         };
@@ -111,7 +112,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             visitant = Repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         };
@@ -142,7 +143,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             visitant = Repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         };
@@ -173,7 +174,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             visitant = Repos.GetById(command.Id);
         }
-        catch (Exception)
+        catch (DbException)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         };
