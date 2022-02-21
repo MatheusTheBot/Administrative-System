@@ -1,6 +1,7 @@
 ﻿using Domain.Commands.Resident;
+using Domain.Entities;
 using Domain.Handlers;
-using Infra.Repository;
+using Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -9,10 +10,19 @@ namespace API.Controllers;
 [Route("v1/resident")]
 public class ResidentControllers : ControllerBase
 {
-    [HttpGet("get/{Id}")]
-    public IActionResult GetById([FromServices] ResidentRepository repo, [FromRoute] Guid Id)
+    private readonly IRepository<Resident> Repo;
+    private readonly ResidentHandler Handler;
+
+    public ResidentControllers(IRepository<Resident> repo, ResidentHandler handler)
     {
-        var result = repo.GetById(Id);
+        Repo = repo;
+        Handler = handler;
+    }
+
+    [HttpGet("get/{Id}")]
+    public IActionResult GetById([FromRoute] Guid Id)
+    {
+        var result = Repo.GetById(Id);
 
         if (result == null)
             return NotFound(new ControllerResult(false, "object not found"));
@@ -20,27 +30,14 @@ public class ResidentControllers : ControllerBase
         return Ok(new ControllerResult(true, result));
     }
 
-    [HttpPost("add")]
-    public IActionResult AddResident([FromServices] ResidentHandler handler, [FromBody] CreateResidentCommand comm)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid Resident"));
-
-        var result = handler.Handle(comm);
-
-        if (result.IsSuccess == false)
-            return BadRequest(new ControllerResult(true, result.Data));
-
-        return Ok(new ControllerResult(true, $"Object created successfuly; ID:{result.Data.Id}"));
-    }
 
     [HttpPut("changeDocs")]
-    public IActionResult ChangeDocument([FromServices] ResidentHandler handler, [FromBody] ChangeDocumentResidentCommand comm)
+    public IActionResult ChangeDocument([FromBody] ChangeDocumentResidentCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
@@ -48,12 +45,12 @@ public class ResidentControllers : ControllerBase
     }
 
     [HttpPut("changeEmail")]
-    public IActionResult ChangeEmail([FromServices] ResidentHandler handler, [FromBody] ChangeEmailResidentCommand comm)
+    public IActionResult ChangeEmail([FromBody] ChangeEmailResidentCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
@@ -61,12 +58,12 @@ public class ResidentControllers : ControllerBase
     }
 
     [HttpPut("changeName")]
-    public IActionResult ChangeName([FromServices] ResidentHandler handler, [FromBody] ChangeNameResidentCommand comm)
+    public IActionResult ChangeName([FromBody] ChangeNameResidentCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
@@ -74,12 +71,12 @@ public class ResidentControllers : ControllerBase
     }
 
     [HttpPut("changePhone")]
-    public IActionResult ChangePhone([FromServices] ResidentHandler handler, [FromBody] ChangePhoneNumberResidentCommand comm)
+    public IActionResult ChangePhone([FromBody] ChangePhoneNumberResidentCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));

@@ -10,5 +10,5 @@ public class ControllerResult : IControllerResult
     }
 
     public bool IsSuccess { get; set; }
-    public object Data { get; set; }
+    public dynamic Data { get; set; }
 }

@@ -1,6 +1,7 @@
 ﻿using Domain.Commands.Visitant;
+using Domain.Entities;
 using Domain.Handlers;
-using Infra.Repository;
+using Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
@@ -10,11 +11,20 @@ namespace API.Controllers;
 
 public class VisitantController : ControllerBase
 {
+    private readonly IRepository<Visitant> Repo;
+    private readonly VisitantHandler Handler;
+
+    public VisitantController(IRepository<Visitant> repo, VisitantHandler handler)
+    {
+        Repo = repo;
+        Handler = handler;
+    }
+
     //Queries
     [HttpGet("get/{Id}")]
-    public IActionResult GetById([FromServices] VisitantRepository repo, [FromRoute] Guid Id)
+    public IActionResult GetById([FromRoute] Guid Id)
     {
-        var result = repo.GetById(Id);
+        var result = Repo.GetById(Id);
 
         if (result == null)
             return NotFound(new ControllerResult(false, "object not found"));
@@ -24,82 +34,68 @@ public class VisitantController : ControllerBase
 
 
     //Commands
-    [HttpPost("add")]
-    public IActionResult AddVisitant([FromServices] VisitantHandler handler, [FromBody] CreateVisitantCommand comm)
-    {
-        if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid Visitant"));
-
-        var result = handler.Handle(comm);
-
-        if (result.IsSuccess == false)
-            return BadRequest(new ControllerResult(true, result.Data));
-
-        return Ok(new ControllerResult(true, $"Object created successfuly; ID:{result.Data.Id}"));
-    }
-
     [HttpPut("changeStatus")]
-    public IActionResult ChangeActive([FromServices] VisitantHandler handler, [FromBody] ChangeActiveVisitantCommand comm)
+    public IActionResult ChangeActive([FromBody] ChangeActiveVisitantCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changeDocs")]
-    public IActionResult ChangeDocument([FromServices] VisitantHandler handler, [FromBody] ChangeDocumentVisitantCommand comm)
+    public IActionResult ChangeDocument([FromBody] ChangeDocumentVisitantCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changeEmail")]
-    public IActionResult ChangeEmail([FromServices] VisitantHandler handler, [FromBody] ChangeEmailVisitantCommand comm)
+    public IActionResult ChangeEmail([FromBody] ChangeEmailVisitantCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changeName")]
-    public IActionResult ChangeName([FromServices] VisitantHandler handler, [FromBody] ChangeNameVisitantCommand comm)
+    public IActionResult ChangeName([FromBody] ChangeNameVisitantCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changePhone")]
-    public IActionResult ChangePhone([FromServices] VisitantHandler handler, [FromBody] ChangePhoneNumberVisitantCommand comm)
+    public IActionResult ChangePhone([FromBody] ChangePhoneNumberVisitantCommand comm)
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult(false, "Invalid command"));
 
-        var result = handler.Handle(comm);
+        var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 }
