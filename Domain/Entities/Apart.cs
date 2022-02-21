@@ -7,7 +7,6 @@ public class Apart
         Number = number;
         Block = block;
     }
-
     public Apart()
     {
 

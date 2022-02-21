@@ -4,7 +4,7 @@ using Domain.Enums;
 namespace Domain.Entities;
 public class Packages : Entity
 {
-    public Packages(string barCode, EPackageType type, string addressee, string sender, string senderAddress, string itemName = "")
+    public Packages(string barCode, EPackageType type, string addressee, string sender, string senderAddress, int number, int block, string itemName = "")
     {
         BarCode = barCode;
         ItemName = itemName;
@@ -12,6 +12,8 @@ public class Packages : Entity
         Addressee = addressee;
         Sender = sender;
         SenderAddress = senderAddress;
+        Number = number;
+        Block = block;
     }
     public Packages()
     {
@@ -25,9 +27,10 @@ public class Packages : Entity
     public string Sender { get; private set; }
     public string SenderAddress { get; private set; }
 
+    //nav props
     public Apart Apart { get; set; }
-    public int ApartId { get; set; }
-    public int ApartId2 { get; set; }
+    public int Number { get; set; }
+    public int Block { get; set; }
 
     public void UpdatePackage(Guid comparerId, string newBarCode, string newItemName, EPackageType newType, string newAddressee, string newSender, string newSenderAddress)
     {

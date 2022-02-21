@@ -4,12 +4,14 @@ using Domain.ValueObjects;
 namespace Domain.Entities;
 public class Resident : Entity
 {
-    public Resident(Name name, string email, string phoneNumber, Document document)
+    public Resident(Name name, string email, string phoneNumber, Document document, int number, int block)
     {
         Name = name;
         Email = email;
         PhoneNumber = phoneNumber;
         Document = document;
+        Number = number;
+        Block = block;
     }
 
     public Resident()
@@ -23,8 +25,8 @@ public class Resident : Entity
     public Document Document { get; private set; }
 
     public Apart Apart { get; set; }
-    public int ApartId { get; set; }
-    public int ApartId2 { get; set; }
+    public int Number { get; set; }
+    public int Block { get; set; }
 
     public void ChangeName(Name newName)
     {
