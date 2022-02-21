@@ -4,6 +4,7 @@ using Domain.Repository;
 using Infra.Contexts;
 using Infra.Repository;
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,14 +29,13 @@ void SetConfig()
 
     app.UseRouting();
 
-    app.MapControllers();
-
     app.UseEndpoints(endpts => endpts.MapControllers());
 }
 
 void SetServices()
 {
-    builder.Services.AddControllers();
+    builder.Services.AddControllers().AddJsonOptions(x =>
+                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddControllersAsServices();
 
     //Aqui eu falo qual tipo de Db o EF deve usar
     builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
@@ -50,7 +50,7 @@ void SetServices()
 
     builder.Services.AddTransient<IRepository<Visitant>, VisitantRepository>();
     builder.Services.AddTransient<VisitantHandler, VisitantHandler>();
-    
+
     builder.Services.AddTransient<IRepository<Packages>, PackageRepository>();
     builder.Services.AddTransient<PackagesHandler, PackagesHandler>();
 }
