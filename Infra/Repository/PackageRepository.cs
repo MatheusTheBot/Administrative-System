@@ -7,31 +7,23 @@ using Microsoft.EntityFrameworkCore;
 namespace Infra.Repository;
 public class PackageRepository : IRepository<Packages>
 {
-    public DataContext Context { get; set; }
     public PackageRepository(DataContext context)
     {
         Context = context;
     }
 
+    public DataContext Context { get; set; }
+
     public void Create(Packages entity)
     {
-        var sc = Context.Find<Apart>(entity.Number, entity.Block);
-        if (sc != null)
-        {
-            Context.Packages.Add(entity);
-            Context.SaveChanges();
-        }
+        Context.Packages.Add(entity);
+        Context.SaveChanges();
     }
 
     public void Delete(Packages entity)
     {
-        var sc = Context.Find<Apart>(entity.Number, entity.Block);
-        if (sc != null)
-        {
-            Context.Entry(entity).State = EntityState.Deleted;
-            Context.Packages.Remove(entity);
-            Context.SaveChanges();
-        }
+        Context.Packages.Remove(entity);
+        Context.SaveChanges();
     }
 
     public Packages? GetById(Guid id)
@@ -41,17 +33,12 @@ public class PackageRepository : IRepository<Packages>
 
     public Packages? GetById(int id, int id2)
     {
-        return null;
+        return Context.Packages.Find(id, id2);
     }
 
     public void Update(Packages entity)
     {
-        var sc = Context.Find<Apart>(entity.Number, entity.Block);
-        if (sc != null)
-        {
-            Context.Entry(entity).State = EntityState.Modified;
-            Context.Packages.Update(entity);
-            Context.SaveChanges();
-        }
+        Context.Entry(entity).State = EntityState.Modified;
+        Context.SaveChanges();
     }
 }

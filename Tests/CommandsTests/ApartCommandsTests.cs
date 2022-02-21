@@ -39,9 +39,9 @@ namespace Tests.CommandsTests
 
         public ApartCommandsTests()
         {
-            visitantCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, Number, Block);
-            residentCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Number, Block);
-            packageCommand = new(BarCode, Type, Addressee, Sender, SenderAddress, Number, Block, ItemName);
+            visitantCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
+            residentCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+            packageCommand = new(BarCode, Type, Addressee, Sender, SenderAddress, ItemName);
         }
 
 
@@ -90,7 +90,7 @@ namespace Tests.CommandsTests
         [TestMethod]
         public void DadoVisitantCommandInválidoCommandDeveRetornarErro()
         {
-            CreateVisitantCommand _visitantCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, Number, Block);
+            CreateVisitantCommand _visitantCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
 
             var command = new AddVisitantToApartCommand(Number, Block, _visitantCommand);
             Assert.AreEqual(false, command.IsValid);
@@ -123,7 +123,7 @@ namespace Tests.CommandsTests
         [TestMethod]
         public void DadoUmAddResidentCommandInválidoCommandDeveRetornarErro()
         {
-            CreateResidentCommand _residentCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Number, Block);
+            CreateResidentCommand _residentCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
 
             var command = new AddResidentToApartCommand(Number, Block, _residentCommand);
             Assert.AreEqual(false, command.IsValid);
@@ -156,7 +156,7 @@ namespace Tests.CommandsTests
         [TestMethod]
         public void DadoUmAddpackageCommandInválidoCommandDeveRetornarErro()
         {
-            CreatePackageCommand _package = new("", Type, Addressee, Sender, SenderAddress, Number, Block, ItemName);
+            CreatePackageCommand _package = new("", Type, Addressee, Sender, SenderAddress, ItemName);
 
             var command = new AddPackageToApartCommand(Number, Block, _package);
             Assert.AreEqual(false, command.IsValid);

@@ -17,8 +17,6 @@ public class VisitantCommandsTest
     private readonly string DocumentNumberCPF = "123.456.789-12";
     private readonly string DocumentNumberCNPJ = "67.573.684/0001-91";
     private readonly bool Active = true;
-    private readonly int ApartNumber = 202;
-    private readonly int Apartblock = 4;
 
     private readonly Guid Id = Guid.Parse("0ecdb2d6-0021-4c0f-8e4f-14080940715b");
 
@@ -33,32 +31,32 @@ public class VisitantCommandsTest
     public void DadoUmFirstNamePequenoCommandDeveRetornarErro()
     {
         string _name = "ab";
-        var command = new CreateVisitantCommand(_name, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(_name, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmFirstNameVazioCommandDeveRetornarErro()
     {
-        var command = new CreateVisitantCommand("    ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand("    ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmLastNamePequenoCommandDeveRetornarErro()
     {
         string _name = "ab";
-        var command = new CreateVisitantCommand(FirstName, _name, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, _name, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmLastNameVazioCommandDeveRetornarErro()
     {
-        var command = new CreateVisitantCommand(FirstName, "  ", Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, "  ", Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmEmailVazioCommandDeveRetornarErro()
     {
-        var command = new CreateVisitantCommand(FirstName, LastName, " ", PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, " ", PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -69,7 +67,7 @@ public class VisitantCommandsTest
         // "lhkliakgf.h;hd";
         // "çoerfp9ótp5o´43ot[";
 
-        var command = new CreateVisitantCommand(FirstName, LastName, _email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, _email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -77,7 +75,7 @@ public class VisitantCommandsTest
     {
         var _phone = "12 1234-123";
 
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -85,7 +83,7 @@ public class VisitantCommandsTest
     {
         var _phone = "+55 12 91234-12345";
 
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -96,7 +94,7 @@ public class VisitantCommandsTest
         //"12 /1234-1234"
         //"12 *1234-1234"
 
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -104,7 +102,7 @@ public class VisitantCommandsTest
     {
         var _doc = "123.456.789-1";
 
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -112,25 +110,25 @@ public class VisitantCommandsTest
     {
         var _doc = "123.456.789-123";
 
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmDocumentNumberCorretoEUmDocumentTypeInválidoCommandDeveRetornarErro()
     {
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCNPJ, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCNPJ, DocumentNumberCPF, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmDocumentNumber_2_CorretoEUmDocumentTypeInválidoCommandDeveRetornarErro()
     {
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCNPJ, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCNPJ, Active);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmCommandVálidoCommandDeveRetornarTrue()
     {
-        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
+        var command = new CreateVisitantCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active);
         Assert.AreEqual(true, command.IsValid);
     }
 

@@ -7,31 +7,23 @@ using Microsoft.EntityFrameworkCore;
 namespace Infra.Repository;
 public class ResidentRepository : IRepository<Resident>
 {
-    public DataContext Context { get; set; }
     public ResidentRepository(DataContext context)
     {
         Context = context;
     }
 
+    public DataContext Context { get; set; }
+
     public void Create(Resident entity)
     {
-        var sc = Context.Find<Apart>(entity.Number, entity.Block);
-        if (sc != null)
-        {
-            Context.Residents.Add(entity);
-            Context.SaveChanges();
-        }
+        Context.Residents.Add(entity);
+        Context.SaveChanges();
     }
 
     public void Delete(Resident entity)
     {
-        var sc = Context.Find<Apart>(entity.Number, entity.Block);
-        if (sc != null)
-        {
-            Context.Entry(entity).State = EntityState.Deleted;
-            Context.Residents.Remove(entity);
-            Context.SaveChanges();
-        }
+        Context.Residents.Remove(entity);
+        Context.SaveChanges();
     }
 
     public Resident? GetById(Guid id)
@@ -41,17 +33,13 @@ public class ResidentRepository : IRepository<Resident>
 
     public Resident? GetById(int id, int id2)
     {
-        return null;
+        return Context.Residents.Find(id, id2);
     }
 
     public void Update(Resident entity)
     {
-        var sc = Context.Find<Apart>(entity.Number, entity.Block);
-        if (sc != null)
-        {
-            Context.Entry(entity).State = EntityState.Modified;
-            Context.Residents.Update(entity);
-            Context.SaveChanges();
-        }
+        Context.Entry(entity).State = EntityState.Modified;
+        Context.Residents.Update(entity);
+        Context.SaveChanges();
     }
 }
