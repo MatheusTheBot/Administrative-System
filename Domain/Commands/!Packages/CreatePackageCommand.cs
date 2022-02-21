@@ -6,7 +6,7 @@ using Flunt.Validations;
 namespace Domain.Commands.Packages;
 public class CreatePackageCommand : Notifiable<Notification>, ICommand
 {
-    public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, string itemName = "Unknown")
+    public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, int number, int block, string itemName = "Unknown")
     {
         BarCode = barCode;
         ItemName = itemName;
@@ -14,8 +14,27 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
         Addressee = addressee;
         Sender = sender;
         SenderAddress = senderAddress;
+        Number = number;
+        Block = block;
 
         Validate();
+    }
+    public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, int number, int block)
+    {
+        BarCode = barCode;
+        ItemName = "Unknown";
+        Type = type;
+        Addressee = addressee;
+        Sender = sender;
+        SenderAddress = senderAddress;
+        Number = number;
+        Block = block;
+
+        Validate();
+    }
+    public CreatePackageCommand()
+    {
+
     }
 
     public string BarCode { get; set; }
@@ -24,6 +43,8 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
     public string Addressee { get; set; }
     public string Sender { get; set; }
     public string SenderAddress { get; set; }
+    public int Number { get; set; }
+    public int Block { get; set; }
 
     public void Validate()
     {
@@ -39,6 +60,8 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
             .IsLowerOrEqualsThan(Sender, 150, Sender)
             .IsNotNullOrWhiteSpace(SenderAddress, SenderAddress)
             .IsLowerOrEqualsThan(SenderAddress, 250, SenderAddress)
+            .IsBetween(Number, 1, 99999, "Number")
+            .IsBetween(Block, 1, 99, "Block")
             );
         foreach (var item in BarCode)
         {

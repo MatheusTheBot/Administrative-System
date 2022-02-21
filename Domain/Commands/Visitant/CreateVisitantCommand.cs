@@ -6,7 +6,7 @@ using Flunt.Validations;
 namespace Domain.Commands.Visitant;
 public class CreateVisitantCommand : Notifiable<Notification>, ICommand
 {
-    public CreateVisitantCommand(string firstName, string lastName, string email, string phoneNumber, EDocumentType type, string documentNumber, bool active)
+    public CreateVisitantCommand(string firstName, string lastName, string email, string phoneNumber, EDocumentType type, string documentNumber, bool active, int number, int block)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -15,6 +15,8 @@ public class CreateVisitantCommand : Notifiable<Notification>, ICommand
         Type = type;
         DocumentNumber = documentNumber;
         Active = active;
+        Number = number;
+        Block = block;
 
         Validate();
     }
@@ -26,6 +28,8 @@ public class CreateVisitantCommand : Notifiable<Notification>, ICommand
     public EDocumentType Type { get; set; } = EDocumentType.CPF;
     public string DocumentNumber { get; set; }
     public bool Active { get; set; }
+    public int Number { get; set; }
+    public int Block { get; set; }
 
     public void Validate()
     {
@@ -43,6 +47,8 @@ public class CreateVisitantCommand : Notifiable<Notification>, ICommand
             .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
             .IsBetween(PhoneNumber.Length, 10, 13, PhoneNumber)
             .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
+            .IsBetween(Number, 1, 99999, "Number")
+            .IsBetween(Block, 1, 99, "Block")
             );
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)
             AddNotification(DocumentNumber, "Invalid document");
