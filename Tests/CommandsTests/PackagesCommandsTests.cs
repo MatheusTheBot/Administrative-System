@@ -14,6 +14,8 @@ public class PackagesCommandsTests
     private readonly string Addressee = "R. MyStreetName, MyCity, Earth";
     private readonly string Sender = "Noble Six";
     private readonly string SenderAddress = "Uplift Reserve, New Mombasa, Earth";
+    private readonly int Apart = 202;
+    private readonly int Block = 4;
 
     private readonly Guid Id = Guid.Parse("0ecdb2d6-0021-4c0f-8e4f-14080940715b");
 
@@ -24,54 +26,54 @@ public class PackagesCommandsTests
     public void DadoUmBarCodePequenoCommandDeveRetornarErro()
     {
         var _barcode = "12345678912";
-        var command = new CreatePackageCommand(_barcode, Type, Addressee, Sender, SenderAddress, ItemName);
+        var command = new CreatePackageCommand(_barcode, Type, Addressee, Sender, SenderAddress, Apart, Block, ItemName);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmBarCodeGrandeCommandDeveRetornarErro()
     {
         var _barcode = "12345678912345";
-        var command = new CreatePackageCommand(_barcode, Type, Addressee, Sender, SenderAddress, ItemName);
+        var command = new CreatePackageCommand(_barcode, Type, Addressee, Sender, SenderAddress, Apart, Block, ItemName);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmBarCodeVazioCommandDeveRetornarErro()
     {
         var _barcode = "    ";
-        var command = new CreatePackageCommand(_barcode, Type, Addressee, Sender, SenderAddress, ItemName);
+        var command = new CreatePackageCommand(_barcode, Type, Addressee, Sender, SenderAddress, Apart, Block, ItemName);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmAddresseVazioCommandDeveRetornarErro()
     {
         var _addressee = "    ";
-        var command = new CreatePackageCommand(BarCode, Type, _addressee, Sender, SenderAddress, ItemName);
+        var command = new CreatePackageCommand(BarCode, Type, _addressee, Sender, SenderAddress, Apart, Block, ItemName);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmSenderVazioCommandDeveRetornarErro()
     {
         var _sender = "    ";
-        var command = new CreatePackageCommand(BarCode, Type, Addressee, _sender, SenderAddress, ItemName);
+        var command = new CreatePackageCommand(BarCode, Type, Addressee, _sender, SenderAddress, Apart, Block, ItemName);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmSenderAddressVazioCommandDeveRetornarErro()
     {
         var _senderAdress = "    ";
-        var command = new CreatePackageCommand(BarCode, Type, Addressee, Sender, _senderAdress, ItemName);
+        var command = new CreatePackageCommand(BarCode, Type, Addressee, Sender, _senderAdress, Apart, Block, ItemName);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmItemNameVazioCommandDeveRetornarTrue()
     {
-        var command = new CreatePackageCommand(BarCode, Type, Addressee, Sender, SenderAddress);
+        var command = new CreatePackageCommand(BarCode, Type, Addressee, Sender, SenderAddress, Apart, Block);
         Assert.AreEqual(true, command.IsValid);
     }
     [TestMethod]
     public void DadoUmCommandVálidoCommandDeveRetornarTrue()
     {
-        var command = new CreatePackageCommand(BarCode, Type, Addressee, Sender, SenderAddress, ItemName);
+        var command = new CreatePackageCommand(BarCode, Type, Addressee, Sender, SenderAddress, Apart, Block, ItemName);
         Assert.AreEqual(true, command.IsValid);
     }
 
