@@ -16,6 +16,8 @@ public class ResidentCommandsTest
     private readonly EDocumentType DocumentTypeCNPJ = EDocumentType.CNPJ;
     private readonly string DocumentNumberCPF = "123.456.789-12";
     private readonly string DocumentNumberCNPJ = "67.573.684/0001-91";
+    private readonly int Apart = 202;
+    private readonly int Block = 4;
 
     private readonly Guid Id = Guid.Parse("0ecdb2d6-0021-4c0f-8e4f-14080940715b");
 
@@ -30,32 +32,32 @@ public class ResidentCommandsTest
     public void DadoUmFirstNamePequenoCommandDeveRetornarErro()
     {
         string _name = "ab";
-        var command = new CreateResidentCommand(_name, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(_name, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmFirstNameVazioCommandDeveRetornarErro()
     {
-        var command = new CreateResidentCommand("    ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand("    ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmLastNamePequenoCommandDeveRetornarErro()
     {
         string _name = "ab";
-        var command = new CreateResidentCommand(FirstName, _name, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, _name, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmLastNameVazioCommandDeveRetornarErro()
     {
-        var command = new CreateResidentCommand(FirstName, "  ", Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, "  ", Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmEmailVazioCommandDeveRetornarErro()
     {
-        var command = new CreateResidentCommand(FirstName, LastName, " ", PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, LastName, " ", PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -66,7 +68,7 @@ public class ResidentCommandsTest
         // "lhkliakgf.h;hd";
         // "çoerfp9ótp5o´43ot[";
 
-        var command = new CreateResidentCommand(FirstName, LastName, _email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, LastName, _email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -74,7 +76,7 @@ public class ResidentCommandsTest
     {
         var _phone = "12 1234-123";
 
-        var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -82,7 +84,7 @@ public class ResidentCommandsTest
     {
         var _phone = "+55 12 91234-12345";
 
-        var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -93,7 +95,7 @@ public class ResidentCommandsTest
         //"12 /1234-1234"
         //"12 *1234-1234"
 
-        var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -101,7 +103,7 @@ public class ResidentCommandsTest
     {
         var _doc = "123.456.789-1";
 
-        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
@@ -109,25 +111,25 @@ public class ResidentCommandsTest
     {
         var _doc = "123.456.789-123";
 
-        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, _doc, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmDocumentNumberCorretoEUmDocumentTypeInválidoCommandDeveRetornarErro()
     {
-        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCNPJ, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCNPJ, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmDocumentNumber_2_CorretoEUmDocumentTypeInválidoCommandDeveRetornarErro()
     {
-        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCNPJ);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCNPJ, Apart, Block);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
     public void DadoUmCommandVálidoCommandDeveRetornarTrue()
     {
-        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF);
+        var command = new CreateResidentCommand(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block);
         Assert.AreEqual(true, command.IsValid);
     }
 

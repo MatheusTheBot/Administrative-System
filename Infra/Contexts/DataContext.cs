@@ -30,11 +30,11 @@ public class DataContext : DbContext
 
         //Apart Mapping
         modelBuilder.Entity<Apart>().ToTable("Aparts");
-        modelBuilder.Entity<Apart>().Property(x => x.Number).HasColumnType("int(5)").HasColumnName("Apart number").IsRequired();
-        modelBuilder.Entity<Apart>().Property(x => x.Block).HasColumnType("int(2)").HasColumnName("Apart block").IsRequired();
-        modelBuilder.Entity<Apart>().HasMany(x => x.Residents).WithOne(x => x.Apart).HasForeignKey(x => new { x.ApartId, x.ApartId2 });
-        modelBuilder.Entity<Apart>().HasMany(x => x.Packages).WithOne(x => x.Apart).HasForeignKey(x => new { x.ApartId, x.ApartId2 });
-        modelBuilder.Entity<Apart>().HasMany(x => x.Visitants).WithOne(x => x.Apart).HasForeignKey(x => new { x.ApartId, x.ApartId2 });
+        modelBuilder.Entity<Apart>().Property(x => x.Number).HasColumnType("int").HasColumnName("Apart number").IsRequired();
+        modelBuilder.Entity<Apart>().Property(x => x.Block).HasColumnType("int").HasColumnName("Apart block").IsRequired();
+        modelBuilder.Entity<Apart>().HasMany(x => x.Residents).WithOne(x => x.Apart).HasForeignKey(x => new { x.Number, x.Block });
+        modelBuilder.Entity<Apart>().HasMany(x => x.Packages).WithOne(x => x.Apart).HasForeignKey(x => new { x.Number, x.Block });
+        modelBuilder.Entity<Apart>().HasMany(x => x.Visitants).WithOne(x => x.Apart).HasForeignKey(x => new { x.Number, x.Block });
 
         //composite key
         modelBuilder.Entity<Apart>().HasKey(a => new { a.Number, a.Block });
