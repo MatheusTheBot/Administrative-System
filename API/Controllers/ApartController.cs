@@ -101,7 +101,7 @@ public class ApartController : ControllerBase
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
 
-        return Ok(new HandlerResult(true, (Packages)result.Data));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpDelete("delete/resident")]
@@ -114,7 +114,7 @@ public class ApartController : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, (Resident)result.Data));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpDelete("delete/visitant")]
@@ -127,6 +127,6 @@ public class ApartController : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, (Visitant)result.Data));
+        return Ok(new HandlerResult(true, result.Data));
     }
 }
