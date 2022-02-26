@@ -3,7 +3,9 @@ using Domain.Handlers;
 using Domain.Repository;
 using Infra.Contexts;
 using Infra.Repository;
+using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using System.IO.Compression;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -29,13 +31,23 @@ void SetConfig()
 
     app.UseRouting();
 
+    app.UseResponseCompression();
+
     app.UseEndpoints(endpts => endpts.MapControllers());
 }
 
 void SetServices()
 {
     builder.Services.AddControllers().AddJsonOptions(x =>
-                x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddControllersAsServices();
+    {
+        x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    }).AddControllersAsServices();
+
+    builder.Services.AddResponseCompression(opt =>
+    {
+        opt.Providers.Add<GzipCompressionProvider>();
+    });
+    builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
 
     //Aqui eu falo qual tipo de Db o EF deve usar
     builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
