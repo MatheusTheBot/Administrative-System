@@ -61,7 +61,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             repos.Update(resident);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -91,7 +91,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             repos.Update(resident);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -121,7 +121,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             repos.Update(resident);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -151,7 +151,7 @@ public class ResidentHandler : Notifiable<Notification>,
         {
             repos.Update(resident);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }

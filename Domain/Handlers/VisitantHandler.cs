@@ -45,7 +45,7 @@ public class VisitantHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(true, command.Notifications);
 
-        //rehydration
+        //rehydration of a model
         Visitant? visitant;
         try
         {
@@ -64,7 +64,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             Repos.Update(visitant);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -94,7 +94,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             Repos.Update(visitant);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -124,7 +124,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             Repos.Update(visitant);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -155,7 +155,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             Repos.Update(visitant);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
@@ -189,7 +189,7 @@ public class VisitantHandler : Notifiable<Notification>,
         {
             Repos.Update(visitant);
         }
-        catch
+        catch (Exception)
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
