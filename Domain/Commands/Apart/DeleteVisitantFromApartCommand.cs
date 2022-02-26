@@ -1,9 +1,11 @@
 ﻿using Domain.Commands.Contracts;
 using Flunt.Notifications;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Apart;
 public class DeleteVisitantFromApartCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public DeleteVisitantFromApartCommand(int apart, int block, Guid itemId)
     {
         Apart = apart;

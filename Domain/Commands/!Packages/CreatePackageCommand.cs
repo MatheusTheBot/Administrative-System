@@ -2,10 +2,12 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Packages;
 public class CreatePackageCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, int number, int block, string itemName = "Unknown")
     {
         BarCode = barCode;
@@ -18,23 +20,6 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
         Block = block;
 
         Validate();
-    }
-    public CreatePackageCommand(string barCode, EPackageType type, string addressee, string sender, string senderAddress, int number, int block)
-    {
-        BarCode = barCode;
-        ItemName = "Unknown";
-        Type = type;
-        Addressee = addressee;
-        Sender = sender;
-        SenderAddress = senderAddress;
-        Number = number;
-        Block = block;
-
-        Validate();
-    }
-    public CreatePackageCommand()
-    {
-
     }
 
     public string BarCode { get; set; }

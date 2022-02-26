@@ -1,10 +1,12 @@
 ﻿using Domain.Commands.Contracts;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Apart;
 public class CreateApartCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public CreateApartCommand(int number, int block)
     {
         Number = number;

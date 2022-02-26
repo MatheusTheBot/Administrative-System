@@ -1,10 +1,12 @@
 ﻿using Domain.Commands.Contracts;
 using Domain.Commands.Packages;
 using Flunt.Notifications;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Apart;
 public class AddPackageToApartCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public AddPackageToApartCommand(int apart, int block, CreatePackageCommand package)
     {
         Apart = apart;

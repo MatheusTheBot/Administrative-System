@@ -1,10 +1,12 @@
 ﻿using Domain.Commands.Contracts;
 using Domain.Commands.Resident;
 using Flunt.Notifications;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Apart;
 public class AddResidentToApartCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public AddResidentToApartCommand(int apart, int block, CreateResidentCommand resident)
     {
         Apart = apart;

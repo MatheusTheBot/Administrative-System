@@ -1,10 +1,12 @@
 ﻿using Domain.Commands.Contracts;
 using Domain.Enums;
 using Flunt.Notifications;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Packages;
 public class ChangePackageTypeCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public ChangePackageTypeCommand(Guid guid, EPackageType type)
     {
         Guid = guid;

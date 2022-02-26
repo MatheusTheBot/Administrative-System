@@ -2,10 +2,12 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Resident;
 public class ChangeDocumentResidentCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public ChangeDocumentResidentCommand(EDocumentType type, string documentNumber, Guid id)
     {
         Type = type;

@@ -2,10 +2,12 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Resident;
 public class CreateResidentCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public CreateResidentCommand(string firstName, string lastName, string email, string phoneNumber, EDocumentType type, string documentNumber, int number, int block)
     {
         FirstName = firstName;

@@ -2,10 +2,12 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Packages;
 public class UpdatePackageCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public UpdatePackageCommand(Guid packageId, string barCode, EPackageType type, string addressee, string sender, string senderAddress, string itemName = "Unknown")
     {
         PackageId = packageId;
