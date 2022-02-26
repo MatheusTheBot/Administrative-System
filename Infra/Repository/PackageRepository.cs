@@ -15,12 +15,15 @@ public class PackageRepository : IRepository<Packages>
 
     public void Create(Packages entity)
     {
+        var watch = System.Diagnostics.Stopwatch.StartNew();
         var sc = Context.Find<Apart>(entity.Number, entity.Block);
         if (sc != null)
         {
             Context.Packages.Add(entity);
             Context.SaveChanges();
         }
+        watch.Stop();
+        Console.WriteLine($"Create sync run in {watch.ElapsedMilliseconds}");
     }
 
     public void Delete(Packages entity)

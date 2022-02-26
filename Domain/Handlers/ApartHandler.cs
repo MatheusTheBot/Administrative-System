@@ -62,7 +62,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         try
         {
-            search = Repos.GetById(command.Apart, command.Block);
+            search = Repos.GetById(command.Package.Number, command.Package.Block);
         }
         catch (Exception)
         {
@@ -88,7 +88,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         try
         {
-            search = Repos.GetById(command.Apart, command.Block);
+            search = Repos.GetById(command.Resident.Number, command.Resident.Block);
         }
         catch (Exception)
         {
@@ -122,7 +122,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         try
         {
-            search = Repos.GetById(command.Apart, command.Block);
+            search = Repos.GetById(command.Visitant.Number, command.Visitant.Block);
         }
         catch (Exception)
         {
@@ -156,7 +156,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         try
         {
-            search = Repos.GetById(command.Apart, command.Block);
+            search = Repos.GetById(command.Number, command.Block);
         }
         catch (Exception)
         {
@@ -188,7 +188,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         try
         {
-            search = Repos.GetById(command.Apart, command.Block);
+            search = Repos.GetById(command.Number, command.Block);
         }
         catch (Exception)
         {
@@ -221,7 +221,7 @@ public class ApartHandler : Notifiable<Notification>,
 
         try
         {
-            search = Repos.GetById(command.Apart, command.Block);
+            search = Repos.GetById(command.Number, command.Block);
         }
         catch (Exception)
         {

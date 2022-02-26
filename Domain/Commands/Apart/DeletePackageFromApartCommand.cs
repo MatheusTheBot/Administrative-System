@@ -6,22 +6,22 @@ namespace Domain.Commands.Apart;
 public class DeletePackageFromApartCommand : Notifiable<Notification>, ICommand
 {
     [JsonConstructor]
-    public DeletePackageFromApartCommand(int apart, int block, Guid itemId)
+    public DeletePackageFromApartCommand(int number, int block, Guid itemId)
     {
-        Apart = apart;
+        Number = number;
         Block = block;
         ItemId = itemId;
 
         Validate();
     }
 
-    public int Apart { get; set; }
+    public int Number { get; set; }
     public int Block { get; set; }
     public Guid ItemId { get; set; }
 
     public void Validate()
     {
-        if (Apart == 0)
+        if (Number == 0)
             AddNotification(new Notification("Apart", "Apart can't be 0"));
         if (Block == 0)
             AddNotification(new Notification("Block", "Block can't be 0"));
