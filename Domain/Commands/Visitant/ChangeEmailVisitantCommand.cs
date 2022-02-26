@@ -1,10 +1,12 @@
 ﻿using Domain.Commands.Contracts;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Visitant;
 public class ChangeEmailVisitantCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public ChangeEmailVisitantCommand(string email, Guid id)
     {
         Email = email;

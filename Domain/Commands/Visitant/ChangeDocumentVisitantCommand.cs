@@ -2,10 +2,12 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Visitant;
 public class ChangeDocumentVisitantCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public ChangeDocumentVisitantCommand(EDocumentType type, string documentNumber, Guid id)
     {
         Type = type;

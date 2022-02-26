@@ -2,10 +2,12 @@
 using Domain.Enums;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Visitant;
 public class CreateVisitantCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public CreateVisitantCommand(string firstName, string lastName, string email, string phoneNumber, EDocumentType type, string documentNumber, bool active, int number, int block)
     {
         FirstName = firstName;

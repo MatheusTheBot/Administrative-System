@@ -1,10 +1,12 @@
 ﻿using Domain.Commands.Contracts;
 using Flunt.Notifications;
 using Flunt.Validations;
+using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Visitant;
 public class ChangePhoneNumberVisitantCommand : Notifiable<Notification>, ICommand
 {
+    [JsonConstructor]
     public ChangePhoneNumberVisitantCommand(string phoneNumber, Guid id)
     {
         PhoneNumber = phoneNumber;
