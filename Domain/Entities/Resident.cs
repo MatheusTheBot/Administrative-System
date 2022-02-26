@@ -1,5 +1,6 @@
 ﻿using Domain.Entities.Contracts;
 using Domain.ValueObjects;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entities;
 public class Resident : Entity
@@ -24,6 +25,7 @@ public class Resident : Entity
     public string PhoneNumber { get; private set; }
     public Document Document { get; private set; }
 
+    [JsonIgnore]
     public Apart Apart { get; set; }
     public int Number { get; set; }
     public int Block { get; set; }

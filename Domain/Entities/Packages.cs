@@ -1,5 +1,6 @@
 using Domain.Entities.Contracts;
 using Domain.Enums;
+using System.Text.Json.Serialization;
 
 namespace Domain.Entities;
 public class Packages : Entity
@@ -28,6 +29,7 @@ public class Packages : Entity
     public string SenderAddress { get; private set; }
 
     //nav props
+    [JsonIgnore]
     public Apart Apart { get; set; }
     public int Number { get; set; }
     public int Block { get; set; }
