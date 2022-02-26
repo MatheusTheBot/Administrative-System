@@ -12,7 +12,7 @@ public class DataContext : DbContext
     public DbSet<Packages> Packages { get; set; }
     public DbSet<Visitant> Visitant { get; set; }
 
-    //setting the properties with the correct DataType
+    //setting the properties with the correct DataType / FluentAPI
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
