@@ -7,10 +7,6 @@ public class Apart
         Number = number;
         Block = block;
     }
-    public Apart()
-    {
-
-    }
 
     private readonly List<Resident> _Residents = new();
     private readonly List<Packages> _Packages = new();
