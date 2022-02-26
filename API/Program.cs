@@ -36,7 +36,6 @@ void SetServices()
 {
     builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles).AddControllersAsServices();
-    builder.Services.AddMemoryCache();
 
     //Aqui eu falo qual tipo de Db o EF deve usar
     builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));

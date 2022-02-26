@@ -3,7 +3,6 @@ using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace API.Controllers;
 
@@ -22,16 +21,12 @@ public class ApartController : ControllerBase
 
     //Queries
     [HttpGet("get/{Apart}/{Block}")]
-    public IActionResult GetById([FromServices] IMemoryCache cache, [FromRoute] int Apart, [FromRoute] int Block)
+    public IActionResult GetById([FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
             return NotFound(new ControllerResult(false, "Invalid Id"));
 
-        var result = cache.GetOrCreate("ApartCache", entry =>
-        {
-            entry.AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1);
-            return Repo.GetById(Apart, Block);
-        });
+        var result = Repo.GetById(Apart, Block);
 
         if (result == null)
             return NotFound(new ControllerResult(false, "Apart not found"));
