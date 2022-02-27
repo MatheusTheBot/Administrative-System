@@ -8,7 +8,7 @@ namespace Domain.Commands.Resident;
 public class CreateResidentCommand : Notifiable<Notification>, ICommand
 {
     [JsonConstructor]
-    public CreateResidentCommand(string firstName, string lastName, string email, string phoneNumber, EDocumentType type, string documentNumber, int number, int block)
+    public CreateResidentCommand(string firstName, string lastName, string email, string phoneNumber, EDocumentType type, string documentNumber, int number, int block, string password)
     {
         FirstName = firstName;
         LastName = lastName;
@@ -18,6 +18,7 @@ public class CreateResidentCommand : Notifiable<Notification>, ICommand
         DocumentNumber = documentNumber;
         Number = number;
         Block = block;
+        Password = password;
 
         Validate();
     }
@@ -30,6 +31,7 @@ public class CreateResidentCommand : Notifiable<Notification>, ICommand
     public string DocumentNumber { get; set; }
     public int Number { get; set; }
     public int Block { get; set; }
+    public string Password { get; set; }
 
     public void Validate()
     {

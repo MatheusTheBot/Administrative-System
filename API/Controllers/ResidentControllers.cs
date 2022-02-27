@@ -2,12 +2,14 @@
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("v1/resident")]
+[Authorize]
 public class ResidentControllers : ControllerBase
 {
     private readonly IRepository<Resident> Repo;

@@ -97,7 +97,7 @@ public class ApartHandler : Notifiable<Notification>,
         if (search == null)
             return new HandlerResult(false, "Apart not found");
 
-        var resident = new Resident(new Name(command.Resident.FirstName, command.Resident.LastName), command.Resident.Email, command.Resident.PhoneNumber, new Document(command.Resident.Type, command.Resident.DocumentNumber), command.Resident.Number, command.Resident.Block);
+        var resident = new Resident(new Name(command.Resident.FirstName, command.Resident.LastName), command.Resident.Email, command.Resident.PhoneNumber, new Document(command.Resident.Type, command.Resident.DocumentNumber), command.Resident.Number, command.Resident.Block, command.Resident.Password);
 
         search.AddResident(resident);
 

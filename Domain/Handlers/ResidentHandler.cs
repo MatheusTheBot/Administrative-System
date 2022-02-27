@@ -24,7 +24,7 @@ public class ResidentHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(true, command.Notifications);
 
-        Resident newResident = new(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Number, command.Block);
+        Resident newResident = new(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Number, command.Block, command.Password);
 
         try
         {
