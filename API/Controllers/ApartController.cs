@@ -2,12 +2,14 @@
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 
 [ApiController]
 [Route("v1/apart")]
+[Authorize("Admin")]
 public class ApartController : ControllerBase
 {
     private readonly IRepository<Apart> Repo;
@@ -21,7 +23,7 @@ public class ApartController : ControllerBase
 
     //Queries
     [HttpGet("get/{Apart}/{Block}")]
-    public IActionResult GetById([FromRoute] int Apart, [FromRoute] int Block)
+    public IActionResult Get([FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
             return NotFound(new ControllerResult(false, "Invalid Id"));
@@ -33,6 +35,49 @@ public class ApartController : ControllerBase
 
         return Ok(new ControllerResult(true, result));
     }
+
+    [HttpGet("get/all-visitants/{Apart}/{Block}")]
+    public IActionResult GetVisitants([FromRoute] int Apart, [FromRoute] int Block)
+    {
+        if (Block.Equals(0) || Apart.Equals(0))
+            return NotFound(new ControllerResult(false, "Invalid Id"));
+
+        var result = Repo.GetById(Apart, Block);
+
+        if (result == null)
+            return NotFound(new ControllerResult(false, "Apart not found"));
+
+        return Ok(new ControllerResult(true, result.Visitants));
+    }
+
+    [HttpGet("get/all-packages/{Apart}/{Block}")]
+    public IActionResult GetPackages([FromRoute] int Apart, [FromRoute] int Block)
+    {
+        if (Block.Equals(0) || Apart.Equals(0))
+            return NotFound(new ControllerResult(false, "Invalid Id"));
+
+        var result = Repo.GetById(Apart, Block);
+
+        if (result == null)
+            return NotFound(new ControllerResult(false, "Apart not found"));
+
+        return Ok(new ControllerResult(true, result.Packages));
+    }
+
+    [HttpGet("get/all-residents/{Apart}/{Block}")]
+    public IActionResult GetResidents([FromRoute] int Apart, [FromRoute] int Block)
+    {
+        if (Block.Equals(0) || Apart.Equals(0))
+            return NotFound(new ControllerResult(false, "Invalid Id"));
+
+        var result = Repo.GetById(Apart, Block);
+
+        if (result == null)
+            return NotFound(new ControllerResult(false, "Apart not found"));
+
+        return Ok(new ControllerResult(true, result.Residents));
+    }
+
 
     //Commands
     [HttpPost("add")]
