@@ -30,6 +30,7 @@ namespace Tests.CommandsTests
         private readonly string Addressee = "R. MyStreetName, MyCity, Earth";
         private readonly string Sender = "Noble Six";
         private readonly string SenderAddress = "Uplift Reserve, New Mombasa, Earth";
+        private readonly string Password = "46jfgerjkgn";
 
         private readonly CreateVisitantCommand visitantCommand;
         private readonly CreateResidentCommand residentCommand;
@@ -40,7 +41,7 @@ namespace Tests.CommandsTests
         public ApartCommandsTests()
         {
             visitantCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, Number, Block);
-            residentCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Number, Block);
+            residentCommand = new(FirstName, LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Number, Block, Password);
             packageCommand = new(BarCode, Type, Addressee, Sender, SenderAddress, Number, Block, ItemName);
         }
 
@@ -77,14 +78,14 @@ namespace Tests.CommandsTests
         public void DadoUmBlockInválidoAddVisitantCommandDeveRetornarErro()
         {
             int _block = 0;
-            var command = new AddVisitantToApartCommand(Number, _block, visitantCommand);
+            var command = new AddVisitantToApartCommand(visitantCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
         public void DadoUmNumberInválidoAddVisitantCommandDeveRetornarErro()
         {
             int _number = 0;
-            var command = new AddVisitantToApartCommand(_number, Block, visitantCommand);
+            var command = new AddVisitantToApartCommand(visitantCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
@@ -92,13 +93,13 @@ namespace Tests.CommandsTests
         {
             CreateVisitantCommand _visitantCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Active, Number, Block);
 
-            var command = new AddVisitantToApartCommand(Number, Block, _visitantCommand);
+            var command = new AddVisitantToApartCommand(_visitantCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
         public void DadoUmAddVisitantCommandVálidoCommandDeveRetornarTrue()
         {
-            var command = new AddVisitantToApartCommand(Number, Block, visitantCommand);
+            var command = new AddVisitantToApartCommand(visitantCommand);
             Assert.AreEqual(true, command.IsValid);
         }
 
@@ -110,28 +111,28 @@ namespace Tests.CommandsTests
         public void DadoUmBlockInválidoAddResidentCommandDeveRetornarErro()
         {
             int _block = 0;
-            var command = new AddResidentToApartCommand(Number, _block, residentCommand);
+            var command = new AddResidentToApartCommand(residentCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
         public void DadoUmNumberInválidoAddResidentCommandDeveRetornarErro()
         {
             int _number = 0;
-            var command = new AddResidentToApartCommand(_number, Block, residentCommand);
+            var command = new AddResidentToApartCommand(residentCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
         public void DadoUmAddResidentCommandInválidoCommandDeveRetornarErro()
         {
-            CreateResidentCommand _residentCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Number, Block);
+            CreateResidentCommand _residentCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Number, Block, Password);
 
-            var command = new AddResidentToApartCommand(Number, Block, _residentCommand);
+            var command = new AddResidentToApartCommand( _residentCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
         public void DadoUmAddResidentCommandVálidoCommandDeveRetornarTrue()
         {
-            var command = new AddResidentToApartCommand(Number, Block, residentCommand);
+            var command = new AddResidentToApartCommand(residentCommand);
             Assert.AreEqual(true, command.IsValid);
         }
 
@@ -143,14 +144,14 @@ namespace Tests.CommandsTests
         public void DadoUmBlockInválidoAddPackageCommandDeveRetornarErro()
         {
             int _block = 0;
-            var command = new AddPackageToApartCommand(Number, _block, packageCommand);
+            var command = new AddPackageToApartCommand(packageCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
         public void DadoUmNumberInválidoAddPackageCommandDeveRetornarErro()
         {
             int _number = 0;
-            var command = new AddPackageToApartCommand(_number, Block, packageCommand);
+            var command = new AddPackageToApartCommand(packageCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
@@ -158,13 +159,13 @@ namespace Tests.CommandsTests
         {
             CreatePackageCommand _package = new("", Type, Addressee, Sender, SenderAddress, Number, Block, ItemName);
 
-            var command = new AddPackageToApartCommand(Number, Block, _package);
+            var command = new AddPackageToApartCommand(_package);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
         public void DadoUmAddpackageCommandVálidoCommandDeveRetornarTrue()
         {
-            var command = new AddPackageToApartCommand(Number, Block, packageCommand);
+            var command = new AddPackageToApartCommand(packageCommand);
             Assert.AreEqual(true, command.IsValid);
         }
 
