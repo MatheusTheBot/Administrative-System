@@ -1,11 +1,17 @@
+using API.Services;
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
 using Infra.Contexts;
 using Infra.Repository;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.AspNetCore.ResponseCompression;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System.IO.Compression;
+using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -31,6 +37,9 @@ void SetConfig()
 
     app.UseRouting();
 
+    app.UseAuthentication();
+    app.UseAuthorization();
+
     app.UseResponseCompression();
 
     app.UseEndpoints(endpts => endpts.MapControllers());
@@ -43,15 +52,9 @@ void SetServices()
         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
     }).AddControllersAsServices();
 
-    builder.Services.AddResponseCompression(opt =>
-    {
-        opt.Providers.Add<GzipCompressionProvider>();
-    });
-    builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
-
     //Aqui eu falo qual tipo de Db o EF deve usar
-    builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
-    //builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+    //builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
+    builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Sqlserver"]));
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
     builder.Services.AddTransient<IRepository<Apart>, ApartRepository>();
@@ -65,4 +68,52 @@ void SetServices()
 
     builder.Services.AddTransient<IRepository<Packages>, PackageRepository>();
     builder.Services.AddTransient<PackagesHandler, PackagesHandler>();
+
+    builder.Services.AddTransient<IRepository<Administrator>, AdminRepository>();
+    builder.Services.AddTransient<AdministratorHandler, AdministratorHandler>();
+
+    builder.Services.AddTransient<ServiceEmail>();
+
+
+    builder.Services.AddMvc(x =>
+    {
+        var policy = new AuthorizationPolicyBuilder()
+                                .RequireAuthenticatedUser()
+                                .Build();
+        x.Filters.Add(new AuthorizeFilter(policy));
+    });
+
+    //aqui eu add a compressão da resposta, falando o tipo de zip que vou usar e configurar o nivel de compressão...
+    builder.Services.AddResponseCompression(opt =>
+    {
+        opt.Providers.Add<GzipCompressionProvider>();
+    });
+    builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
+
+    //Aqui eu Add a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
+    var key = Encoding.ASCII.GetBytes(ServiceToken.Secret);
+    builder.Services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    }).AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(key),
+            ValidateAudience = false,
+            ValidateIssuer = false
+        };
+    });
+
+    var roles = builder.Configuration["JwtOptions:RoleClaim"];
+    if (string.IsNullOrWhiteSpace(roles)) roles = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+    builder.Services.AddAuthorization(x =>
+    {
+        x.AddPolicy("Admin", p => p.RequireClaim(roles, "Admin"));
+        x.AddPolicy("Resident", p => p.RequireClaim(roles, "Resident"));
+    });
 }
