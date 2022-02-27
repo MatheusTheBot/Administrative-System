@@ -11,6 +11,7 @@ public class DataContext : DbContext
     public DbSet<Apart> Aparts { get; set; }
     public DbSet<Packages> Packages { get; set; }
     public DbSet<Visitant> Visitant { get; set; }
+    public DbSet<Administrator> Administrators { get; set; }
 
     //setting the properties with the correct DataType / FluentAPI
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -25,6 +26,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Resident>().Property(x => x.Email).HasColumnType("nvarchar(300)");
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));
+        modelBuilder.Entity<Resident>().Property(x => x.Password).HasColumnType("varchar(100)").IsRequired();
 
         modelBuilder.Entity<Resident>().HasKey(a => a.Id);
 
@@ -63,5 +65,18 @@ public class DataContext : DbContext
         modelBuilder.Entity<Visitant>().Property(x => x.Active).HasColumnType("bit");
 
         modelBuilder.Entity<Visitant>().HasKey(a => a.Id);
+
+        //Administrator Mapping
+        modelBuilder.Entity<Administrator>().ToTable("Administrators");
+        modelBuilder.Entity<Administrator>().Property(x => x.Id).IsRequired();
+        modelBuilder.Entity<Administrator>().OwnsOne(x => x.Name, x => x.Property(x => x.FirstName).HasColumnType("varchar(120)").HasColumnName("First name"));
+        modelBuilder.Entity<Administrator>().OwnsOne(x => x.Name, x => x.Property(x => x.LastName).HasColumnType("varchar(120)").HasColumnName("Last name"));
+        modelBuilder.Entity<Administrator>().Property(x => x.PhoneNumber).HasColumnType("varchar(13)").HasColumnName("Phone number");
+        modelBuilder.Entity<Administrator>().Property(x => x.Email).HasColumnType("nvarchar(300)");
+        modelBuilder.Entity<Administrator>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
+        modelBuilder.Entity<Administrator>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));
+        modelBuilder.Entity<Administrator>().Property(x => x.Password).HasColumnType("varchar(100)").IsRequired();
+
+        modelBuilder.Entity<Administrator>().HasKey(a => a.Id);
     }
 }
