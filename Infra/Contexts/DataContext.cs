@@ -22,7 +22,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Resident>().Property(x => x.Id).IsRequired();
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Name, x => x.Property(x => x.FirstName).HasColumnType("varchar(120)").HasColumnName("First name"));
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Name, x => x.Property(x => x.LastName).HasColumnType("varchar(120)").HasColumnName("Last name"));
-        modelBuilder.Entity<Resident>().Property(x => x.PhoneNumber).HasColumnType("varchar(13)").HasColumnName("Phone number");
+        modelBuilder.Entity<Resident>().Property(x => x.PhoneNumber).HasColumnType("varchar(14)").HasColumnName("Phone number");
         modelBuilder.Entity<Resident>().Property(x => x.Email).HasColumnType("nvarchar(300)");
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));
@@ -45,7 +45,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Packages>().ToTable("Packages");
         modelBuilder.Entity<Packages>().Property(x => x.Id).IsRequired();
         modelBuilder.Entity<Packages>().Property(x => x.ItemName).HasColumnType("varchar(150)").HasColumnName("Item name");
-        modelBuilder.Entity<Packages>().Property(x => x.BarCode).HasColumnType("varchar(13)");
+        modelBuilder.Entity<Packages>().Property(x => x.BarCode).HasColumnType("varchar(14)");
         modelBuilder.Entity<Packages>().Property(x => x.Type).HasConversion<int>();
         modelBuilder.Entity<Packages>().Property(x => x.Addressee).HasColumnType("varchar(250)").HasColumnName("Addressed to");
         modelBuilder.Entity<Packages>().Property(x => x.Sender).HasColumnType("varchar(150)");
@@ -58,7 +58,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Visitant>().Property(x => x.Id).IsRequired();
         modelBuilder.Entity<Visitant>().OwnsOne(x => x.Name, x => x.Property(x => x.FirstName).HasColumnType("varchar(120)").HasColumnName("First name"));
         modelBuilder.Entity<Visitant>().OwnsOne(x => x.Name, x => x.Property(x => x.LastName).HasColumnType("varchar(120)").HasColumnName("Last name"));
-        modelBuilder.Entity<Visitant>().Property(x => x.PhoneNumber).HasColumnType("varchar(13)").HasColumnName("Phone number");
+        modelBuilder.Entity<Visitant>().Property(x => x.PhoneNumber).HasColumnType("varchar(14)").HasColumnName("Phone number");
         modelBuilder.Entity<Visitant>().Property(x => x.Email).HasColumnType("nvarchar(300)");
         modelBuilder.Entity<Visitant>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
         modelBuilder.Entity<Visitant>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));
@@ -71,7 +71,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Administrator>().Property(x => x.Id).IsRequired();
         modelBuilder.Entity<Administrator>().OwnsOne(x => x.Name, x => x.Property(x => x.FirstName).HasColumnType("varchar(120)").HasColumnName("First name"));
         modelBuilder.Entity<Administrator>().OwnsOne(x => x.Name, x => x.Property(x => x.LastName).HasColumnType("varchar(120)").HasColumnName("Last name"));
-        modelBuilder.Entity<Administrator>().Property(x => x.PhoneNumber).HasColumnType("varchar(13)").HasColumnName("Phone number");
+        modelBuilder.Entity<Administrator>().Property(x => x.PhoneNumber).HasColumnType("varchar(14)").HasColumnName("Phone number");
         modelBuilder.Entity<Administrator>().Property(x => x.Email).HasColumnType("nvarchar(300)");
         modelBuilder.Entity<Administrator>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
         modelBuilder.Entity<Administrator>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));

@@ -44,6 +44,11 @@ public class ResidentRepository : IRepository<Resident>
         return null;
     }
 
+    public Resident? GetById(int Number, int Block, Guid id)
+    {
+        return Context.Residents.Where(x => x.Number == Number && x.Block == Block).FirstOrDefault(Queries<Resident>.GetById(id));
+    }
+
     public void Update(Resident entity)
     {
         var sc = Context.Find<Apart>(entity.Number, entity.Block);

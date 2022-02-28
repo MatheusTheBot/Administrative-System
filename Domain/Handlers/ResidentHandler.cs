@@ -46,7 +46,7 @@ public class ResidentHandler : Notifiable<Notification>,
         Resident? resident;
         try
         {
-            resident = repos.GetById(command.Id);
+            resident = repos.GetById(command.Number, command.Block, command.Id);
         }
         catch (Exception)
         {
@@ -76,7 +76,7 @@ public class ResidentHandler : Notifiable<Notification>,
         Resident? resident;
         try
         {
-            resident = repos.GetById(command.Id);
+            resident = repos.GetById(command.Number, command.Block, command.Id);
         }
         catch (Exception)
         {
@@ -106,7 +106,7 @@ public class ResidentHandler : Notifiable<Notification>,
         Resident? resident;
         try
         {
-            resident = repos.GetById(command.Id);
+            resident = repos.GetById(command.Number, command.Block, command.Id);
         }
         catch (Exception)
         {
@@ -136,7 +136,7 @@ public class ResidentHandler : Notifiable<Notification>,
         Resident? resident;
         try
         {
-            resident = repos.GetById(command.Id);
+            resident = repos.GetById(command.Number, command.Block, command.Id);
         }
         catch (Exception)
         {

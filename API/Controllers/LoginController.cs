@@ -37,7 +37,7 @@ namespace API.Controllers
             }
             if (comm.Role == "Resident")
             {
-                var result = ResiRepo.GetById(comm.Id);
+                var result = ResiRepo.GetById(comm.Number, comm.Block, comm.Id);
 
                 if (result == null)
                     return BadRequest(new ControllerResult(false, "Resident not found"));

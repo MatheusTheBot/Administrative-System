@@ -47,6 +47,11 @@ public class PackageRepository : IRepository<Packages>
         return null;
     }
 
+    public Packages? GetById(int Number, int Block, Guid id)
+    {
+        return Context.Packages.Where(x => x.Number == Number && x.Block == Block).FirstOrDefault(Queries<Packages>.GetById(id));
+    }
+
     public void Update(Packages entity)
     {
         var sc = Context.Find<Apart>(entity.Number, entity.Block);

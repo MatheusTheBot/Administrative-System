@@ -43,7 +43,7 @@ public class CreateAdministratorCommand : Notifiable<Notification>, ICommand
             .IsNotNullOrWhiteSpace(Email, Email)
             .IsEmail(Email, Email)
             .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
-            .IsBetween(PhoneNumber.Length, 10, 13, PhoneNumber)
+            .IsBetween(PhoneNumber.Length, 10, 14, PhoneNumber)
             .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
             );
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)

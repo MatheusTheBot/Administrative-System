@@ -25,7 +25,7 @@ public class ChangePhoneNumberAdministratorCommand : Notifiable<Notification>, I
         AddNotifications(new Contract<Notification>()
             .Requires()
             .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
-            .IsBetween(PhoneNumber.Length, 10, 13, PhoneNumber)
+            .IsBetween(PhoneNumber.Length, 10, 14, PhoneNumber)
             .IsFalse(Equals(Id, Guid.Empty), "Id")
             );
         foreach (char c in PhoneNumber)

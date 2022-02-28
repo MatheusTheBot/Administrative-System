@@ -51,6 +51,10 @@ public class ApartRepository : IRepository<Apart>
         else
             return null;
     }
+    public Apart? GetById(int Number, int Block, Guid id)
+    {
+        return null;
+    }
     public void Update(Apart entity)
     {
         var sc = Context.Find<Apart>(entity.Number, entity.Block);

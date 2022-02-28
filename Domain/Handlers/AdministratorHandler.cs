@@ -24,7 +24,7 @@ public class AdministratorHandler : Notifiable<Notification>,
         if (!command.IsValid)
             return new HandlerResult(true, command.Notifications);
 
-        Administrator newAdministrator = new(new Name(command.FirstName, command.LastName),new Document(command.Type, command.DocumentNumber), command.Email, command.PhoneNumber, command.Password);
+        Administrator newAdministrator = new(new Name(command.FirstName, command.LastName), new Document(command.Type, command.DocumentNumber), command.Email, command.PhoneNumber, command.Password);
 
         try
         {
@@ -63,8 +63,20 @@ public class AdministratorHandler : Notifiable<Notification>,
         }
         catch (Exception)
         {
-            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+            return new HandlerResult(false, "Unable to update data, unable to perform requested operation");
         }
+
+        try
+        {
+            Administrator = repos.GetById(command.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (Administrator == null)
+            return new HandlerResult(false, "Administrator was updated, but now we can't search for him");
+
         return new HandlerResult(true, Administrator);
     }
 
@@ -95,6 +107,18 @@ public class AdministratorHandler : Notifiable<Notification>,
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
+
+        try
+        {
+            Administrator = repos.GetById(command.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (Administrator == null)
+            return new HandlerResult(false, "Administrator was updated, but now we can't search for him");
+
         return new HandlerResult(true, Administrator);
     }
 
@@ -125,6 +149,17 @@ public class AdministratorHandler : Notifiable<Notification>,
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
+
+        try
+        {
+            Administrator = repos.GetById(command.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (Administrator == null)
+            return new HandlerResult(false, "Administrator was updated, but now we can't search for him");
         return new HandlerResult(true, Administrator);
     }
 
@@ -155,6 +190,17 @@ public class AdministratorHandler : Notifiable<Notification>,
         {
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
+
+        try
+        {
+            Administrator = repos.GetById(command.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        };
+        if (Administrator == null)
+            return new HandlerResult(false, "Administrator was updated, but now we can't search for him");
         return new HandlerResult(true, Administrator);
     }
 }

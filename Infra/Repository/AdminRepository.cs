@@ -42,6 +42,11 @@ public class AdminRepository : IRepository<Administrator>
     {
         return null;
     }
+
+    public Administrator? GetById(int Number, int Block, Guid id)
+    {
+        return null;
+    }
     public void Update(Administrator entity)
     {
         var sc = GetById(entity.Id);
