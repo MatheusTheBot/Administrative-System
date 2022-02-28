@@ -7,7 +7,8 @@ using System.Text;
 namespace API.Services;
 public static class ServiceToken
 {
-    public static readonly string Secret = "KxJAOFHjb3kRUfCzPGQnu9YrBl1N6p4c";
+    //Secrets.Json;
+    public static string Secret = "";
 
     public static string GenerateToken(LoginCommand Entity)
     {

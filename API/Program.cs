@@ -91,6 +91,8 @@ void SetServices()
     builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
 
     //Aqui eu Add a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
+    ServiceToken.Secret = builder.Configuration["Keys:TokenGenerateKey"];
+
     var key = Encoding.ASCII.GetBytes(ServiceToken.Secret);
     builder.Services.AddAuthentication(x =>
     {
