@@ -1,10 +1,8 @@
 ﻿namespace Domain.Repository;
 public interface IRepository<T>
 {
-
     void Create(T entity);
-    T? GetById(Guid id);
-    T? GetById(int id, int id2);
+    T? GetById(int Number, int Block, Guid id);
     void Update(T entity);
     void Delete(T entity);
 }
