@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("v1/packages")]
-[Authorize]
+[Authorize("Admin")]
 public class PackagesController : ControllerBase
 {
     private readonly IRepository<Packages> Repo;

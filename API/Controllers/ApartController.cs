@@ -9,7 +9,7 @@ namespace API.Controllers;
 
 [ApiController]
 [Route("v1/apart")]
-[Authorize("Admin")]
+[Authorize]
 public class ApartController : ControllerBase
 {
     private readonly IRepository<Apart> Repo;
@@ -23,6 +23,7 @@ public class ApartController : ControllerBase
 
     //Queries
     [HttpGet("get/{Apart}/{Block}")]
+    [Authorize("Admin")]
     public IActionResult Get([FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
@@ -81,6 +82,7 @@ public class ApartController : ControllerBase
 
     //Commands
     [HttpPost("add")]
+    [Authorize("Admin")]
     public IActionResult AddApart([FromBody] CreateApartCommand comm)
     {
         if (!ModelState.IsValid)
