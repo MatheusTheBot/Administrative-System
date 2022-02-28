@@ -8,11 +8,13 @@ namespace Domain.Commands.Resident;
 public class ChangeDocumentResidentCommand : Notifiable<Notification>, ICommand
 {
     [JsonConstructor]
-    public ChangeDocumentResidentCommand(EDocumentType type, string documentNumber, Guid id)
+    public ChangeDocumentResidentCommand(EDocumentType type, string documentNumber, Guid id, int number = 0, int block = 0)
     {
         Type = type;
         DocumentNumber = documentNumber;
         Id = id;
+        Number = number;
+        Block = block;
 
         Validate();
     }
@@ -20,6 +22,8 @@ public class ChangeDocumentResidentCommand : Notifiable<Notification>, ICommand
     public EDocumentType Type { get; set; } = EDocumentType.CPF;
     public string DocumentNumber { get; set; }
     public Guid Id { get; set; }
+    public int Number { get; set; }
+    public int Block { get; set; }
 
     public void Validate()
     {

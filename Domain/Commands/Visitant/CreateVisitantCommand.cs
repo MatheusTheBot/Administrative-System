@@ -47,7 +47,7 @@ public class CreateVisitantCommand : Notifiable<Notification>, ICommand
             .IsNotNullOrWhiteSpace(Email, Email)
             .IsEmail(Email, Email)
             .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
-            .IsBetween(PhoneNumber.Length, 10, 13, PhoneNumber)
+            .IsBetween(PhoneNumber.Length, 10, 14, PhoneNumber)
             .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
             .IsBetween(Number, 1, 99999, "Number")
             .IsBetween(Block, 1, 99, "Block")

@@ -33,18 +33,6 @@ public class PackagesHandler : Notifiable<Notification>,
         }
         return new HandlerResult(true, pack);
     }
-    public IHandlerResult Handle(Packages entity)
-    {
-        try
-        {
-            Repos.Create(entity);
-        }
-        catch (Exception)
-        {
-            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
-        }
-        return new HandlerResult(true, entity);
-    }
 
     public IHandlerResult Handle(UpdatePackageCommand command)
     {
