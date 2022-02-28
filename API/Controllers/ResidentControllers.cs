@@ -34,6 +34,7 @@ public class ResidentControllers : ControllerBase
 
 
     [HttpPut("changeDocs")]
+    //TODO: Changes may begin just if YOU are the resident to adjust
     public IActionResult ChangeDocument([FromBody] ChangeDocumentResidentCommand comm)
     {
         if (!ModelState.IsValid)
