@@ -43,7 +43,7 @@ public class AdministratorControllers : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changeEmail")]
@@ -56,7 +56,7 @@ public class AdministratorControllers : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changeName")]
@@ -69,7 +69,7 @@ public class AdministratorControllers : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changePhone")]
@@ -82,6 +82,6 @@ public class AdministratorControllers : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 }

@@ -44,7 +44,7 @@ public class PackagesController : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 
     [HttpPut("changeType")]
@@ -57,6 +57,6 @@ public class PackagesController : ControllerBase
 
         if (result.IsSuccess == false)
             return StatusCode(500, new HandlerResult(result.IsSuccess, result.Data));
-        return Ok(new HandlerResult(true, result));
+        return Ok(new HandlerResult(true, result.Data));
     }
 }
