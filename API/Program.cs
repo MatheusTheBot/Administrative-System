@@ -47,6 +47,8 @@ void SetConfig()
 
 void SetServices()
 {
+    //------Note: The comments in this file are in my native language, so I can more easily understand what is going on
+
     builder.Services.AddControllers().AddJsonOptions(x =>
     {
         x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
@@ -90,7 +92,7 @@ void SetServices()
     });
     builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
 
-    //Aqui eu Add a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
+    //Aqui eu adiciono a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
     ServiceToken.Secret = builder.Configuration["Keys:TokenGenerateKey"];
 
     var key = Encoding.ASCII.GetBytes(ServiceToken.Secret);
