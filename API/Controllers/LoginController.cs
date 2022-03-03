@@ -1,7 +1,5 @@
-﻿using API.Services;
-using Domain.Commands.Login;
-using Domain.Entities;
-using Domain.Repository;
+﻿using Domain.Commands.Login;
+using Domain.Handlers;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,13 +9,12 @@ namespace API.Controllers
     [Route("login")]
     public class LoginController : ControllerBase
     {
-        private readonly IRepository<Resident> ResiRepo;
-        private readonly IRepository<Administrator> AdminRepo;
-        public LoginController(IRepository<Resident> resiRepo, IRepository<Administrator> adminRepo)
+        private readonly LoginHandler Handler;
+        public LoginController(LoginHandler handler)
         {
-            ResiRepo = resiRepo;
-            AdminRepo = adminRepo;
+            Handler = handler;
         }
+
         [HttpPost]
         [AllowAnonymous]
         public IActionResult Authenticate([FromBody] LoginCommand comm)
@@ -25,28 +22,15 @@ namespace API.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(new ControllerResult(false, comm.Notifications));
 
+            var login = Handler.Handle(comm);
 
-            if (comm.Role == "Admin")
-            {
-                var result = AdminRepo.GetById(comm.Id);
+            if (login == null)
+                return NotFound(new ControllerResult(false, "Object not found"));
 
-                if (result == null)
-                    return BadRequest(new ControllerResult(false, "Administrator not found"));
-                else
-                    return Ok(new ControllerResult(true, ServiceToken.GenerateToken(comm)));
-            }
-            if (comm.Role == "Resident")
-            {
-                var result = ResiRepo.GetById(comm.Number, comm.Block, comm.Id);
-
-                if (result == null)
-                    return BadRequest(new ControllerResult(false, "Resident not found"));
-                else
-                    return Ok(new ControllerResult(true, ServiceToken.GenerateToken(comm)));
-            }
-
+            if (login.IsSuccess)
+                return Ok(new ControllerResult(true, login.Data));
             else
-                return BadRequest(new ControllerResult(false, "Invalid Login entry(ies)"));
+                return BadRequest(new ControllerResult(false, login.Data));
         }
     }
 }
