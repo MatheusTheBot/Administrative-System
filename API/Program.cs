@@ -17,6 +17,7 @@ using System.Text.Json.Serialization;
 var builder = WebApplication.CreateBuilder(args);
 
 SetServices();
+SetAuthAndCompression();
 
 var app = builder.Build();
 SetConfig();
@@ -28,9 +29,14 @@ void SetConfig()
     if (builder.Environment.IsDevelopment())
     {
         //aqui eu falo que caso esteja rodando em desenvolvimento/debug, 
-        //exeptions do HTTP vão ser lançadas como HTTP caso dê erros
+        //exeptions do HTTP vão ser lançadas como páginas HTTP
         app.UseDeveloperExceptionPage();
+        app.UseExceptionHandler("/error-development");
     }
+    else
+        app.UseExceptionHandler("/error");
+
+
     //aqui eu forço a api a responder e ler somente em HTTPS, convertendo HTTP requests em HTTPS, caso nescesário
     app.UseHttpsRedirection();
     app.UseHsts();
@@ -57,6 +63,7 @@ void SetServices()
     //Aqui eu falo qual tipo de Db o EF deve usar
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
     builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Sqlserver"]));
+    
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
     builder.Services.AddTransient<IRepository<Apart>, ApartRepository>();
@@ -75,8 +82,18 @@ void SetServices()
     builder.Services.AddTransient<AdministratorHandler, AdministratorHandler>();
 
     builder.Services.AddTransient<ServiceEmail>();
+}
+
+void SetAuthAndCompression()
+{
+    //aqui eu add a compressão da resposta, falando o tipo de zip que vou usar e configurar o nivel de compressão...
+    builder.Services.AddResponseCompression(opt =>
+    {
+        opt.Providers.Add<GzipCompressionProvider>();
+    });
 
 
+    builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
     builder.Services.AddMvc(x =>
     {
         var policy = new AuthorizationPolicyBuilder()
@@ -85,15 +102,8 @@ void SetServices()
         x.Filters.Add(new AuthorizeFilter(policy));
     });
 
-    //aqui eu add a compressão da resposta, falando o tipo de zip que vou usar e configurar o nivel de compressão...
-    builder.Services.AddResponseCompression(opt =>
-    {
-        opt.Providers.Add<GzipCompressionProvider>();
-    });
-    builder.Services.Configure<GzipCompressionProviderOptions>(options => options.Level = CompressionLevel.Optimal);
-
     //Aqui eu adiciono a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
-    ServiceToken.Secret = builder.Configuration["Keys:TokenGenerateKey"];
+        ServiceToken.Secret = builder.Configuration["Keys:TokenGenerateKey"];
 
     var key = Encoding.ASCII.GetBytes(ServiceToken.Secret);
     builder.Services.AddAuthentication(x =>
