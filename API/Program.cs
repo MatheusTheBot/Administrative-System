@@ -1,7 +1,7 @@
-using API.Services;
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
+using Domain.Services;
 using Infra.Contexts;
 using Infra.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
