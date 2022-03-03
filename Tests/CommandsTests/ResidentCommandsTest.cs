@@ -11,7 +11,7 @@ public class ResidentCommandsTest
     private readonly string FirstName = "Matheus";
     private readonly string LastName = "Ferreira";
     private readonly string Email = "matheus.henrique123@gmail.com";
-    private readonly string PhoneNumber = "+55 (41) 9 1234-1234";
+    private readonly string PhoneNumber = "+55 (041) 9 1234-1234";
     private readonly EDocumentType DocumentTypeCPF = EDocumentType.CPF;
     private readonly EDocumentType DocumentTypeCNPJ = EDocumentType.CNPJ;
     private readonly string DocumentNumberCPF = "123.456.789-12";
@@ -43,6 +43,12 @@ public class ResidentCommandsTest
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
+    public void DadoUmFirstNameMinimoCommandDeveRetornarTrue()
+    {
+        var command = new CreateResidentCommand("Lou", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block, Password);
+        Assert.AreEqual(true, command.IsValid);
+    }
+    [TestMethod]
     public void DadoUmLastNamePequenoCommandDeveRetornarErro()
     {
         string _name = "ab";
@@ -56,13 +62,19 @@ public class ResidentCommandsTest
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
+    public void DadoUmLastNameMinimoCommandDeveRetornarTrue()
+    {
+        var command = new CreateResidentCommand(FirstName, "Jnr", Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block, Password);
+        Assert.AreEqual(true, command.IsValid);
+    }
+    [TestMethod]
     public void DadoUmEmailVazioCommandDeveRetornarErro()
     {
         var command = new CreateResidentCommand(FirstName, LastName, " ", PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Apart, Block, Password);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
-    public void DadoUmEmailErradoCommandDeveRetornarErro()
+    public void DadoUmEmailInválidoCommandDeveRetornarErro()
     {
         var _email = "çoerfp9ótp5o´43ot[";
         // "lhkliakgfjh";
@@ -83,13 +95,13 @@ public class ResidentCommandsTest
     [TestMethod]
     public void DadoUmPhoneNumberGrandeCommandDeveRetornarErro()
     {
-        var _phone = "+55 12 91234-12345";
+        var _phone = "+55 012 9 1234-1234 5";
 
         var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Apart, Block, Password);
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
-    public void DadoUmPhoneNumberErradoCommandDeveRetornarErro()
+    public void DadoUmPhoneNumberInválidoCommandDeveRetornarErro()
     {
         var _phone = "12 ;1234-1234";
         //"12 a1234-1234"
@@ -98,6 +110,14 @@ public class ResidentCommandsTest
 
         var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Apart, Block, Password);
         Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoUmPhoneNumberMinimoCommandDeveRetornarTrue()
+    {
+        var _phone = "12 1234-1234";
+
+        var command = new CreateResidentCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Apart, Block, Password);
+        Assert.AreEqual(true, command.IsValid);
     }
     [TestMethod]
     public void DadoUmDocumentNumberPequenoCommandDeveRetornarErro()
@@ -136,6 +156,7 @@ public class ResidentCommandsTest
 
 
 
+
     //Change name
 
     [TestMethod]
@@ -152,6 +173,14 @@ public class ResidentCommandsTest
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
+    public void DadoUmFirstNameMinimoChangeNameDeveRetornarTrue()
+    {
+        var _name = "Lou";
+
+        var command = new ChangeNameResidentCommand(_name, LastName, Id);
+        Assert.AreEqual(true, command.IsValid);
+    }
+    [TestMethod]
     public void DadoUmLastNamePequenoChangeNameCommandDeveRetornarErro()
     {
         string _name = "ab";
@@ -165,6 +194,14 @@ public class ResidentCommandsTest
         Assert.AreEqual(false, command.IsValid);
     }
     [TestMethod]
+    public void DadoUmLastNameMinimoChangeNameDeveRetornarTrue()
+    {
+        var _name = "Lou";
+
+        var command = new ChangeNameResidentCommand(FirstName, _name, Id);
+        Assert.AreEqual(true, command.IsValid);
+    }
+    [TestMethod]
     public void DadoUmIdInválidoChangeNameCommandDeveRetornarErro()
     {
         var command = new ChangeNameResidentCommand(FirstName, LastName, Guid.Empty);
@@ -173,7 +210,7 @@ public class ResidentCommandsTest
     [TestMethod]
     public void DadoCommandVálidoChangeNameCommandDeveRetornarTrue()
     {
-        var command = new ChangeNameResidentCommand(FirstName, LastName, Guid.NewGuid());
+        var command = new ChangeNameResidentCommand(FirstName, LastName, Id);
         Assert.AreEqual(true, command.IsValid);
     }
 
@@ -235,6 +272,21 @@ public class ResidentCommandsTest
 
     //ChangePhone
 
+    [TestMethod]
+    public void DadoNumeroPequenoChangePhoneCommandDeveRetornarErro()
+    {
+        var _number = "1234-1234";
+        var command = new ChangePhoneNumberResidentCommand(_number, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
+    [TestMethod]
+    public void DadoUmPhoneNumberGrandeChangePhoneDeveRetornarErro()
+    {
+        var _phone = "+55 012 9 1234-1234 5";
+
+        var command = new ChangePhoneNumberResidentCommand(_phone, Id);
+        Assert.AreEqual(false, command.IsValid);
+    }
     [TestMethod]
     public void DadoNumeroInválidoChangePhoneCommandDeveRetornarErro()
     {

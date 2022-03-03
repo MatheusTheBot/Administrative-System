@@ -83,7 +83,7 @@ public class VisitantCommandsTest
     [TestMethod]
     public void DadoUmPhoneNumberGrandeCommandDeveRetornarErro()
     {
-        var _phone = "+55 12 91234-12345";
+        var _phone = "+55 012 91234-1234 5";
 
         var command = new CreateVisitantCommand(FirstName, LastName, Email, _phone, DocumentTypeCPF, DocumentNumberCPF, Active, ApartNumber, Apartblock);
         Assert.AreEqual(false, command.IsValid);
