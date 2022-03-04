@@ -45,6 +45,8 @@ public class CreateAdministratorCommand : Notifiable<Notification>, ICommand
             .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
             .IsBetween(PhoneNumber.Length, 10, 14, PhoneNumber)
             .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
+            .IsNotNullOrWhiteSpace(Password, "Password")
+            .IsBetween(Password.Length, 8, 99, "Password")
             );
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)
             AddNotification(DocumentNumber, "Invalid document");
