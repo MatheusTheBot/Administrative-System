@@ -1,7 +1,8 @@
 ﻿using API.Controllers.Contracts;
+using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
-public class ControllerResult : IControllerResult
+public class ControllerResult<T> where T : ControllerBase
 {
     public ControllerResult(bool isSuccess, object data)
     {

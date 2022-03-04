@@ -28,9 +28,9 @@ public class PackagesController : ControllerBase
         var result = Repo.GetById(Id);
 
         if (result == null)
-            return NotFound(new ControllerResult(false, "object not found"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "object not found"));
 
-        return Ok(new ControllerResult(true, result));
+        return Ok(new ControllerResult<ControllerBase>(true, result));
     }
 
     //Commands
@@ -38,7 +38,7 @@ public class PackagesController : ControllerBase
     public IActionResult UpdatePackages([FromBody] UpdatePackageCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var result = Handler.Handle(comm);
 
@@ -51,7 +51,7 @@ public class PackagesController : ControllerBase
     public IActionResult ChangeType([FromBody] ChangePackageTypeCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var result = Handler.Handle(comm);
 

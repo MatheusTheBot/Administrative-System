@@ -27,56 +27,56 @@ public class ApartController : ControllerBase
     public IActionResult Get([FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
-            return NotFound(new ControllerResult(false, "Invalid Id"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Invalid Id"));
 
         var result = Repo.GetById(Apart, Block);
 
         if (result == null)
-            return NotFound(new ControllerResult(false, "Apart not found"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Apart not found"));
 
-        return Ok(new ControllerResult(true, result));
+        return Ok(new ControllerResult<ControllerBase>(true, result));
     }
 
     [HttpGet("get/all-visitants/{Apart}/{Block}")]
     public IActionResult GetVisitants([FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
-            return NotFound(new ControllerResult(false, "Invalid Id"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Invalid Id"));
 
         var result = Repo.GetById(Apart, Block);
 
         if (result == null)
-            return NotFound(new ControllerResult(false, "Apart not found"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Apart not found"));
 
-        return Ok(new ControllerResult(true, result.Visitants));
+        return Ok(new ControllerResult<ControllerBase>(true, result.Visitants));
     }
 
     [HttpGet("get/all-packages/{Apart}/{Block}")]
     public IActionResult GetPackages([FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
-            return NotFound(new ControllerResult(false, "Invalid Id"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Invalid Id"));
 
         var result = Repo.GetById(Apart, Block);
 
         if (result == null)
-            return NotFound(new ControllerResult(false, "Apart not found"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Apart not found"));
 
-        return Ok(new ControllerResult(true, result.Packages));
+        return Ok(new ControllerResult<ControllerBase>(true, result.Packages));
     }
 
     [HttpGet("get/all-residents/{Apart}/{Block}")]
     public IActionResult GetResidents([FromRoute] int Apart, [FromRoute] int Block)
     {
         if (Block.Equals(0) || Apart.Equals(0))
-            return NotFound(new ControllerResult(false, "Invalid Id"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Invalid Id"));
 
         var result = Repo.GetById(Apart, Block);
 
         if (result == null)
-            return NotFound(new ControllerResult(false, "Apart not found"));
+            return NotFound(new ControllerResult<ControllerBase>(false, "Apart not found"));
 
-        return Ok(new ControllerResult(true, result.Residents));
+        return Ok(new ControllerResult<ControllerBase>(true, result.Residents));
     }
 
 
@@ -86,21 +86,21 @@ public class ApartController : ControllerBase
     public IActionResult AddApart([FromBody] CreateApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid Apart"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid Apart"));
 
         var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
-            return BadRequest(new ControllerResult(false, result.Data));
+            return BadRequest(new ControllerResult<ControllerBase>(false, result.Data));
 
-        return StatusCode(201, new ControllerResult(true, $"Apart created successfuly; Apart: {comm.Number}, Block: {comm.Block}"));
+        return StatusCode(201, new ControllerResult<ControllerBase>(true, $"Apart created successfuly; Apart: {comm.Number}, Block: {comm.Block}"));
     }
 
     [HttpPut("add/package")]
     public IActionResult AddPackage([FromServices] PackagesHandler packagesHandler, [FromBody] AddPackageToApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var packResult = packagesHandler.Handle(comm.Package);
 
@@ -114,7 +114,7 @@ public class ApartController : ControllerBase
     public IActionResult AddResident([FromServices] ResidentHandler residentHandler, [FromBody] AddResidentToApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var resiResult = residentHandler.Handle(comm.Resident);
 
@@ -128,7 +128,7 @@ public class ApartController : ControllerBase
     public IActionResult AddVisitant([FromServices] VisitantHandler visitantHandler, [FromBody] AddVisitantToApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var visiResult = visitantHandler.Handle(comm.Visitant);
 
@@ -142,7 +142,7 @@ public class ApartController : ControllerBase
     public IActionResult DeleteVisitant([FromBody] DeletePackageFromApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var result = Handler.Handle(comm);
 
@@ -156,7 +156,7 @@ public class ApartController : ControllerBase
     public IActionResult DeleteResident([FromBody] DeleteResidentFromApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var result = Handler.Handle(comm);
 
@@ -169,7 +169,7 @@ public class ApartController : ControllerBase
     public IActionResult DeleteVisitant([FromBody] DeleteVisitantFromApartCommand comm)
     {
         if (!ModelState.IsValid)
-            return BadRequest(new ControllerResult(false, "Invalid command"));
+            return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
         var result = Handler.Handle(comm);
 
