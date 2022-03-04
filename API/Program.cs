@@ -1,7 +1,9 @@
+using API;
+using API.Services;
+using API.Tools;
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
-using Domain.Services;
 using Infra.Contexts;
 using Infra.Repository;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -49,6 +51,8 @@ void SetConfig()
     app.UseResponseCompression();
 
     app.UseEndpoints(endpts => endpts.MapControllers());
+
+    GetConfigs(app.Configuration);
 }
 
 void SetServices()
@@ -63,7 +67,7 @@ void SetServices()
     //Aqui eu falo qual tipo de Db o EF deve usar
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
     builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Sqlserver"]));
-    
+
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
     builder.Services.AddTransient<IRepository<Apart>, ApartRepository>();
@@ -81,7 +85,7 @@ void SetServices()
     builder.Services.AddTransient<IRepository<Administrator>, AdminRepository>();
     builder.Services.AddTransient<AdministratorHandler, AdministratorHandler>();
 
-    builder.Services.AddTransient<ServiceEmail>();
+    builder.Services.AddSingleton<ServiceEmail>();
 }
 
 void SetAuthAndCompression()
@@ -103,9 +107,9 @@ void SetAuthAndCompression()
     });
 
     //Aqui eu adiciono a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
-        ServiceToken.Secret = builder.Configuration["Keys:TokenGenerateKey"];
+    TokenTool.Secret = builder.Configuration["Keys:TokenGenerateKey"];
 
-    var key = Encoding.ASCII.GetBytes(ServiceToken.Secret);
+    var key = Encoding.ASCII.GetBytes(TokenTool.Secret);
     builder.Services.AddAuthentication(x =>
     {
         x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -130,4 +134,21 @@ void SetAuthAndCompression()
         x.AddPolicy("Admin", p => p.RequireClaim(roles, "Admin"));
         x.AddPolicy("Resident", p => p.RequireClaim(roles, "Resident"));
     });
+}
+
+void GetConfigs(IConfiguration con)
+{
+    //app.Configuration
+    var smtp = new Configurations.Smtp(
+        con["Smtp:Host"],
+        int.Parse(con["Smtp:Port"]),
+        con["Smtp:UserName"],
+        con["Smtp:Password"]);
+
+    var mail = new Configurations.Mail(
+        con["Mail:Email"],
+        con["Mail:Name"]);
+
+    Configurations.SMTP = smtp;
+    Configurations.MAIL = mail;
 }
