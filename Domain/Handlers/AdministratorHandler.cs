@@ -11,7 +11,9 @@ public class AdministratorHandler : Notifiable<Notification>,
         IHandler<ChangeNameAdministratorCommand>,
         IHandler<ChangeEmailAdministratorCommand>,
         IHandler<ChangePhoneNumberAdministratorCommand>,
-        IHandler<ChangeDocumentAdministratorCommand>
+        IHandler<ChangeDocumentAdministratorCommand>,
+        IHandler<ChangePasswordAdministratorCommand>,
+        IHandler<GenerateNewPasswordAdminCommand>
 {
     private readonly IRepository<Administrator> repos;
     public AdministratorHandler(IRepository<Administrator> repos)
@@ -22,7 +24,7 @@ public class AdministratorHandler : Notifiable<Notification>,
     {
         //fail fast validation
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Administrator newAdministrator = new(new Name(command.FirstName, command.LastName), new Document(command.Type, command.DocumentNumber), command.Email, command.PhoneNumber, command.Password);
 
@@ -40,7 +42,7 @@ public class AdministratorHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangeNameAdministratorCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         //rehydration
         Administrator? Administrator;
@@ -83,7 +85,7 @@ public class AdministratorHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangeEmailAdministratorCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Administrator? Administrator;
         try
@@ -125,7 +127,7 @@ public class AdministratorHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangePhoneNumberAdministratorCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Administrator? Administrator;
         try
@@ -166,7 +168,7 @@ public class AdministratorHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangeDocumentAdministratorCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Administrator? Administrator;
         try
@@ -201,6 +203,68 @@ public class AdministratorHandler : Notifiable<Notification>,
         };
         if (Administrator == null)
             return new HandlerResult(false, "Administrator was updated, but now we can't search for him");
+        return new HandlerResult(true, Administrator);
+    }
+
+    public IHandlerResult Handle(ChangePasswordAdministratorCommand command)
+    {
+        if (!command.IsValid)
+            return new HandlerResult(false, command.Notifications);
+
+        Administrator? Administrator;
+        try
+        {
+            Administrator = repos.GetById(command.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        if (Administrator == null)
+            return new HandlerResult(false, "Administrator not found");
+
+        Administrator.ChangePassword(command.NewPassword);
+
+        try
+        {
+            repos.Update(Administrator);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+
+        return new HandlerResult(true, Administrator);
+    }
+
+    public IHandlerResult Handle(GenerateNewPasswordAdminCommand comm)
+    {
+        if (!comm.IsValid)
+            return new HandlerResult(false, comm.Notifications);
+
+        Administrator? Administrator;
+        try
+        {
+            Administrator = repos.GetById(comm.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        if (Administrator == null)
+            return new HandlerResult(false, "Administrator not found");
+
+        Administrator.ChangePassword(comm.NewPassword);
+
+        try
+        {
+            repos.Update(Administrator);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+
         return new HandlerResult(true, Administrator);
     }
 }

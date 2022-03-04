@@ -11,7 +11,9 @@ public class ResidentHandler : Notifiable<Notification>,
         IHandler<ChangeNameResidentCommand>,
         IHandler<ChangeEmailResidentCommand>,
         IHandler<ChangePhoneNumberResidentCommand>,
-        IHandler<ChangeDocumentResidentCommand>
+        IHandler<ChangeDocumentResidentCommand>,
+        IHandler<GenerateNewPasswordResidentCommand>,
+        IHandler<ChangePasswordResidentCommand>
 {
     private readonly IRepository<Resident> repos;
     public ResidentHandler(IRepository<Resident> repos)
@@ -22,7 +24,7 @@ public class ResidentHandler : Notifiable<Notification>,
     {
         //fail fast validation
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Resident newResident = new(new Name(command.FirstName, command.LastName), command.Email, command.PhoneNumber, new Document(command.Type, command.DocumentNumber), command.Number, command.Block, command.Password);
 
@@ -40,7 +42,7 @@ public class ResidentHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangeNameResidentCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         //rehydration
         Resident? resident;
@@ -71,7 +73,7 @@ public class ResidentHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangeEmailResidentCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Resident? resident;
         try
@@ -101,7 +103,7 @@ public class ResidentHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangePhoneNumberResidentCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Resident? resident;
         try
@@ -131,7 +133,7 @@ public class ResidentHandler : Notifiable<Notification>,
     public IHandlerResult Handle(ChangeDocumentResidentCommand command)
     {
         if (!command.IsValid)
-            return new HandlerResult(true, command.Notifications);
+            return new HandlerResult(false, command.Notifications);
 
         Resident? resident;
         try
@@ -156,5 +158,66 @@ public class ResidentHandler : Notifiable<Notification>,
             return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
         }
         return new HandlerResult(true, resident);
+    }
+    public IHandlerResult Handle(ChangePasswordResidentCommand command)
+    {
+        if (!command.IsValid)
+            return new HandlerResult(false, command.Notifications);
+
+        Resident? Resident;
+        try
+        {
+            Resident = repos.GetById(command.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        if (Resident == null)
+            return new HandlerResult(false, "Resident not found");
+
+        Resident.ChangePassword(command.NewPassword);
+
+        try
+        {
+            repos.Update(Resident);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+
+        return new HandlerResult(true, Resident);
+    }
+
+    public IHandlerResult Handle(GenerateNewPasswordResidentCommand comm)
+    {
+        if (!comm.IsValid)
+            return new HandlerResult(false, comm.Notifications);
+
+        Resident? Resident;
+        try
+        {
+            Resident = repos.GetById(comm.Id);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+        if (Resident == null)
+            return new HandlerResult(false, "Resident not found");
+
+        Resident.ChangePassword(comm.NewPassword);
+
+        try
+        {
+            repos.Update(Resident);
+        }
+        catch (Exception)
+        {
+            return new HandlerResult(false, "Unable to access database, unable to perform requested operation");
+        }
+
+        return new HandlerResult(true, Resident);
     }
 }
