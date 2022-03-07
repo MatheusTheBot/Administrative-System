@@ -66,7 +66,10 @@ void SetServices()
 
     //Aqui eu falo qual tipo de Db o EF deve usar
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
-    builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Sqlserver"]));
+    if (builder.Environment.IsDevelopment())
+        builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Sqlserver"]));
+    else
+        builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
@@ -107,7 +110,10 @@ void SetAuthAndCompression()
     });
 
     //Aqui eu adiciono a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
-    TokenTool.Secret = builder.Configuration["Keys:TokenGenerateKey"];
+    if (builder.Environment.IsDevelopment())
+        TokenTool.Secret = builder.Configuration["Keys:TokenGenerateKey"];
+    else
+        TokenTool.Secret = builder.Configuration.GetValue<string>("Keys:TokenGenerateKey");
 
     var key = Encoding.ASCII.GetBytes(TokenTool.Secret);
     builder.Services.AddAuthentication(x =>
@@ -127,7 +133,12 @@ void SetAuthAndCompression()
         };
     });
 
-    var roles = builder.Configuration["JwtOptions:RoleClaim"];
+    string? roles;
+    if (builder.Environment.IsDevelopment())
+        roles = builder.Configuration["JwtOptions:RoleClaim"];
+    else
+        roles = builder.Configuration.GetValue<string>("JwtOptions:RoleClaim");
+
     if (string.IsNullOrWhiteSpace(roles)) roles = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
     builder.Services.AddAuthorization(x =>
     {
@@ -138,17 +149,37 @@ void SetAuthAndCompression()
 
 void GetConfigs(IConfiguration con)
 {
-    //app.Configuration
-    var smtp = new Configurations.Smtp(
+    if (builder.Environment.IsDevelopment())
+    {
+        //app.Configuration
+        var smtp = new Configurations.Smtp(
         con["Smtp:Host"],
         int.Parse(con["Smtp:Port"]),
         con["Smtp:UserName"],
         con["Smtp:Password"]);
 
-    var mail = new Configurations.Mail(
+        var mail = new Configurations.Mail(
         con["Mail:Email"],
         con["Mail:Name"]);
 
-    Configurations.SMTP = smtp;
-    Configurations.MAIL = mail;
+        Configurations.SMTP = smtp;
+        Configurations.MAIL = mail;
+    }
+    else
+    {
+        var smtp = new Configurations.Smtp(
+            con.GetValue<string>("Smtp:Host"),
+            int.Parse(con.GetValue<string>("Smtp:Port")),
+            con.GetValue<string>("Smtp:UserName"),
+            con.GetValue<string>("Smtp:Password")
+        );
+
+        var mail = new Configurations.Mail(
+            con.GetValue<string>("Mail:Email"),
+            con.GetValue<string>("Mail:Name")
+        );
+
+        Configurations.SMTP = smtp;
+        Configurations.MAIL = mail;
+    }
 }
