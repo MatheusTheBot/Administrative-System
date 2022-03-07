@@ -170,7 +170,7 @@ void GetConfigs(IConfiguration con)
         var smtp = new Configurations.Smtp(
             con.GetValue<string>("Smtp:Host"),
             int.Parse(con.GetValue<string>("Smtp:Port")),
-            con.GetValue<string>("Smtp:UserName"),
+            con.GetValue<string>("Smtp:Username"),
             con.GetValue<string>("Smtp:Password")
         );
 
