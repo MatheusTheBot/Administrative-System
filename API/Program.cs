@@ -133,13 +133,7 @@ void SetAuthAndCompression()
         };
     });
 
-    string? roles;
-    if (builder.Environment.IsDevelopment())
-        roles = builder.Configuration["JwtOptions:RoleClaim"];
-    else
-        roles = builder.Configuration.GetValue<string>("JwtOptions:RoleClaim");
-
-    if (string.IsNullOrWhiteSpace(roles)) roles = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
+    var roles = "http://schemas.microsoft.com/ws/2008/06/identity/claims/role";
     builder.Services.AddAuthorization(x =>
     {
         x.AddPolicy("Admin", p => p.RequireClaim(roles, "Admin"));
