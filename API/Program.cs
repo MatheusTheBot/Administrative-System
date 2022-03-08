@@ -67,7 +67,7 @@ void SetServices()
     //Aqui eu falo qual tipo de Db o EF deve usar
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
     if (builder.Environment.IsDevelopment())
-        builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Sqlserver"]));
+        builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Default"]));
     else
         builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
 

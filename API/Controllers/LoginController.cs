@@ -33,9 +33,9 @@ namespace API.Controllers
                 {
                     search = Repository.GetById(comm.Id);
                 }
-                catch (Exception)
+                catch (Exception ex)
                 {
-                    return StatusCode(500, new ControllerResult<ControllerBase>(false, "Unable to access database, unable to perform requested operation"));
+                    return StatusCode(500, new ControllerResult<ControllerBase>(false, "Unable to access database, unable to perform requested operation: " + ex));
                 }
                 if (search == null)
                     return BadRequest(new ControllerResult<ControllerBase>(false, "Administrator not found"));
