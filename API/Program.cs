@@ -1,6 +1,7 @@
 using API;
 using API.Services;
 using API.Tools;
+using Azure.Identity;
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
@@ -15,7 +16,6 @@ using Microsoft.IdentityModel.Tokens;
 using System.IO.Compression;
 using System.Text;
 using System.Text.Json.Serialization;
-using Azure.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -70,10 +70,7 @@ void SetServices()
 
     //Aqui eu falo qual tipo de Db o EF deve usar
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
-    if (builder.Environment.IsDevelopment())
-        builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Default"]));
-    else
-        builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration.GetConnectionString("SqlServer")));
+    builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Default"]));
 
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
@@ -114,10 +111,7 @@ void SetAuthAndCompression()
     });
 
     //Aqui eu adiciono a auth. Link: https://balta.io/artigos/aspnetcore-3-autenticacao-autorizacao-bearer-jwt
-    if (builder.Environment.IsDevelopment())
-        TokenTool.Secret = builder.Configuration["Keys:TokenGenerateKey"];
-    else
-        TokenTool.Secret = builder.Configuration.GetValue<string>("Keys:TokenGenerateKey");
+    TokenTool.Secret = builder.Configuration["Keys:TokenGenerateKey"];
 
     var key = Encoding.ASCII.GetBytes(TokenTool.Secret);
     builder.Services.AddAuthentication(x =>
@@ -147,37 +141,18 @@ void SetAuthAndCompression()
 
 void GetConfigs(IConfiguration con)
 {
-    if (builder.Environment.IsDevelopment())
-    {
-        //app.Configuration
-        var smtp = new Configurations.Smtp(
-        con["Smtp:Host"],
-        int.Parse(con["Smtp:Port"]),
-        con["Smtp:UserName"],
-        con["Smtp:Password"]);
+    //app.Configuration
+    var smtp = new Configurations.Smtp(
+    con["Smtp:Host"],
+    int.Parse(con["Smtp:Port"]),
+    con["Smtp:UserName"],
+    con["Smtp:Password"]);
 
-        var mail = new Configurations.Mail(
-        con["Mail:Email"],
-        con["Mail:Name"]);
+    var mail = new Configurations.Mail(
+    con["Mail:Email"],
+    con["Mail:Name"]);
 
-        Configurations.SMTP = smtp;
-        Configurations.MAIL = mail;
-    }
-    else
-    {
-        var smtp = new Configurations.Smtp(
-            con.GetValue<string>("Smtp:Host"),
-            int.Parse(con.GetValue<string>("Smtp:Port")),
-            con.GetValue<string>("Smtp:Username"),
-            con.GetValue<string>("Smtp:Password")
-        );
+    Configurations.SMTP = smtp;
+    Configurations.MAIL = mail;
 
-        var mail = new Configurations.Mail(
-            con.GetValue<string>("Mail:Email"),
-            con.GetValue<string>("Mail:Name")
-        );
-
-        Configurations.SMTP = smtp;
-        Configurations.MAIL = mail;
-    }
 }
