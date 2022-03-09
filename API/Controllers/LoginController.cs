@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
+    [AllowAnonymous]
     [Route("login")]
     public class LoginController : ControllerBase
     {
@@ -20,7 +21,6 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [AllowAnonymous]
         public IActionResult Authenticate([FromBody] LoginCommand comm)
         {
             if (!ModelState.IsValid)
