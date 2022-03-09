@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers
 {
     [ApiController]
-    [AllowAnonymous]
+    [Route("login")]
     public class LoginController : ControllerBase
     {
         private readonly IRepository<Administrator> Repository;
@@ -20,7 +20,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        [Route("login")]
+        [AllowAnonymous]
         public IActionResult Authenticate([FromBody] LoginCommand comm)
         {
             if (!ModelState.IsValid)
