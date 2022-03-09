@@ -8,6 +8,14 @@
       "suggestion": "true",
       "type": "identityapp",
       "connectionId": ""
+    },
+    "secrets2": {
+      "type": "secrets",
+      "connectionId": "VaultUri"
+    },
+    "mssql1": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:Default"
     }
   }
 }
