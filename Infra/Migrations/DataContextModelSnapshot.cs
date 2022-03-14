@@ -180,7 +180,7 @@ namespace Infra.Migrations
 
             modelBuilder.Entity("Domain.Entities.Administrator", b =>
                 {
-                    b.OwnsOne("Domain.ValueObjects.Document", "Document", b1 =>
+                    b.OwnsOne("Domain.Entities.Administrator.Document#Domain.ValueObjects.Document", "Document", b1 =>
                         {
                             b1.Property<Guid>("AdministratorId")
                                 .HasColumnType("uniqueidentifier");
@@ -197,13 +197,13 @@ namespace Infra.Migrations
 
                             b1.HasKey("AdministratorId");
 
-                            b1.ToTable("Administrators");
+                            b1.ToTable("Administrators", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("AdministratorId");
                         });
 
-                    b.OwnsOne("Domain.ValueObjects.Name", "Name", b1 =>
+                    b.OwnsOne("Domain.Entities.Administrator.Name#Domain.ValueObjects.Name", "Name", b1 =>
                         {
                             b1.Property<Guid>("AdministratorId")
                                 .HasColumnType("uniqueidentifier");
@@ -220,7 +220,7 @@ namespace Infra.Migrations
 
                             b1.HasKey("AdministratorId");
 
-                            b1.ToTable("Administrators");
+                            b1.ToTable("Administrators", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("AdministratorId");
@@ -252,7 +252,7 @@ namespace Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.ValueObjects.Document", "Document", b1 =>
+                    b.OwnsOne("Domain.Entities.Resident.Document#Domain.ValueObjects.Document", "Document", b1 =>
                         {
                             b1.Property<Guid>("ResidentId")
                                 .HasColumnType("uniqueidentifier");
@@ -269,13 +269,13 @@ namespace Infra.Migrations
 
                             b1.HasKey("ResidentId");
 
-                            b1.ToTable("Residents");
+                            b1.ToTable("Residents", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ResidentId");
                         });
 
-                    b.OwnsOne("Domain.ValueObjects.Name", "Name", b1 =>
+                    b.OwnsOne("Domain.Entities.Resident.Name#Domain.ValueObjects.Name", "Name", b1 =>
                         {
                             b1.Property<Guid>("ResidentId")
                                 .HasColumnType("uniqueidentifier");
@@ -292,7 +292,7 @@ namespace Infra.Migrations
 
                             b1.HasKey("ResidentId");
 
-                            b1.ToTable("Residents");
+                            b1.ToTable("Residents", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("ResidentId");
@@ -315,7 +315,7 @@ namespace Infra.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.OwnsOne("Domain.ValueObjects.Document", "Document", b1 =>
+                    b.OwnsOne("Domain.Entities.Visitant.Document#Domain.ValueObjects.Document", "Document", b1 =>
                         {
                             b1.Property<Guid>("VisitantId")
                                 .HasColumnType("uniqueidentifier");
@@ -332,13 +332,13 @@ namespace Infra.Migrations
 
                             b1.HasKey("VisitantId");
 
-                            b1.ToTable("Visitants");
+                            b1.ToTable("Visitants", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VisitantId");
                         });
 
-                    b.OwnsOne("Domain.ValueObjects.Name", "Name", b1 =>
+                    b.OwnsOne("Domain.Entities.Visitant.Name#Domain.ValueObjects.Name", "Name", b1 =>
                         {
                             b1.Property<Guid>("VisitantId")
                                 .HasColumnType("uniqueidentifier");
@@ -355,7 +355,7 @@ namespace Infra.Migrations
 
                             b1.HasKey("VisitantId");
 
-                            b1.ToTable("Visitants");
+                            b1.ToTable("Visitants", (string)null);
 
                             b1.WithOwner()
                                 .HasForeignKey("VisitantId");
