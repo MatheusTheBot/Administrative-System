@@ -1,5 +1,4 @@
-﻿using API.Controllers.Contracts;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers;
 public class ControllerResult<T> where T : ControllerBase

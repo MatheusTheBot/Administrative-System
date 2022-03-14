@@ -46,7 +46,7 @@ public class VisitantRepository : IRepository<Visitant>
 
     public Visitant? GetById(int Number, int Block, Guid id)
     {
-        return Context.Visitant.Where(x=> x.Number == Number && x.Block == Block).FirstOrDefault(Queries<Visitant>.GetById(id));
+        return Context.Visitant.Where(x => x.Number == Number && x.Block == Block).FirstOrDefault(Queries<Visitant>.GetById(id));
     }
 
     public void Update(Visitant entity)

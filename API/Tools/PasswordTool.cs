@@ -21,7 +21,7 @@ public static class PasswordTool
 
         return result.ToString();
     }
-    public static bool Verify(string hashedPassword,string password)
+    public static bool Verify(string hashedPassword, string password)
     {
         var PasswordToCompare = Encript(password);
 

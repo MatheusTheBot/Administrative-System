@@ -100,7 +100,7 @@ namespace Tests.CommandsTests
         {
             CreateResidentCommand _residentCommand = new(" ", LastName, Email, PhoneNumber, DocumentTypeCPF, DocumentNumberCPF, Number, Block, Password);
 
-            var command = new AddResidentToApartCommand( _residentCommand);
+            var command = new AddResidentToApartCommand(_residentCommand);
             Assert.AreEqual(false, command.IsValid);
         }
         [TestMethod]
