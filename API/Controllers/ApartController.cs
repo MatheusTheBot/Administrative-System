@@ -107,7 +107,7 @@ public class ApartController : ControllerBase
         if (packResult.IsSuccess == false)
             return StatusCode(500, new HandlerResult(packResult.IsSuccess, packResult.Data));
 
-        return Redirect($"https://administrative-system-api.azurewebsites.net/v1/packages/get/{packResult.Data.Id}");
+        return Redirect(Url.Content($"~/v1/packages/get/{packResult.Data.Id}"));
     }
 
     [HttpPut("add/resident")]
@@ -121,7 +121,7 @@ public class ApartController : ControllerBase
         if (resiResult.IsSuccess == false)
             return StatusCode(500, new HandlerResult(resiResult.IsSuccess, resiResult.Data));
 
-        return Redirect($"https://administrative-system-api.azurewebsites.net/v1/resident/get/{resiResult.Data.Id}");
+        return Redirect(Url.Content($"~/v1/resident/get/{resiResult.Data.Id}"));
     }
 
     [HttpPut("add/visitant")]
@@ -135,7 +135,7 @@ public class ApartController : ControllerBase
         if (visiResult.IsSuccess == false)
             return StatusCode(500, new HandlerResult(visiResult.IsSuccess, visiResult.Data));
 
-        return Redirect($"https://administrative-system-api.azurewebsites.net/v1/visitant/get/{visiResult.Data.Id}");
+        return Redirect(Url.Content($"~/v1/visitant/get/{visiResult.Data.Id}"));
     }
 
     [HttpDelete("delete/package")]
