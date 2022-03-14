@@ -1,7 +1,6 @@
 using API;
 using API.Services;
 using API.Tools;
-using Azure.Identity;
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
@@ -18,9 +17,6 @@ using System.Text;
 using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
-
-var keyVaultEndpoint = new Uri(Environment.GetEnvironmentVariable("VaultUri"));
-builder.Configuration.AddAzureKeyVault(keyVaultEndpoint, new DefaultAzureCredential());
 
 SetServices();
 SetAuthAndCompression();
@@ -70,7 +66,7 @@ void SetServices()
 
     //Aqui eu falo qual tipo de Db o EF deve usar
     //builder.Services.AddDbContext<DataContext>(opt => opt.UseInMemoryDatabase("InternalDatabase"));
-    builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:Default"]));
+    builder.Services.AddDbContext<DataContext>(opt => opt.UseSqlServer(builder.Configuration["ConnectionStrings:SqlServer"]));
 
 
     //Aqui eu falo onde o repositório e os Handlers estão, para uso dos controllers
