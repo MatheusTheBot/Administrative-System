@@ -31,8 +31,8 @@ public class ChangeDocumentAdministratorCommand : Notifiable<Notification>, ICom
             );
 
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)
-            AddNotification(DocumentNumber, "Invalid document");
+            AddNotification(DocumentNumber, "Invalid document lenght");
         if (DocumentNumber.Length != 14 && Type == EDocumentType.CNPJ)
-            AddNotification(DocumentNumber, "Invalid document");
+            AddNotification(DocumentNumber, "Invalid document lenght");
     }
 }
