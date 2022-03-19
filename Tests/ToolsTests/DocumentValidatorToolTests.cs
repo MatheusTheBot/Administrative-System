@@ -1,11 +1,10 @@
 ﻿using API.Tools;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.Collections.Generic;
 
 namespace Tests.ToolsTests;
 
 [TestClass]
-public class CPFValidatorToolTests
+public class DocumentValidatorToolTests
 {
     //generated data in https://www.4devs.com.br/gerador_de_cnpj and https://www.4devs.com.br/gerador_de_cpf
     private readonly string ValidCPF = "32839558084";
@@ -14,13 +13,13 @@ public class CPFValidatorToolTests
     [TestMethod]
     public void DadoUmCPFVálidoToolDeveRetornarTrue()
     {
-        var result = CPFValidatorTool.Validate(ValidCPF);
+        var result = DocumentValidatorTool.CPF(ValidCPF);
         Assert.IsTrue(result);
     }
     [TestMethod]
     public void DadoUmCNPJVálidoToolDeveRetornarTrue()
     {
-        var result = CNPJValidatorTool.Validate(ValidCNPJ);
+        var result = DocumentValidatorTool.CNPJ(ValidCNPJ);
         Assert.IsTrue(result);
     }
 }
