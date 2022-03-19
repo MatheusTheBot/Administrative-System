@@ -9,7 +9,7 @@ public static class CPFValidatorTool
         List<int> CPFDigits = new List<int>();
         bool Response = false;
 
-        if (CPF.All(x => x == x))
+        if (CPF.All(x => x == CPF.First()))
             return Response;
 
         for (int i = 1; i < 9; i++)
@@ -59,7 +59,7 @@ public static class CPFValidatorTool
         List<int> CPFDigits = new List<int>();
         bool Response = false;
 
-        if (CPF.All(x => x == x))
+        if (CPF.All(x => x == CPF.First()))
             return Response;
 
         for (int i = 1; i < 9; i++)
