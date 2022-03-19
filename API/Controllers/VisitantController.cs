@@ -1,4 +1,5 @@
-﻿using Domain.Commands.Visitant;
+﻿using API.Tools;
+using Domain.Commands.Visitant;
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
