@@ -1,4 +1,5 @@
-﻿using Domain.Commands.Apart;
+﻿using API.Tools;
+using Domain.Commands.Apart;
 using Domain.Entities;
 using Domain.Handlers;
 using Domain.Repository;
@@ -116,6 +117,18 @@ public class ApartController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
+        if (comm.Resident.Type == Domain.Enums.EDocumentType.CPF)
+        {
+            if (DocumentValidatorTool.CPF(comm.Resident.DocumentNumber) == false)
+                return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid document number"));
+        }
+
+        if (comm.Resident.Type == Domain.Enums.EDocumentType.CNPJ)
+        {
+            if (DocumentValidatorTool.CNPJ(comm.Resident.DocumentNumber) == false)
+                return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid document number"));
+        }
+
         var resiResult = residentHandler.Handle(comm.Resident);
 
         if (resiResult.IsSuccess == false)
@@ -129,6 +142,18 @@ public class ApartController : ControllerBase
     {
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
+
+        if (comm.Visitant.Type == Domain.Enums.EDocumentType.CPF)
+        {
+            if (DocumentValidatorTool.CPF(comm.Visitant.DocumentNumber) == false)
+                return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid document number"));
+        }
+
+        if (comm.Visitant.Type == Domain.Enums.EDocumentType.CNPJ)
+        {
+            if (DocumentValidatorTool.CNPJ(comm.Visitant.DocumentNumber) == false)
+                return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid document number"));
+        }
 
         var visiResult = visitantHandler.Handle(comm.Visitant);
 

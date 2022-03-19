@@ -54,6 +54,18 @@ public class VisitantController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
+        if (comm.Type == Domain.Enums.EDocumentType.CPF)
+        {
+            if (DocumentValidatorTool.CPF(comm.DocumentNumber) == false)
+                return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid document number"));
+        }
+
+        if (comm.Type == Domain.Enums.EDocumentType.CNPJ)
+        {
+            if (DocumentValidatorTool.CNPJ(comm.DocumentNumber) == false)
+                return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid document number"));
+        }
+
         var result = Handler.Handle(comm);
 
         if (result.IsSuccess == false)
