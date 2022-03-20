@@ -1,5 +1,6 @@
 ﻿using Domain.Commands.Contracts;
 using Flunt.Notifications;
+using Flunt.Validations;
 
 namespace Domain.Commands.Login;
 public class LoginCommand : Notifiable<Notification>, ICommand
@@ -23,8 +24,13 @@ public class LoginCommand : Notifiable<Notification>, ICommand
 
     public void Validate()
     {
-        if (Id == Guid.Empty)
-            AddNotification(new Notification("Id", "Id can't be empty"));
-        //TODO
+        AddNotifications(new Contract<Notification>()
+            .Requires()
+            .AreNotEquals(Id, Guid.Empty, "Id")
+            .IsBetween(Password.Length, 8, 50, "Password")
+            .IsNotNullOrWhiteSpace(Role, "Role")
+            .IsLowerOrEqualsThan(Number, 99999, "Number")
+            .IsLowerOrEqualsThan(Block, 99, "Block")
+        );
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.Commands.Contracts;
 using Flunt.Notifications;
+using Flunt.Validations;
 using System.Text.Json.Serialization;
 
 namespace Domain.Commands.Administrator;
@@ -18,6 +19,13 @@ public class GenerateNewPasswordAdminCommand : Notifiable<Notification>, IComman
 
     public void Validate()
     {
-        //TODO
+        AddNotifications(new Contract<Notification>()
+            .Requires()
+            .IsNotNullOrWhiteSpace(Password, "Password")
+            .IsNotNullOrWhiteSpace(NewPassword, "New Password")
+            .IsBetween(Password.Length, 8, 50, "Password")
+            .IsBetween(NewPassword.Length, 8, 50, "New Password")
+            .AreNotEquals(Id, Guid.Empty, "Id")
+        );
     }
 }

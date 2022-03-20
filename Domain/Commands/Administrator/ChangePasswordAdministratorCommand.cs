@@ -1,5 +1,6 @@
 ﻿using Domain.Commands.Contracts;
 using Flunt.Notifications;
+using Flunt.Validations;
 
 namespace Domain.Commands.Administrator;
 public class ChangePasswordAdministratorCommand : Notifiable<Notification>, ICommand
@@ -9,6 +10,8 @@ public class ChangePasswordAdministratorCommand : Notifiable<Notification>, ICom
         NewPassword = newPassword;
         Password = password;
         Id = id;
+
+        Validate();
     }
 
     public string NewPassword { get; set; }
@@ -17,6 +20,13 @@ public class ChangePasswordAdministratorCommand : Notifiable<Notification>, ICom
 
     public void Validate()
     {
-        //TODO
+        AddNotifications(new Contract<Notification>()
+            .Requires()
+            .IsNotNullOrWhiteSpace(Password, "Password")
+            .IsNotNullOrWhiteSpace(NewPassword, "New Password")
+            .IsBetween(Password.Length, 8, 50, "Password")
+            .IsBetween(NewPassword.Length, 8, 50, "New Password")
+            .AreNotEquals(Id, Guid.Empty, "Id")
+        );
     }
 }

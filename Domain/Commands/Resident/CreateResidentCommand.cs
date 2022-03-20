@@ -52,7 +52,7 @@ public class CreateResidentCommand : Notifiable<Notification>, ICommand
             .IsBetween(Number, 1, 99999, "Number")
             .IsBetween(Block, 1, 99, "Block")
             .IsNotNullOrWhiteSpace(Password, "Password")
-            .IsBetween(Password.Length, 8, 99, "Password")
+            .IsBetween(Password.Length, 8, 50, "Password")
             );
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)
             AddNotification(DocumentNumber, "Invalid document");
@@ -63,6 +63,7 @@ public class CreateResidentCommand : Notifiable<Notification>, ICommand
             if (!char.IsDigit(c))
             {
                 AddNotification(PhoneNumber, "Invalid number");
+                continue;
             }
         }
         foreach (char c in DocumentNumber)
@@ -70,8 +71,8 @@ public class CreateResidentCommand : Notifiable<Notification>, ICommand
             if (!char.IsDigit(c))
             {
                 AddNotification(DocumentNumber, "Invalid document number");
+                continue;
             }
-
         }
     }
 }

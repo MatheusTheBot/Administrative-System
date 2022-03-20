@@ -27,8 +27,8 @@ public class ChangeDocumentAdministratorCommand : Notifiable<Notification>, ICom
 
         AddNotifications(new Contract<Notification>()
             .Requires()
-            .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
-            );
+            .IsNotNullOrWhiteSpace(DocumentNumber, "DocumentNumber")
+        );
 
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)
             AddNotification(DocumentNumber, "Invalid document lenght");

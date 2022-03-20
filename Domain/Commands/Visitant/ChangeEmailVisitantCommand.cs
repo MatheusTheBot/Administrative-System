@@ -21,10 +21,10 @@ public class ChangeEmailVisitantCommand : Notifiable<Notification>, ICommand
     public void Validate()
     {
         AddNotifications(new Contract<Notification>()
-        .Requires()
-        .IsNotNullOrWhiteSpace(Email, Email)
-        .IsEmail(Email, Email)
-        .AreNotEquals(Id, Guid.Empty, Email)
+            .Requires()
+            .IsNotNullOrWhiteSpace(Email, "Email")
+            .IsEmail(Email, "Email")
+            .AreNotEquals(Id, Guid.Empty, "Id")
         );
     }
 }

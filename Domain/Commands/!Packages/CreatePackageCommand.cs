@@ -35,23 +35,26 @@ public class CreatePackageCommand : Notifiable<Notification>, ICommand
     {
         AddNotifications(new Contract<Notification>()
             .Requires()
-            .IsNotNullOrWhiteSpace(BarCode, BarCode)
-            .AreEquals(BarCode.Length, 13, BarCode)
-            .IsNotNull(ItemName, ItemName)
-            .IsLowerOrEqualsThan(ItemName.Length, 150, ItemName)
-            .IsNotNullOrWhiteSpace(Addressee, Addressee)
-            .IsLowerOrEqualsThan(Addressee.Length, 250, Addressee)
-            .IsNotNullOrWhiteSpace(Sender, Sender)
-            .IsLowerOrEqualsThan(Sender, 150, Sender)
-            .IsNotNullOrWhiteSpace(SenderAddress, SenderAddress)
-            .IsLowerOrEqualsThan(SenderAddress, 250, SenderAddress)
+            .IsNotNullOrWhiteSpace(BarCode, "BarCode")
+            .AreEquals(BarCode.Length, 13, "BarCode")
+            .IsNotNull(ItemName, "ItemName")
+            .IsLowerOrEqualsThan(ItemName.Length, 150, "ItemName")
+            .IsNotNullOrWhiteSpace(Addressee, "Addressee")
+            .IsLowerOrEqualsThan(Addressee.Length, 250, "Addressee")
+            .IsNotNullOrWhiteSpace(Sender, "Sender")
+            .IsLowerOrEqualsThan(Sender, 150, "Sender")
+            .IsNotNullOrWhiteSpace(SenderAddress, "SenderAddress")
+            .IsLowerOrEqualsThan(SenderAddress, 250, "SenderAddress")
             .IsBetween(Number, 1, 99999, "Number")
             .IsBetween(Block, 1, 99, "Block")
             );
         foreach (var item in BarCode)
         {
             if (!char.IsDigit(item))
+            {
                 AddNotification(BarCode, "Invalid BarCode");
+                continue;
+            }                
         }
     }
 }

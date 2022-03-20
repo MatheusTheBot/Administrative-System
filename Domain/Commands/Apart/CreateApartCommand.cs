@@ -24,6 +24,6 @@ public class CreateApartCommand : Notifiable<Notification>, ICommand
             .Requires()
             .IsBetween(Number, 1, 99999, "Number")
             .IsBetween(Block, 1, 99, "Block")
-            );
+        );
     }
 }

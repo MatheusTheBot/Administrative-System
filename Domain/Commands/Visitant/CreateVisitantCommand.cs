@@ -40,18 +40,18 @@ public class CreateVisitantCommand : Notifiable<Notification>, ICommand
 
         AddNotifications(new Contract<Notification>()
             .Requires()
-            .IsNotNullOrWhiteSpace(FirstName, FirstName)
-            .IsNotNullOrWhiteSpace(LastName, LastName)
-            .IsGreaterOrEqualsThan(FirstName.Length, 3, FirstName)
-            .IsGreaterOrEqualsThan(LastName.Length, 3, LastName)
-            .IsNotNullOrWhiteSpace(Email, Email)
-            .IsEmail(Email, Email)
-            .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
-            .IsBetween(PhoneNumber.Length, 10, 14, PhoneNumber)
-            .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
+            .IsNotNullOrWhiteSpace(FirstName, "FirstName")
+            .IsNotNullOrWhiteSpace(LastName, "LastName")
+            .IsGreaterOrEqualsThan(FirstName.Length, 3, "FirstName")
+            .IsGreaterOrEqualsThan(LastName.Length, 3, "LastName")
+            .IsNotNullOrWhiteSpace(Email, "Email")
+            .IsEmail(Email, "Email")
+            .IsNotNullOrWhiteSpace(PhoneNumber, "PhoneNumber")
+            .IsBetween(PhoneNumber.Length, 10, 14, "PhoneNumber")
+            .IsNotNullOrWhiteSpace(DocumentNumber, "DocumentNumber")
             .IsBetween(Number, 1, 99999, "Number")
             .IsBetween(Block, 1, 99, "Block")
-            );
+        );
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)
             AddNotification(DocumentNumber, "Invalid document");
         if (DocumentNumber.Length != 14 && Type == EDocumentType.CNPJ)
@@ -61,6 +61,7 @@ public class CreateVisitantCommand : Notifiable<Notification>, ICommand
             if (!char.IsDigit(c))
             {
                 AddNotification(PhoneNumber, "Invalid number");
+                continue;
             }
         }
         foreach (char c in DocumentNumber)
@@ -68,8 +69,8 @@ public class CreateVisitantCommand : Notifiable<Notification>, ICommand
             if (!char.IsDigit(c))
             {
                 AddNotification(DocumentNumber, "Invalid document number");
+                continue;
             }
-
         }
     }
 }

@@ -19,6 +19,6 @@ public class AddVisitantToApartCommand : Notifiable<Notification>, ICommand
     public void Validate()
     {
         if (!Visitant.IsValid)
-            AddNotification(new Notification("VisitantCommand", "Inválid vistant"));
+            AddNotifications(Visitant.Notifications);
     }
 }

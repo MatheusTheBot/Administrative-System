@@ -19,6 +19,6 @@ public class AddPackageToApartCommand : Notifiable<Notification>, ICommand
     public void Validate()
     {
         if (!Package.IsValid)
-            AddNotification(new Notification("PackageCommand", "Invalid Package"));
+            AddNotifications(Package.Notifications);
     }
 }

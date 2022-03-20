@@ -19,6 +19,6 @@ public class AddResidentToApartCommand : Notifiable<Notification>, ICommand
     public void Validate()
     {
         if (!Resident.IsValid)
-            AddNotification(new Notification("ResidentCommand", "Inválid resident"));
+            AddNotifications(Resident.Notifications);
     }
 }

@@ -28,8 +28,8 @@ public class ChangePhoneNumberResidentCommand : Notifiable<Notification>, IComma
 
         AddNotifications(new Contract<Notification>()
             .Requires()
-            .IsNotNullOrWhiteSpace(PhoneNumber, PhoneNumber)
-            .IsBetween(PhoneNumber.Length, 10, 14, PhoneNumber)
+            .IsNotNullOrWhiteSpace(PhoneNumber, "PhoneNumber")
+            .IsBetween(PhoneNumber.Length, 10, 14, "PhoneNumber")
             .IsFalse(Equals(Id, Guid.Empty), "Id")
             );
         foreach (char c in PhoneNumber)
@@ -37,6 +37,7 @@ public class ChangePhoneNumberResidentCommand : Notifiable<Notification>, IComma
             if (!char.IsDigit(c))
             {
                 AddNotification(PhoneNumber, "Invalid number");
+                continue;
             }
         }
     }

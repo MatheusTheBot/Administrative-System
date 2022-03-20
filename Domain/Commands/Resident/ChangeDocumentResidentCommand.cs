@@ -31,8 +31,8 @@ public class ChangeDocumentResidentCommand : Notifiable<Notification>, ICommand
 
         AddNotifications(new Contract<Notification>()
             .Requires()
-            .IsNotNullOrWhiteSpace(DocumentNumber, DocumentNumber)
-            );
+            .IsNotNullOrWhiteSpace(DocumentNumber, "DocumentNumber")
+        );
 
         if (DocumentNumber.Length != 11 && Type == EDocumentType.CPF)
             AddNotification(DocumentNumber, "Invalid document");

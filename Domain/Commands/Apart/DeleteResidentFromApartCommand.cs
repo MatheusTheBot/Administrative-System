@@ -27,6 +27,5 @@ public class DeleteResidentFromApartCommand : Notifiable<Notification>, ICommand
             AddNotification(new Notification("Block", "Block can't be 0"));
         if (ItemId == Guid.Empty)
             AddNotification(new Notification("Id", "Id can't be empty"));
-
     }
 }
