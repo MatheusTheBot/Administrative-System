@@ -1,4 +1,5 @@
 ﻿using Domain.Entities;
+using Domain.Enums;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infra.Contexts;
@@ -13,7 +14,7 @@ public class DataContext : DbContext
     public DbSet<Visitant> Visitant { get; set; }
     public DbSet<Administrator> Administrators { get; set; }
 
-    //setting the properties with the correct DataType / FluentAPI
+    //setting the properties with the correct DataType; / FluentAPI
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
 
@@ -25,7 +26,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Resident>().Property(x => x.PhoneNumber).HasColumnType("varchar(14)").HasColumnName("Phone number");
         modelBuilder.Entity<Resident>().Property(x => x.Email).HasColumnType("nvarchar(300)");
         modelBuilder.Entity<Resident>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
-        modelBuilder.Entity<Resident>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));
+        modelBuilder.Entity<Resident>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnName("Document type").HasConversion(v => v.ToString(), v => (EDocumentType)Enum.Parse(typeof(EDocumentType), v)));
         modelBuilder.Entity<Resident>().Property(x => x.Password).HasColumnType("varchar(100)").IsRequired();
 
         modelBuilder.Entity<Resident>().HasKey(a => a.Id);
@@ -46,7 +47,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Packages>().Property(x => x.Id).IsRequired();
         modelBuilder.Entity<Packages>().Property(x => x.ItemName).HasColumnType("varchar(150)").HasColumnName("Item name");
         modelBuilder.Entity<Packages>().Property(x => x.BarCode).HasColumnType("varchar(14)");
-        modelBuilder.Entity<Packages>().Property(x => x.Type).HasColumnType("varchar(6)");
+        modelBuilder.Entity<Packages>().Property(x => x.Type).HasConversion(v => v.ToString(), v => (EPackageType)Enum.Parse(typeof(EPackageType), v));
         modelBuilder.Entity<Packages>().Property(x => x.Addressee).HasColumnType("varchar(250)").HasColumnName("Addressed to");
         modelBuilder.Entity<Packages>().Property(x => x.Sender).HasColumnType("varchar(150)");
         modelBuilder.Entity<Packages>().Property(x => x.SenderAddress).HasColumnType("varchar(250)").HasColumnName("Sender address");
@@ -61,7 +62,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Visitant>().Property(x => x.PhoneNumber).HasColumnType("varchar(14)").HasColumnName("Phone number");
         modelBuilder.Entity<Visitant>().Property(x => x.Email).HasColumnType("nvarchar(300)");
         modelBuilder.Entity<Visitant>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
-        modelBuilder.Entity<Visitant>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));
+        modelBuilder.Entity<Visitant>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnName("Document type").HasConversion(v => v.ToString(), v => (EDocumentType)Enum.Parse(typeof(EDocumentType), v)));
         modelBuilder.Entity<Visitant>().Property(x => x.Active).HasColumnType("bit");
 
         modelBuilder.Entity<Visitant>().HasKey(a => a.Id);
@@ -74,7 +75,7 @@ public class DataContext : DbContext
         modelBuilder.Entity<Administrator>().Property(x => x.PhoneNumber).HasColumnType("varchar(14)").HasColumnName("Phone number");
         modelBuilder.Entity<Administrator>().Property(x => x.Email).HasColumnType("nvarchar(300)");
         modelBuilder.Entity<Administrator>().OwnsOne(x => x.Document, x => x.Property(x => x.Number).HasColumnType("varchar(14)").HasColumnName("Document number"));
-        modelBuilder.Entity<Administrator>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnType("varchar(6)").HasColumnName("Document type"));
+        modelBuilder.Entity<Administrator>().OwnsOne(x => x.Document, x => x.Property(x => x.Type).HasColumnName("Document type").HasConversion(v => v.ToString(), v => (EDocumentType)Enum.Parse(typeof(EDocumentType), v)));
         modelBuilder.Entity<Administrator>().Property(x => x.Password).HasColumnType("varchar(100)").IsRequired();
 
         modelBuilder.Entity<Administrator>().HasKey(a => a.Id);
