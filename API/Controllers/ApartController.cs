@@ -117,6 +117,8 @@ public class ApartController : ControllerBase
         if (!ModelState.IsValid)
             return BadRequest(new ControllerResult<ControllerBase>(false, "Invalid command"));
 
+        comm.Resident.Password = PasswordTool.Encript(comm.Resident.Password);
+
         if (comm.Resident.Type == Domain.Enums.EDocumentType.CPF)
         {
             if (DocumentValidatorTool.CPF(comm.Resident.DocumentNumber) == false)
